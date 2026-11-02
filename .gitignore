@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data and generated outputs (the directory layout stays tracked)
+data/**
+!data/**/
+!data/**/.gitkeep
+artifacts/**
+!artifacts/**/
+!artifacts/**/.gitkeep
+mlruns/

@@ -1,0 +1,11 @@
+robustness:
+  severities: [1, 2, 3, 4, 5]
+  corruptions:
+    - low_light
+    - glare
+    - motion_blur
+    - defocus_blur
+    - gaussian_noise
+    - jpeg_compression
+    - dust_haze
+    - occlusion

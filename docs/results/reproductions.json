@@ -1,0 +1,456 @@
+[
+ {
+  "prompt": "giraffe",
+  "top_results": [
+   [
+    0.2182,
+    "giraffe"
+   ],
+   [
+    0.2182,
+    "giraffe"
+   ],
+   [
+    0.2182,
+    "giraffe"
+   ]
+  ],
+  "identical": true,
+  "image_id": "046c751beec3d33a",
+  "siglip_logit": -17.364913940429688,
+  "box": [
+   111.466064453125,
+   202.4510040283203,
+   968.340576171875,
+   590.6277465820312
+  ]
+ },
+ {
+  "prompt": "a giraffe",
+  "top_results": [
+   [
+    0.6779,
+    "a giraffe"
+   ],
+   [
+    0.6779,
+    "a giraffe"
+   ],
+   [
+    0.6779,
+    "a giraffe"
+   ]
+  ],
+  "identical": true,
+  "image_id": "046c751beec3d33a",
+  "siglip_logit": -17.742961883544922,
+  "box": [
+   106.22216796875,
+   198.44711303710938,
+   971.61181640625,
+   590.100830078125
+  ]
+ },
+ {
+  "prompt": "a photo of a forklift",
+  "top_results": [
+   [
+    0.4437,
+    "a photo of a forklift"
+   ],
+   [
+    0.4437,
+    "a photo of a forklift"
+   ],
+   [
+    0.4437,
+    "a photo of a forklift"
+   ]
+  ],
+  "identical": true,
+  "image_id": "046c751beec3d33a",
+  "siglip_logit": -12.182613372802734,
+  "box": [
+   107.61160278320312,
+   200.89830017089844,
+   971.6468505859375,
+   589.669189453125
+  ]
+ },
+ {
+  "prompt": "giraffe",
+  "top_results": [
+   null,
+   null,
+   null
+  ],
+  "identical": true,
+  "image_id": "00ccb23f94265963",
+  "siglip_logit": -14.700235366821289,
+  "box": null
+ },
+ {
+  "prompt": "a giraffe",
+  "top_results": [
+   [
+    0.4815,
+    "a giraffe"
+   ],
+   [
+    0.4815,
+    "a giraffe"
+   ],
+   [
+    0.4815,
+    "a giraffe"
+   ]
+  ],
+  "identical": true,
+  "image_id": "00ccb23f94265963",
+  "siglip_logit": -15.294313430786133,
+  "box": [
+   285.36663818359375,
+   187.61825561523438,
+   440.94970703125,
+   594.94482421875
+  ]
+ },
+ {
+  "prompt": "a photo of a forklift",
+  "top_results": [
+   [
+    0.3981,
+    "a photo of a forklift"
+   ],
+   [
+    0.3981,
+    "a photo of a forklift"
+   ],
+   [
+    0.3981,
+    "a photo of a forklift"
+   ]
+  ],
+  "identical": true,
+  "image_id": "00ccb23f94265963",
+  "siglip_logit": -9.030843734741211,
+  "box": [
+   5.96636962890625,
+   4.45656156539917,
+   1018.0376586914062,
+   679.6655883789062
+  ]
+ },
+ {
+  "prompt": "giraffe",
+  "top_results": [
+   [
+    0.1412,
+    "giraffe"
+   ],
+   [
+    0.1412,
+    "giraffe"
+   ],
+   [
+    0.1412,
+    "giraffe"
+   ]
+  ],
+  "identical": true,
+  "image_id": "37363f92f4a8ab80",
+  "siglip_logit": -16.298583984375,
+  "box": [
+   161.45648193359375,
+   24.13966941833496,
+   901.0765991210938,
+   648.065185546875
+  ]
+ },
+ {
+  "prompt": "a giraffe",
+  "top_results": [
+   [
+    0.584,
+    "a giraffe"
+   ],
+   [
+    0.584,
+    "a giraffe"
+   ],
+   [
+    0.584,
+    "a giraffe"
+   ]
+  ],
+  "identical": true,
+  "image_id": "37363f92f4a8ab80",
+  "siglip_logit": -16.33919334411621,
+  "box": [
+   165.82736206054688,
+   23.770227432250977,
+   907.4918212890625,
+   648.9765014648438
+  ]
+ },
+ {
+  "prompt": "a photo of a forklift",
+  "top_results": [
+   [
+    0.551,
+    "a photo of a forklift"
+   ],
+   [
+    0.551,
+    "a photo of a forklift"
+   ],
+   [
+    0.551,
+    "a photo of a forklift"
+   ]
+  ],
+  "identical": true,
+  "image_id": "37363f92f4a8ab80",
+  "siglip_logit": -7.307738304138184,
+  "box": [
+   152.07864379882812,
+   21.284090042114258,
+   909.0755615234375,
+   650.15185546875
+  ]
+ },
+ {
+  "prompt": "a person",
+  "top_results": [
+   [
+    0.8778,
+    "a person"
+   ],
+   [
+    0.8778,
+    "a person"
+   ],
+   [
+    0.8778,
+    "a person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "00a1c9247cf3e24c",
+  "siglip_logit": -19.886280059814453,
+  "box": [
+   164.20492553710938,
+   615.0347290039062,
+   491.39410400390625,
+   1019.6864624023438
+  ]
+ },
+ {
+  "prompt": "no person",
+  "top_results": [
+   [
+    0.7621,
+    "no person"
+   ],
+   [
+    0.7621,
+    "no person"
+   ],
+   [
+    0.7621,
+    "no person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "00a1c9247cf3e24c",
+  "siglip_logit": -17.91934585571289,
+  "box": [
+   166.462646484375,
+   616.3663940429688,
+   490.26318359375,
+   1020.2786254882812
+  ]
+ },
+ {
+  "prompt": "a fallen person",
+  "top_results": [
+   [
+    0.8407,
+    "a fallen person"
+   ],
+   [
+    0.8407,
+    "a fallen person"
+   ],
+   [
+    0.8407,
+    "a fallen person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "00a1c9247cf3e24c",
+  "siglip_logit": -13.103107452392578,
+  "box": [
+   167.67933654785156,
+   616.5626220703125,
+   489.0308837890625,
+   1021.274169921875
+  ]
+ },
+ {
+  "prompt": "a person",
+  "top_results": [
+   [
+    0.8565,
+    "a person"
+   ],
+   [
+    0.8565,
+    "a person"
+   ],
+   [
+    0.8565,
+    "a person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "2bf009b6fa17acb7",
+  "siglip_logit": -14.77712345123291,
+  "box": [
+   349.9791564941406,
+   349.7355041503906,
+   643.341552734375,
+   845.846923828125
+  ]
+ },
+ {
+  "prompt": "no person",
+  "top_results": [
+   [
+    0.7313,
+    "no person"
+   ],
+   [
+    0.7313,
+    "no person"
+   ],
+   [
+    0.7313,
+    "no person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "2bf009b6fa17acb7",
+  "siglip_logit": -13.90783405303955,
+  "box": [
+   350.7931213378906,
+   350.3433837890625,
+   643.3675537109375,
+   845.33203125
+  ]
+ },
+ {
+  "prompt": "a fallen person",
+  "top_results": [
+   [
+    0.8062,
+    "a fallen person"
+   ],
+   [
+    0.8062,
+    "a fallen person"
+   ],
+   [
+    0.8062,
+    "a fallen person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "2bf009b6fa17acb7",
+  "siglip_logit": -13.538207054138184,
+  "box": [
+   350.70062255859375,
+   350.54150390625,
+   642.8274536132812,
+   844.7725830078125
+  ]
+ },
+ {
+  "prompt": "a person",
+  "top_results": [
+   [
+    0.8307,
+    "a person"
+   ],
+   [
+    0.8307,
+    "a person"
+   ],
+   [
+    0.8307,
+    "a person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "f18bbd53e8f050f7",
+  "siglip_logit": -9.844825744628906,
+  "box": [
+   398.2108154296875,
+   333.59808349609375,
+   642.7135009765625,
+   647.4154663085938
+  ]
+ },
+ {
+  "prompt": "no person",
+  "top_results": [
+   [
+    0.7166,
+    "no person"
+   ],
+   [
+    0.7166,
+    "no person"
+   ],
+   [
+    0.7166,
+    "no person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "f18bbd53e8f050f7",
+  "siglip_logit": -6.0459370613098145,
+  "box": [
+   399.4404296875,
+   335.5257263183594,
+   640.335205078125,
+   647.11669921875
+  ]
+ },
+ {
+  "prompt": "a fallen person",
+  "top_results": [
+   [
+    0.8229,
+    "a fallen person"
+   ],
+   [
+    0.8229,
+    "a fallen person"
+   ],
+   [
+    0.8229,
+    "a fallen person"
+   ]
+  ],
+  "identical": true,
+  "image_id": "f18bbd53e8f050f7",
+  "siglip_logit": -9.30345344543457,
+  "box": [
+   395.4088439941406,
+   336.2162780761719,
+   639.9578857421875,
+   646.8923950195312
+  ]
+ }
+]

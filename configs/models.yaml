@@ -1,0 +1,10 @@
+encoder:
+  backend: clip  # clip | siglip
+  clip_model_id: openai/clip-vit-base-patch32
+  siglip_model_id: google/siglip-base-patch16-224
+
+grounded_sam:
+  detector_model_id: IDEA-Research/grounding-dino-tiny
+  segmenter_model_id: facebook/sam-vit-base
+  box_threshold: 0.3
+  text_threshold: 0.25

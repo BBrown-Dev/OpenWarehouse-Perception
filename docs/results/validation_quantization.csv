@@ -1,0 +1,4 @@
+images,median_abs_diff,p95_abs_diff,max_abs_diff,decision_flips,comparison,logit_scale,logit_bias,median_abs_logit_diff,max_abs_logit_diff,auroc_fp32,auroc_int8,median_top_box_iou,fp32_seconds_per_image,int8_seconds_per_image
+100,0.001124650239944458,0.004754632711410522,0.012177586555480957,0.0,detector fp32 vs autocast fp16 (GPU),,,,,,,,,
+151,,,,,siglip fp32 vs dynamic int8 (CPU),117.33076477050781,-12.9324369430542,1.0050697326660156,5.185076713562012,0.9587912087912087,0.9604395604395604,,,
+40,0.02847723662853241,0.0820787712931633,0.10565024614334106,1.0,detector fp32 vs dynamic int8 (CPU),,,,,,,0.8876863413324396,5.627504747499188,5.197548472500057

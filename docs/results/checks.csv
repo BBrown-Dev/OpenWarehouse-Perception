@@ -1,0 +1,3 @@
+images,median_abs_diff,p95_abs_diff,max_abs_diff,pearson,check,median_map_correlation
+100,0.006196394014358536,0.04090450972080232,0.05052536993026735,0.9960445463995438,batch_vs_single,
+20,,,,,occlusion,0.6641628447906163

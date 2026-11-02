@@ -1,0 +1,26 @@
+# Open Images V7 import. See docs/DESIGN_DECISIONS.md for the reasoning behind these choices.
+open_images:
+  zoo_name: open-images-v7
+  dataset_dir: data/raw/open-images-v7
+  annotations_dir: data/annotations/openimages_v7
+  base_url: https://storage.googleapis.com/openimages/v7
+  image_bucket: open-images-dataset
+  fiftyone_dataset: openwarehouse-poc
+  # `train` is only used to develop prompts and find failures. Nothing is trained on it.
+  role_by_split: {train: dev, validation: heldout, test: heldout}
+  # FiftyOne downloads a split's full mask archive, so masks are only requested where they
+  # are scored. Dev images do not need them.
+  label_types_by_split:
+    train: [detections]
+    validation: [detections, segmentations]
+    test: [detections, segmentations]
+  sample_caps:
+    dev: {positive: 60, negative: 60}
+    heldout: {positive: 150, negative: 150}
+
+# Open Images has boxes for these, so detection AP can be measured.
+boxable_classes: [Person, Box, Shelf, Truck, Ladder]
+# These have only verified image-level labels, so only image-level AP can be measured.
+image_level_classes: [Forklift truck, Warehouse, Shelving, Hard hat, Aisle, Cardboard, Inventory]
+# Development only: these have too few held-out labels to report a metric.
+dev_only_classes: [Pallet, Pallet jack, High-visibility clothing]

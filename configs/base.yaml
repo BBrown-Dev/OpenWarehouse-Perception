@@ -1,0 +1,21 @@
+project: openwarehouse-perception
+seed: 42
+device: auto  # auto | cuda | cpu
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  annotations: data/annotations
+  artifacts: artifacts
+
+dataset:
+  name: null  # TODO: choose the dataset
+  image_size: 224
+  # Split by site or video sequence, never by frame, to avoid leakage.
+  group_key: null
+  splits: {train: 0.7, val: 0.15, test: 0.15}
+
+tracking:
+  backend: mlflow
+  uri: mlruns
+  experiment: openwarehouse-perception

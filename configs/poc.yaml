@@ -1,0 +1,101 @@
+# Proof-of-concept experiment definition, fixed before any results were seen.
+models:
+  siglip: google/siglip-base-patch16-224
+  detector: IDEA-Research/grounding-dino-tiny
+  segmenter: facebook/sam-vit-base
+
+inference:
+  detector_shortest_edge: 480
+  detector_longest_edge: 800
+  detector_batch_size: 4
+  siglip_batch_size: 32
+  # Kept low so AP sees the whole score range. The operating point is chosen on dev.
+  detector_threshold: 0.1
+  text_threshold: 0.1
+  max_detections: 50
+
+# The experimental variable. Each condition changes one aspect of how a class is described.
+prompt_conditions:
+  bare: "{noun}"
+  article: "{phrase}"
+  photo: "a photo of {phrase}"
+  context: "{phrase} in a warehouse"
+  synonym: "{synonym}"
+  descriptive: "{description}"
+
+prompt_classes:
+  Person:
+    noun: person
+    phrase: a person
+    synonym: a human
+    description: a human being standing or walking
+  Box:
+    noun: box
+    phrase: a box
+    synonym: a carton
+    description: a cardboard container for shipping goods
+  Shelf:
+    noun: shelf
+    phrase: a shelf
+    synonym: a storage rack
+    description: a flat board or rack holding stored items
+  Truck:
+    noun: truck
+    phrase: a truck
+    synonym: a lorry
+    description: a large road vehicle for transporting cargo
+  Ladder:
+    noun: ladder
+    phrase: a ladder
+    synonym: a stepladder
+    description: a set of rungs used for climbing
+  Forklift truck:
+    noun: forklift
+    phrase: a forklift
+    synonym: a lift truck
+    description: an industrial vehicle with two metal forks for lifting pallets
+  Warehouse:
+    noun: warehouse
+    phrase: a warehouse
+    synonym: a distribution center
+    description: a large indoor building for storing goods
+  Shelving:
+    noun: shelving
+    phrase: shelving
+    synonym: racking
+    description: rows of shelves for storing items
+  Hard hat:
+    noun: hard hat
+    phrase: a hard hat
+    synonym: a safety helmet
+    description: a protective helmet worn by construction workers
+  Aisle:
+    noun: aisle
+    phrase: an aisle
+    synonym: a walkway
+    description: a passage between rows of shelves
+  Cardboard:
+    noun: cardboard
+    phrase: cardboard
+    synonym: corrugated fiberboard
+    description: stiff brown paper material used for packaging
+  Inventory:
+    noun: inventory
+    phrase: inventory
+    synonym: a stock of goods
+    description: goods stored and ready for sale
+
+# Terms from the project brief that Open Images does not label. They cannot have an accuracy
+# score, so they are only used to probe for hallucinations.
+unlabeled_probes:
+  - a fallen package
+  - a damaged carton
+  - a blocked aisle
+  - a wooden pallet
+  - stacked boxes
+
+evaluation:
+  iou_threshold: 0.5
+  # Bits out of 256. Unrelated photos differ by far more. See tests/test_leakage.py.
+  near_duplicate_distance: 24
+  bootstrap_samples: 2000

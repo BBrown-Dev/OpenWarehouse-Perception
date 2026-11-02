@@ -1,0 +1,6 @@
+{
+  "siglip_condition": "photo",
+  "detector_condition": "bare",
+  "detector_threshold": 0.32,
+  "config_sha256": "1ab77f163d5f7528ab9fdc57b8d944a0df1b05fa2595916b9c5e8dfd994094c8"
+}

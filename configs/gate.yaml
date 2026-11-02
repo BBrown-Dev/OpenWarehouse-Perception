@@ -1,0 +1,14 @@
+# Pre-registered test of the SigLIP presence check. Fixed before any fresh image was scored.
+gate:
+  # Each class's check uses the highest SigLIP logit that keeps this share of dev positives.
+  dev_recall_floor: 0.95
+  # Only these classes still have unused verified negatives in the validation and test splits.
+  # Forklift has none, so its result can only be a non-confirmatory check on reused images.
+  test_classes: [Person, Shelf, Truck]
+  sample_cap: {positive: 300, negative: 300}
+  seed: 43
+  bootstrap_samples: 2000
+  # Adopt the check for a class only if both hold, compared with the detector alone at the frozen
+  # threshold. The interval is two-sided at family-wise alpha 0.05, Bonferroni-corrected.
+  alpha: 0.05
+  max_recall_loss: {Person: 0.05, Shelf: 0.10, Truck: 0.10}

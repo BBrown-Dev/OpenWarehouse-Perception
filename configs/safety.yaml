@@ -1,0 +1,6 @@
+safety:
+  # TODO: set every threshold below from the forklift's stopping distance and site policy.
+  person_proximity_m: null
+  min_confidence: null
+  # Risk level to report when perception is uncertain or fails. Never "clear".
+  uncertain_risk_level: high

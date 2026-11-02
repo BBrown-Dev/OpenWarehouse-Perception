@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openwarehouse"
+version = "0.1.0"
+description = "Open-vocabulary warehouse perception and safety assessment for autonomous forklifts."
+readme = "README.md"
+requires-python = ">=3.10"
+# Ranges stay open here. requirements.lock.txt records the exact environment behind the results.
+dependencies = [
+    "torch",
+    "torchvision",
+    "transformers",
+    "sentencepiece",
+    "protobuf",
+    "fiftyone",
+    "boto3",
+    "requests",
+    "accelerate",
+    "numpy",
+    "pandas",
+    "pillow",
+    "pyyaml",
+    "scikit-learn",
+    "matplotlib",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+notebook = ["jupyterlab", "ipykernel", "ipywidgets", "nbclient", "nbformat"]
+# Stages that are still stubs.
+planned = ["peft", "opencv-python-headless", "pycocotools", "mlflow"]
+edge = ["onnx", "onnxruntime", "optimum"]
+dev = ["pytest", "ruff", "nbstripout"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src"]

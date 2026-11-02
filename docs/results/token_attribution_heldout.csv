@@ -1,0 +1,385 @@
+role,class_name,image_id,prompt,tokens,winning_token,top_score,content_score
+heldout,Forklift truck,aa8ac854ed41e047,forklift,[CLS] fork ##lift . [SEP],##lift,0.562176525592804,0.562176525592804
+heldout,Forklift truck,aa8ac854ed41e047,a forklift,[CLS] a fork ##lift . [SEP],fork,0.5454067587852478,0.5454067587852478
+heldout,Forklift truck,aa8ac854ed41e047,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.39840641617774963,0.31111282110214233
+heldout,Forklift truck,aa8ac854ed41e047,no forklift,[CLS] no fork ##lift . [SEP],fork,0.5318476557731628,0.5318476557731628
+heldout,Forklift truck,aa8ac854ed41e047,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.33556854724884033,0.31174105405807495
+heldout,Forklift truck,aa8ac854ed41e047,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.08419108390808105,0.08419108390808105
+heldout,Forklift truck,cd99bf902c901c29,forklift,[CLS] fork ##lift . [SEP],##lift,0.723504900932312,0.723504900932312
+heldout,Forklift truck,cd99bf902c901c29,a forklift,[CLS] a fork ##lift . [SEP],fork,0.7721872925758362,0.7721872925758362
+heldout,Forklift truck,cd99bf902c901c29,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],fork,0.5123113989830017,0.5123113989830017
+heldout,Forklift truck,cd99bf902c901c29,no forklift,[CLS] no fork ##lift . [SEP],fork,0.7819972634315491,0.7819972634315491
+heldout,Forklift truck,cd99bf902c901c29,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.46611642837524414,0.30404165387153625
+heldout,Forklift truck,cd99bf902c901c29,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.07709969580173492,0.07709969580173492
+heldout,Forklift truck,3798016da1c3612a,forklift,[CLS] fork ##lift . [SEP],##lift,0.4470076560974121,0.4470076560974121
+heldout,Forklift truck,3798016da1c3612a,a forklift,[CLS] a fork ##lift . [SEP],##lift,0.45344337821006775,0.45344337821006775
+heldout,Forklift truck,3798016da1c3612a,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.4493926167488098,0.3815651834011078
+heldout,Forklift truck,3798016da1c3612a,no forklift,[CLS] no fork ##lift . [SEP],fork,0.48290157318115234,0.48290157318115234
+heldout,Forklift truck,3798016da1c3612a,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.3635338544845581,0.2660711407661438
+heldout,Forklift truck,3798016da1c3612a,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.06853749603033066,0.06853749603033066
+heldout,Forklift truck,52459c8e4e4d7aad,forklift,[CLS] fork ##lift . [SEP],fork,0.3889661133289337,0.3889661133289337
+heldout,Forklift truck,52459c8e4e4d7aad,a forklift,[CLS] a fork ##lift . [SEP],fork,0.4394165575504303,0.4394165575504303
+heldout,Forklift truck,52459c8e4e4d7aad,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],##lift,0.3365490734577179,0.3365490734577179
+heldout,Forklift truck,52459c8e4e4d7aad,no forklift,[CLS] no fork ##lift . [SEP],no,0.4398375451564789,0.4398375451564789
+heldout,Forklift truck,52459c8e4e4d7aad,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.3547683358192444,0.26721689105033875
+heldout,Forklift truck,52459c8e4e4d7aad,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.09670579433441162,0.09670579433441162
+heldout,Forklift truck,644c8ffd3533a613,forklift,[CLS] fork ##lift . [SEP],##lift,0.5295218825340271,0.5295218825340271
+heldout,Forklift truck,644c8ffd3533a613,a forklift,[CLS] a fork ##lift . [SEP],##lift,0.5283508896827698,0.5283508896827698
+heldout,Forklift truck,644c8ffd3533a613,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.42465054988861084,0.36116471886634827
+heldout,Forklift truck,644c8ffd3533a613,no forklift,[CLS] no fork ##lift . [SEP],fork,0.5925487279891968,0.5925487279891968
+heldout,Forklift truck,644c8ffd3533a613,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.5028724074363708,0.34015634655952454
+heldout,Forklift truck,644c8ffd3533a613,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.08897849172353745,0.08897849172353745
+heldout,Forklift truck,992794d9ac75d683,forklift,[CLS] fork ##lift . [SEP],##lift,0.6536798477172852,0.6536798477172852
+heldout,Forklift truck,992794d9ac75d683,a forklift,[CLS] a fork ##lift . [SEP],fork,0.6541218161582947,0.6541218161582947
+heldout,Forklift truck,992794d9ac75d683,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.46138080954551697,0.34312158823013306
+heldout,Forklift truck,992794d9ac75d683,no forklift,[CLS] no fork ##lift . [SEP],fork,0.7025300860404968,0.7025300860404968
+heldout,Forklift truck,992794d9ac75d683,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.4715730845928192,0.36229208111763
+heldout,Forklift truck,992794d9ac75d683,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.09417666494846344,0.09417666494846344
+heldout,Forklift truck,5932c36acb60db06,forklift,[CLS] fork ##lift . [SEP],fork,0.34510529041290283,0.34510529041290283
+heldout,Forklift truck,5932c36acb60db06,a forklift,[CLS] a fork ##lift . [SEP],a,0.3195458948612213,0.3152087330818176
+heldout,Forklift truck,5932c36acb60db06,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.40221595764160156,0.2829881012439728
+heldout,Forklift truck,5932c36acb60db06,no forklift,[CLS] no fork ##lift . [SEP],no,0.32188618183135986,0.32188618183135986
+heldout,Forklift truck,5932c36acb60db06,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.3459886312484741,0.2568320035934448
+heldout,Forklift truck,5932c36acb60db06,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.07654563337564468,0.07654563337564468
+heldout,Forklift truck,4953fda4aacc209d,forklift,[CLS] fork ##lift . [SEP],fork,0.41063806414604187,0.41063806414604187
+heldout,Forklift truck,4953fda4aacc209d,a forklift,[CLS] a fork ##lift . [SEP],fork,0.4294891953468323,0.4294891953468323
+heldout,Forklift truck,4953fda4aacc209d,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],fork,0.39858201146125793,0.39858201146125793
+heldout,Forklift truck,4953fda4aacc209d,no forklift,[CLS] no fork ##lift . [SEP],no,0.4070976972579956,0.4070976972579956
+heldout,Forklift truck,4953fda4aacc209d,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.36761075258255005,0.2906787395477295
+heldout,Forklift truck,4953fda4aacc209d,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.05749328061938286,0.05749328061938286
+heldout,Forklift truck,92578c0159fc2c34,forklift,[CLS] fork ##lift . [SEP],fork,0.4519009292125702,0.4519009292125702
+heldout,Forklift truck,92578c0159fc2c34,a forklift,[CLS] a fork ##lift . [SEP],fork,0.40662631392478943,0.40662631392478943
+heldout,Forklift truck,92578c0159fc2c34,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],fork,0.43092551827430725,0.43092551827430725
+heldout,Forklift truck,92578c0159fc2c34,no forklift,[CLS] no fork ##lift . [SEP],no,0.4366220533847809,0.4366220533847809
+heldout,Forklift truck,92578c0159fc2c34,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.27973008155822754,0.22919000685214996
+heldout,Forklift truck,92578c0159fc2c34,giraffe,[CLS] gi ##raf ##fe . [SEP],##raf,0.03978780657052994,0.03978780657052994
+heldout,Forklift truck,5e60cc363c05a740,forklift,[CLS] fork ##lift . [SEP],##lift,0.7655933499336243,0.7655933499336243
+heldout,Forklift truck,5e60cc363c05a740,a forklift,[CLS] a fork ##lift . [SEP],fork,0.8169911503791809,0.8169911503791809
+heldout,Forklift truck,5e60cc363c05a740,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.5160315036773682,0.3711366057395935
+heldout,Forklift truck,5e60cc363c05a740,no forklift,[CLS] no fork ##lift . [SEP],fork,0.7991290092468262,0.7991290092468262
+heldout,Forklift truck,5e60cc363c05a740,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.39595136046409607,0.2819984257221222
+heldout,Forklift truck,5e60cc363c05a740,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.10856642574071884,0.10856642574071884
+heldout,Forklift truck,7ef3d4e191901e2c,forklift,[CLS] fork ##lift . [SEP],##lift,0.43500128388404846,0.43500128388404846
+heldout,Forklift truck,7ef3d4e191901e2c,a forklift,[CLS] a fork ##lift . [SEP],fork,0.5205115675926208,0.5205115675926208
+heldout,Forklift truck,7ef3d4e191901e2c,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.4846239387989044,0.3205021917819977
+heldout,Forklift truck,7ef3d4e191901e2c,no forklift,[CLS] no fork ##lift . [SEP],fork,0.5153988599777222,0.5153988599777222
+heldout,Forklift truck,7ef3d4e191901e2c,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.19744445383548737,0.17652960121631622
+heldout,Forklift truck,7ef3d4e191901e2c,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.05203782394528389,0.05203782394528389
+heldout,Forklift truck,c0ea39b8baa00e6b,forklift,[CLS] fork ##lift . [SEP],##lift,0.7507355809211731,0.7507355809211731
+heldout,Forklift truck,c0ea39b8baa00e6b,a forklift,[CLS] a fork ##lift . [SEP],fork,0.8136088848114014,0.8136088848114014
+heldout,Forklift truck,c0ea39b8baa00e6b,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],a,0.5252470970153809,0.4149581491947174
+heldout,Forklift truck,c0ea39b8baa00e6b,no forklift,[CLS] no fork ##lift . [SEP],fork,0.7778065800666809,0.7778065800666809
+heldout,Forklift truck,c0ea39b8baa00e6b,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.4775846302509308,0.38745856285095215
+heldout,Forklift truck,c0ea39b8baa00e6b,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.09619516879320145,0.09619516879320145
+heldout,Forklift truck,5c76228fbcc6b357,forklift,[CLS] fork ##lift . [SEP],##lift,0.7135314345359802,0.7135314345359802
+heldout,Forklift truck,5c76228fbcc6b357,a forklift,[CLS] a fork ##lift . [SEP],fork,0.7552762031555176,0.7552762031555176
+heldout,Forklift truck,5c76228fbcc6b357,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],fork,0.6476868391036987,0.6476868391036987
+heldout,Forklift truck,5c76228fbcc6b357,no forklift,[CLS] no fork ##lift . [SEP],fork,0.7950222492218018,0.7950222492218018
+heldout,Forklift truck,5c76228fbcc6b357,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.4981231391429901,0.41099265217781067
+heldout,Forklift truck,5c76228fbcc6b357,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.07935289293527603,0.07935289293527603
+heldout,Forklift truck,72b4c1f7644123e0,forklift,[CLS] fork ##lift . [SEP],##lift,0.8418256044387817,0.8418256044387817
+heldout,Forklift truck,72b4c1f7644123e0,a forklift,[CLS] a fork ##lift . [SEP],fork,0.8587185740470886,0.8587185740470886
+heldout,Forklift truck,72b4c1f7644123e0,a photo of a forklift,[CLS] a photo of a fork ##lift . [SEP],fork,0.5956101417541504,0.5956101417541504
+heldout,Forklift truck,72b4c1f7644123e0,no forklift,[CLS] no fork ##lift . [SEP],fork,0.8340016603469849,0.8340016603469849
+heldout,Forklift truck,72b4c1f7644123e0,a giraffe,[CLS] a gi ##raf ##fe . [SEP],a,0.5075258016586304,0.4563492238521576
+heldout,Forklift truck,72b4c1f7644123e0,giraffe,[CLS] gi ##raf ##fe . [SEP],gi,0.11182181537151337,0.11182181537151337
+heldout,Box,4a63db70c7071a4e,box,[CLS] box . [SEP],box,0.5587182641029358,0.5587182641029358
+heldout,Box,4a63db70c7071a4e,a box,[CLS] a box . [SEP],box,0.6055658459663391,0.6055658459663391
+heldout,Box,4a63db70c7071a4e,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4401383697986603,0.3242354094982147
+heldout,Box,4a63db70c7071a4e,no box,[CLS] no box . [SEP],box,0.6544531583786011,0.6544531583786011
+heldout,Box,4a63db70c7071a4e,a fallen box,[CLS] a fallen box . [SEP],box,0.6819385886192322,0.6819385886192322
+heldout,Box,8fd5b86c80f472dd,box,[CLS] box . [SEP],box,0.36455127596855164,0.36455127596855164
+heldout,Box,8fd5b86c80f472dd,a box,[CLS] a box . [SEP],box,0.36263054609298706,0.36263054609298706
+heldout,Box,8fd5b86c80f472dd,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.314050555229187,0.24436300992965698
+heldout,Box,8fd5b86c80f472dd,no box,[CLS] no box . [SEP],box,0.37399014830589294,0.37399014830589294
+heldout,Box,8fd5b86c80f472dd,a fallen box,[CLS] a fallen box . [SEP],fallen,0.41466179490089417,0.41466179490089417
+heldout,Box,80bddd86c0271905,box,[CLS] box . [SEP],box,0.4255455732345581,0.4255455732345581
+heldout,Box,80bddd86c0271905,a box,[CLS] a box . [SEP],box,0.4810119569301605,0.4810119569301605
+heldout,Box,80bddd86c0271905,a photo of a box,[CLS] a photo of a box . [SEP],box,0.3377494215965271,0.3377494215965271
+heldout,Box,80bddd86c0271905,no box,[CLS] no box . [SEP],box,0.4610774517059326,0.4610774517059326
+heldout,Box,80bddd86c0271905,a fallen box,[CLS] a fallen box . [SEP],fallen,0.5526604056358337,0.5526604056358337
+heldout,Box,d87dd3279df4537e,box,[CLS] box . [SEP],box,0.44137197732925415,0.44137197732925415
+heldout,Box,d87dd3279df4537e,a box,[CLS] a box . [SEP],box,0.41958850622177124,0.41958850622177124
+heldout,Box,d87dd3279df4537e,a photo of a box,[CLS] a photo of a box . [SEP],a,0.45619773864746094,0.31100818514823914
+heldout,Box,d87dd3279df4537e,no box,[CLS] no box . [SEP],box,0.44077011942863464,0.44077011942863464
+heldout,Box,d87dd3279df4537e,a fallen box,[CLS] a fallen box . [SEP],fallen,0.4303867518901825,0.4303867518901825
+heldout,Box,a2ad4fa0087c889f,box,[CLS] box . [SEP],box,0.44399213790893555,0.44399213790893555
+heldout,Box,a2ad4fa0087c889f,a box,[CLS] a box . [SEP],box,0.4392361640930176,0.4392361640930176
+heldout,Box,a2ad4fa0087c889f,a photo of a box,[CLS] a photo of a box . [SEP],a,0.39094078540802,0.2958398759365082
+heldout,Box,a2ad4fa0087c889f,no box,[CLS] no box . [SEP],box,0.38294878602027893,0.38294878602027893
+heldout,Box,a2ad4fa0087c889f,a fallen box,[CLS] a fallen box . [SEP],a,0.411465585231781,0.40922078490257263
+heldout,Box,f8947288df80322a,box,[CLS] box . [SEP],box,0.547252357006073,0.547252357006073
+heldout,Box,f8947288df80322a,a box,[CLS] a box . [SEP],box,0.5607037544250488,0.5607037544250488
+heldout,Box,f8947288df80322a,a photo of a box,[CLS] a photo of a box . [SEP],box,0.37799978256225586,0.37799978256225586
+heldout,Box,f8947288df80322a,no box,[CLS] no box . [SEP],box,0.5734992623329163,0.5734992623329163
+heldout,Box,f8947288df80322a,a fallen box,[CLS] a fallen box . [SEP],fallen,0.5865228176116943,0.5865228176116943
+heldout,Box,a5e0be5d77d67177,box,[CLS] box . [SEP],box,0.4346412718296051,0.4346412718296051
+heldout,Box,a5e0be5d77d67177,a box,[CLS] a box . [SEP],box,0.40739235281944275,0.40739235281944275
+heldout,Box,a5e0be5d77d67177,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4517194926738739,0.25552940368652344
+heldout,Box,a5e0be5d77d67177,no box,[CLS] no box . [SEP],box,0.35242462158203125,0.35242462158203125
+heldout,Box,a5e0be5d77d67177,a fallen box,[CLS] a fallen box . [SEP],fallen,0.4277552366256714,0.4277552366256714
+heldout,Box,fa9e3b699ed05546,box,[CLS] box . [SEP],box,0.5498219132423401,0.5498219132423401
+heldout,Box,fa9e3b699ed05546,a box,[CLS] a box . [SEP],a,0.7507355809211731,0.733738124370575
+heldout,Box,fa9e3b699ed05546,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5497614741325378,0.3532050848007202
+heldout,Box,fa9e3b699ed05546,no box,[CLS] no box . [SEP],box,0.6992543935775757,0.6992543935775757
+heldout,Box,fa9e3b699ed05546,a fallen box,[CLS] a fallen box . [SEP],box,0.7299049496650696,0.7299049496650696
+heldout,Box,fecbf84fb1607437,box,[CLS] box . [SEP],box,0.5195974707603455,0.5195974707603455
+heldout,Box,fecbf84fb1607437,a box,[CLS] a box . [SEP],box,0.6766199469566345,0.6766199469566345
+heldout,Box,fecbf84fb1607437,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5990747213363647,0.35779187083244324
+heldout,Box,fecbf84fb1607437,no box,[CLS] no box . [SEP],box,0.660062849521637,0.660062849521637
+heldout,Box,fecbf84fb1607437,a fallen box,[CLS] a fallen box . [SEP],box,0.6420959234237671,0.6420959234237671
+heldout,Box,0e20f679da5a8582,box,[CLS] box . [SEP],box,0.2635994255542755,0.2635994255542755
+heldout,Box,0e20f679da5a8582,a box,[CLS] a box . [SEP],a,0.3621792793273926,0.35521551966667175
+heldout,Box,0e20f679da5a8582,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.41448402404785156,0.26942169666290283
+heldout,Box,0e20f679da5a8582,no box,[CLS] no box . [SEP],box,0.3379678428173065,0.3379678428173065
+heldout,Box,0e20f679da5a8582,a fallen box,[CLS] a fallen box . [SEP],fallen,0.38664764165878296,0.38664764165878296
+heldout,Box,61db2a113c05a419,box,[CLS] box . [SEP],box,0.685528576374054,0.685528576374054
+heldout,Box,61db2a113c05a419,a box,[CLS] a box . [SEP],a,0.9043130874633789,0.8958876132965088
+heldout,Box,61db2a113c05a419,a photo of a box,[CLS] a photo of a box . [SEP],a,0.666279673576355,0.36851930618286133
+heldout,Box,61db2a113c05a419,no box,[CLS] no box . [SEP],box,0.7626009583473206,0.7626009583473206
+heldout,Box,61db2a113c05a419,a fallen box,[CLS] a fallen box . [SEP],box,0.6901415586471558,0.6901415586471558
+heldout,Box,c1a81b3c19dc8361,box,[CLS] box . [SEP],box,0.7125323414802551,0.7125323414802551
+heldout,Box,c1a81b3c19dc8361,a box,[CLS] a box . [SEP],a,0.8477157950401306,0.8388118147850037
+heldout,Box,c1a81b3c19dc8361,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.5980774760246277,0.3289604187011719
+heldout,Box,c1a81b3c19dc8361,no box,[CLS] no box . [SEP],box,0.7181993126869202,0.7181993126869202
+heldout,Box,c1a81b3c19dc8361,a fallen box,[CLS] a fallen box . [SEP],box,0.6775806546211243,0.6775806546211243
+heldout,Box,9064198bd9b48d0d,box,[CLS] box . [SEP],box,0.3205021917819977,0.3205021917819977
+heldout,Box,9064198bd9b48d0d,a box,[CLS] a box . [SEP],a,0.3554392158985138,0.35331663489341736
+heldout,Box,9064198bd9b48d0d,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4257245659828186,0.25945019721984863
+heldout,Box,9064198bd9b48d0d,no box,[CLS] no box . [SEP],box,0.4053898751735687,0.4053898751735687
+heldout,Box,9064198bd9b48d0d,a fallen box,[CLS] a fallen box . [SEP],a,0.42823341488838196,0.42727720737457275
+heldout,Box,0aa01b6843d9e158,box,[CLS] box . [SEP],box,0.17766813933849335,0.17766813933849335
+heldout,Box,0aa01b6843d9e158,a box,[CLS] a box . [SEP],box,0.4192318022251129,0.4192318022251129
+heldout,Box,0aa01b6843d9e158,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.4153730273246765,0.23057307302951813
+heldout,Box,0aa01b6843d9e158,no box,[CLS] no box . [SEP],box,0.4006907343864441,0.4006907343864441
+heldout,Box,0aa01b6843d9e158,a fallen box,[CLS] a fallen box . [SEP],fallen,0.4275759756565094,0.4275759756565094
+heldout,Box,4c6580bfb486255e,box,[CLS] box . [SEP],box,0.7836575508117676,0.7836575508117676
+heldout,Box,4c6580bfb486255e,a box,[CLS] a box . [SEP],box,0.7416740655899048,0.7416740655899048
+heldout,Box,4c6580bfb486255e,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5408025979995728,0.27405986189842224
+heldout,Box,4c6580bfb486255e,no box,[CLS] no box . [SEP],box,0.7006900310516357,0.7006900310516357
+heldout,Box,4c6580bfb486255e,a fallen box,[CLS] a fallen box . [SEP],box,0.8241790533065796,0.8241790533065796
+heldout,Box,d902aec027528f1e,box,[CLS] box . [SEP],box,0.27542194724082947,0.27542194724082947
+heldout,Box,d902aec027528f1e,a box,[CLS] a box . [SEP],box,0.29158565402030945,0.29158565402030945
+heldout,Box,d902aec027528f1e,a photo of a box,[CLS] a photo of a box . [SEP],a,0.39024344086647034,0.2148561030626297
+heldout,Box,d902aec027528f1e,no box,[CLS] no box . [SEP],box,0.33676713705062866,0.33676713705062866
+heldout,Box,d902aec027528f1e,a fallen box,[CLS] a fallen box . [SEP],fallen,0.3934433162212372,0.3934433162212372
+heldout,Box,23dded96189daf95,box,[CLS] box . [SEP],box,0.8664717674255371,0.8664717674255371
+heldout,Box,23dded96189daf95,a box,[CLS] a box . [SEP],box,0.8193157911300659,0.8193157911300659
+heldout,Box,23dded96189daf95,a photo of a box,[CLS] a photo of a box . [SEP],a,0.37880370020866394,0.3770817816257477
+heldout,Box,23dded96189daf95,no box,[CLS] no box . [SEP],box,0.7541915774345398,0.7541915774345398
+heldout,Box,23dded96189daf95,a fallen box,[CLS] a fallen box . [SEP],box,0.837221086025238,0.837221086025238
+heldout,Box,2f7bb4d2d0b95fac,box,[CLS] box . [SEP],box,0.3340460956096649,0.3340460956096649
+heldout,Box,2f7bb4d2d0b95fac,a box,[CLS] a box . [SEP],a,0.5269514322280884,0.5004494190216064
+heldout,Box,2f7bb4d2d0b95fac,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.3518676459789276,0.2624635696411133
+heldout,Box,2f7bb4d2d0b95fac,no box,[CLS] no box . [SEP],box,0.4764426052570343,0.4764426052570343
+heldout,Box,2f7bb4d2d0b95fac,a fallen box,[CLS] a fallen box . [SEP],a,0.56193608045578,0.556309163570404
+heldout,Box,25ba180d27f2160f,box,[CLS] box . [SEP],box,0.47504210472106934,0.47504210472106934
+heldout,Box,25ba180d27f2160f,a box,[CLS] a box . [SEP],a,0.8460696339607239,0.8311430811882019
+heldout,Box,25ba180d27f2160f,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4934009611606598,0.31986451148986816
+heldout,Box,25ba180d27f2160f,no box,[CLS] no box . [SEP],box,0.7358314990997314,0.7358314990997314
+heldout,Box,25ba180d27f2160f,a fallen box,[CLS] a fallen box . [SEP],box,0.6732991337776184,0.6732991337776184
+heldout,Box,b5bfc85ebf0c0da5,box,[CLS] box . [SEP],box,0.6956482529640198,0.6956482529640198
+heldout,Box,b5bfc85ebf0c0da5,a box,[CLS] a box . [SEP],box,0.7716715335845947,0.7716715335845947
+heldout,Box,b5bfc85ebf0c0da5,a photo of a box,[CLS] a photo of a box . [SEP],box,0.4218495488166809,0.4218495488166809
+heldout,Box,b5bfc85ebf0c0da5,no box,[CLS] no box . [SEP],box,0.7059877514839172,0.7059877514839172
+heldout,Box,b5bfc85ebf0c0da5,a fallen box,[CLS] a fallen box . [SEP],box,0.8085212111473083,0.8085212111473083
+heldout,Box,95a59c61aa71ff21,box,[CLS] box . [SEP],box,0.49932238459587097,0.49932238459587097
+heldout,Box,95a59c61aa71ff21,a box,[CLS] a box . [SEP],box,0.6301160454750061,0.6301160454750061
+heldout,Box,95a59c61aa71ff21,a photo of a box,[CLS] a photo of a box . [SEP],box,0.3940843641757965,0.3940843641757965
+heldout,Box,95a59c61aa71ff21,no box,[CLS] no box . [SEP],box,0.5814219117164612,0.5814219117164612
+heldout,Box,95a59c61aa71ff21,a fallen box,[CLS] a fallen box . [SEP],fallen,0.5915462970733643,0.5915462970733643
+heldout,Box,d97e58f477bc1697,box,[CLS] box . [SEP],box,0.5142936110496521,0.5142936110496521
+heldout,Box,d97e58f477bc1697,a box,[CLS] a box . [SEP],a,0.7335473299026489,0.7256486415863037
+heldout,Box,d97e58f477bc1697,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5305101275444031,0.3254133462905884
+heldout,Box,d97e58f477bc1697,no box,[CLS] no box . [SEP],box,0.7063930630683899,0.7063930630683899
+heldout,Box,d97e58f477bc1697,a fallen box,[CLS] a fallen box . [SEP],box,0.6979178190231323,0.6979178190231323
+heldout,Box,003d690a804fa10f,box,[CLS] box . [SEP],box,0.23616375029087067,0.23616375029087067
+heldout,Box,003d690a804fa10f,a box,[CLS] a box . [SEP],a,0.39817237854003906,0.3642120361328125
+heldout,Box,003d690a804fa10f,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.6566582322120667,0.21833586692810059
+heldout,Box,003d690a804fa10f,no box,[CLS] no box . [SEP],box,0.49294328689575195,0.49294328689575195
+heldout,Box,003d690a804fa10f,a fallen box,[CLS] a fallen box . [SEP],a,0.3875744044780731,0.37995338439941406
+heldout,Box,618fcfbe523269a6,box,[CLS] box . [SEP],box,0.44779232144355774,0.44779232144355774
+heldout,Box,618fcfbe523269a6,a box,[CLS] a box . [SEP],box,0.41122910380363464,0.41122910380363464
+heldout,Box,618fcfbe523269a6,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4051544964313507,0.29320207238197327
+heldout,Box,618fcfbe523269a6,no box,[CLS] no box . [SEP],box,0.40874865651130676,0.40874865651130676
+heldout,Box,618fcfbe523269a6,a fallen box,[CLS] a fallen box . [SEP],fallen,0.43020716309547424,0.43020716309547424
+heldout,Box,694a7bea5ed6e7ba,box,[CLS] box . [SEP],box,0.7056836485862732,0.7056836485862732
+heldout,Box,694a7bea5ed6e7ba,a box,[CLS] a box . [SEP],box,0.8122723698616028,0.8122723698616028
+heldout,Box,694a7bea5ed6e7ba,a photo of a box,[CLS] a photo of a box . [SEP],a,0.37828677892684937,0.3762792944908142
+heldout,Box,694a7bea5ed6e7ba,no box,[CLS] no box . [SEP],box,0.7099249362945557,0.7099249362945557
+heldout,Box,694a7bea5ed6e7ba,a fallen box,[CLS] a fallen box . [SEP],box,0.8010035157203674,0.8010035157203674
+heldout,Box,bd1ace2cdf4d9a5a,box,[CLS] box . [SEP],box,0.8033281564712524,0.8033281564712524
+heldout,Box,bd1ace2cdf4d9a5a,a box,[CLS] a box . [SEP],box,0.9019206762313843,0.9019206762313843
+heldout,Box,bd1ace2cdf4d9a5a,a photo of a box,[CLS] a photo of a box . [SEP],a,0.408571720123291,0.31848517060279846
+heldout,Box,bd1ace2cdf4d9a5a,no box,[CLS] no box . [SEP],box,0.7708100080490112,0.7708100080490112
+heldout,Box,bd1ace2cdf4d9a5a,a fallen box,[CLS] a fallen box . [SEP],box,0.7483522891998291,0.7483522891998291
+heldout,Box,27968a68055e31fe,box,[CLS] box . [SEP],box,0.38242971897125244,0.38242971897125244
+heldout,Box,27968a68055e31fe,a box,[CLS] a box . [SEP],a,0.5882388353347778,0.5798168182373047
+heldout,Box,27968a68055e31fe,a photo of a box,[CLS] a photo of a box . [SEP],a,0.3858373761177063,0.24418270587921143
+heldout,Box,27968a68055e31fe,no box,[CLS] no box . [SEP],box,0.3565586805343628,0.3565586805343628
+heldout,Box,27968a68055e31fe,a fallen box,[CLS] a fallen box . [SEP],a,0.46930745244026184,0.4668455719947815
+heldout,Box,5e7e0553dc6c8346,box,[CLS] box . [SEP],box,0.5421361327171326,0.5421361327171326
+heldout,Box,5e7e0553dc6c8346,a box,[CLS] a box . [SEP],a,0.799755334854126,0.793105959892273
+heldout,Box,5e7e0553dc6c8346,a photo of a box,[CLS] a photo of a box . [SEP],a,0.49657830595970154,0.3568948209285736
+heldout,Box,5e7e0553dc6c8346,no box,[CLS] no box . [SEP],box,0.7081116437911987,0.7081116437911987
+heldout,Box,5e7e0553dc6c8346,a fallen box,[CLS] a fallen box . [SEP],box,0.6694207787513733,0.6694207787513733
+heldout,Box,918542c33142239e,box,[CLS] box . [SEP],box,0.6620321273803711,0.6620321273803711
+heldout,Box,918542c33142239e,a box,[CLS] a box . [SEP],box,0.7177048921585083,0.7177048921585083
+heldout,Box,918542c33142239e,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5041197538375854,0.34897783398628235
+heldout,Box,918542c33142239e,no box,[CLS] no box . [SEP],box,0.6982265710830688,0.6982265710830688
+heldout,Box,918542c33142239e,a fallen box,[CLS] a fallen box . [SEP],box,0.7500038743019104,0.7500038743019104
+heldout,Box,79a9f204b7155a7a,box,[CLS] box . [SEP],box,0.25275275111198425,0.25275275111198425
+heldout,Box,79a9f204b7155a7a,a box,[CLS] a box . [SEP],a,0.3947840929031372,0.3705669939517975
+heldout,Box,79a9f204b7155a7a,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4179246127605438,0.27318641543388367
+heldout,Box,79a9f204b7155a7a,no box,[CLS] no box . [SEP],box,0.4515380859375,0.4515380859375
+heldout,Box,79a9f204b7155a7a,a fallen box,[CLS] a fallen box . [SEP],a,0.4795341491699219,0.4688210189342499
+heldout,Box,f4878db33c3cbddc,box,[CLS] box . [SEP],box,0.28279000520706177,0.28279000520706177
+heldout,Box,f4878db33c3cbddc,a box,[CLS] a box . [SEP],a,0.34312158823013306,0.33393749594688416
+heldout,Box,f4878db33c3cbddc,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4016878008842468,0.2447238266468048
+heldout,Box,f4878db33c3cbddc,no box,[CLS] no box . [SEP],box,0.3848543167114258,0.3848543167114258
+heldout,Box,f4878db33c3cbddc,a fallen box,[CLS] a fallen box . [SEP],box,0.35264748334884644,0.35264748334884644
+heldout,Box,d74ce178e6156cbf,box,[CLS] box . [SEP],box,0.3617281913757324,0.3617281913757324
+heldout,Box,d74ce178e6156cbf,a box,[CLS] a box . [SEP],box,0.4661772549152374,0.4661772549152374
+heldout,Box,d74ce178e6156cbf,a photo of a box,[CLS] a photo of a box . [SEP],a,0.33231040835380554,0.24562746286392212
+heldout,Box,d74ce178e6156cbf,no box,[CLS] no box . [SEP],box,0.42375609278678894,0.42375609278678894
+heldout,Box,d74ce178e6156cbf,a fallen box,[CLS] a fallen box . [SEP],box,0.47636649012565613,0.47636649012565613
+heldout,Box,b6798d4660eb5072,box,[CLS] box . [SEP],box,0.5019292831420898,0.5019292831420898
+heldout,Box,b6798d4660eb5072,a box,[CLS] a box . [SEP],box,0.4111108183860779,0.4111108183860779
+heldout,Box,b6798d4660eb5072,a photo of a box,[CLS] a photo of a box . [SEP],a,0.34775856137275696,0.23161423206329346
+heldout,Box,b6798d4660eb5072,no box,[CLS] no box . [SEP],box,0.40456622838974,0.40456622838974
+heldout,Box,b6798d4660eb5072,a fallen box,[CLS] a fallen box . [SEP],fallen,0.42417341470718384,0.42417341470718384
+heldout,Box,409673967c35597a,box,[CLS] box . [SEP],box,0.8281063437461853,0.8281063437461853
+heldout,Box,409673967c35597a,a box,[CLS] a box . [SEP],box,0.7801604270935059,0.7801604270935059
+heldout,Box,409673967c35597a,a photo of a box,[CLS] a photo of a box . [SEP],a,0.42578428983688354,0.3279910981655121
+heldout,Box,409673967c35597a,no box,[CLS] no box . [SEP],box,0.7120319604873657,0.7120319604873657
+heldout,Box,409673967c35597a,a fallen box,[CLS] a fallen box . [SEP],box,0.8204693794250488,0.8204693794250488
+heldout,Box,aa9412308653c489,box,[CLS] box . [SEP],box,0.4812100827693939,0.4812100827693939
+heldout,Box,aa9412308653c489,a box,[CLS] a box . [SEP],box,0.7680380344390869,0.7680380344390869
+heldout,Box,aa9412308653c489,a photo of a box,[CLS] a photo of a box . [SEP],a,0.4734594225883484,0.31615808606147766
+heldout,Box,aa9412308653c489,no box,[CLS] no box . [SEP],box,0.6188380122184753,0.6188380122184753
+heldout,Box,aa9412308653c489,a fallen box,[CLS] a fallen box . [SEP],box,0.6553360223770142,0.6553360223770142
+heldout,Box,5937e3fa7d2347e3,box,[CLS] box . [SEP],box,0.4922567903995514,0.4922567903995514
+heldout,Box,5937e3fa7d2347e3,a box,[CLS] a box . [SEP],box,0.4874599277973175,0.4874599277973175
+heldout,Box,5937e3fa7d2347e3,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.4433292746543884,0.29563644528388977
+heldout,Box,5937e3fa7d2347e3,no box,[CLS] no box . [SEP],box,0.44016844034194946,0.44016844034194946
+heldout,Box,5937e3fa7d2347e3,a fallen box,[CLS] a fallen box . [SEP],a,0.5446802973747253,0.5404388308525085
+heldout,Box,8ed1504a26ea2d6f,box,[CLS] box . [SEP],box,0.3602639436721802,0.3602639436721802
+heldout,Box,8ed1504a26ea2d6f,a box,[CLS] a box . [SEP],a,0.3408142030239105,0.30923226475715637
+heldout,Box,8ed1504a26ea2d6f,a photo of a box,[CLS] a photo of a box . [SEP],a,0.3582407832145691,0.2255871742963791
+heldout,Box,8ed1504a26ea2d6f,no box,[CLS] no box . [SEP],box,0.3353508412837982,0.3353508412837982
+heldout,Box,8ed1504a26ea2d6f,a fallen box,[CLS] a fallen box . [SEP],a,0.32723817229270935,0.32519903779029846
+heldout,Box,e16ff10294ea52f9,box,[CLS] box . [SEP],box,0.3473156988620758,0.3473156988620758
+heldout,Box,e16ff10294ea52f9,a box,[CLS] a box . [SEP],a,0.6624690294265747,0.6520198583602905
+heldout,Box,e16ff10294ea52f9,a photo of a box,[CLS] a photo of a box . [SEP],a,0.44875842332839966,0.26702573895454407
+heldout,Box,e16ff10294ea52f9,no box,[CLS] no box . [SEP],box,0.5556462407112122,0.5556462407112122
+heldout,Box,e16ff10294ea52f9,a fallen box,[CLS] a fallen box . [SEP],box,0.7531036734580994,0.7531036734580994
+heldout,Box,ecdd0f8b50e0ffc2,box,[CLS] box . [SEP],box,0.4532618522644043,0.4532618522644043
+heldout,Box,ecdd0f8b50e0ffc2,a box,[CLS] a box . [SEP],box,0.4244716465473175,0.4244716465473175
+heldout,Box,ecdd0f8b50e0ffc2,a photo of a box,[CLS] a photo of a box . [SEP],a,0.37570643424987793,0.2950267493724823
+heldout,Box,ecdd0f8b50e0ffc2,no box,[CLS] no box . [SEP],box,0.421432763338089,0.421432763338089
+heldout,Box,ecdd0f8b50e0ffc2,a fallen box,[CLS] a fallen box . [SEP],fallen,0.43092551827430725,0.43092551827430725
+heldout,Box,682a76e3f430604e,box,[CLS] box . [SEP],box,0.40922078490257263,0.40922078490257263
+heldout,Box,682a76e3f430604e,a box,[CLS] a box . [SEP],box,0.45432087779045105,0.45432087779045105
+heldout,Box,682a76e3f430604e,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.35242462158203125,0.32831406593322754
+heldout,Box,682a76e3f430604e,no box,[CLS] no box . [SEP],box,0.5093448758125305,0.5093448758125305
+heldout,Box,682a76e3f430604e,a fallen box,[CLS] a fallen box . [SEP],a,0.4843800365924835,0.4806614816188812
+heldout,Box,05e697eba59741a6,box,[CLS] box . [SEP],box,0.3304711878299713,0.3304711878299713
+heldout,Box,05e697eba59741a6,a box,[CLS] a box . [SEP],box,0.328529417514801,0.328529417514801
+heldout,Box,05e697eba59741a6,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.5665581822395325,0.2768860161304474
+heldout,Box,05e697eba59741a6,no box,[CLS] no box . [SEP],box,0.43194353580474854,0.43194353580474854
+heldout,Box,05e697eba59741a6,a fallen box,[CLS] a fallen box . [SEP],box,0.3565586805343628,0.3565586805343628
+heldout,Box,a3d3c7aff3c32cf3,box,[CLS] box . [SEP],box,0.7975568175315857,0.7975568175315857
+heldout,Box,a3d3c7aff3c32cf3,a box,[CLS] a box . [SEP],a,0.9234544038772583,0.9122800230979919
+heldout,Box,a3d3c7aff3c32cf3,a photo of a box,[CLS] a photo of a box . [SEP],a,0.6317079067230225,0.4234579801559448
+heldout,Box,a3d3c7aff3c32cf3,no box,[CLS] no box . [SEP],box,0.8155264854431152,0.8155264854431152
+heldout,Box,a3d3c7aff3c32cf3,a fallen box,[CLS] a fallen box . [SEP],box,0.6888871788978577,0.6888871788978577
+heldout,Box,206a6480c592bade,box,[CLS] box . [SEP],box,0.21518577635288239,0.21518577635288239
+heldout,Box,206a6480c592bade,a box,[CLS] a box . [SEP],a,0.4874217212200165,0.48587411642074585
+heldout,Box,206a6480c592bade,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.4335017800331116,0.20339089632034302
+heldout,Box,206a6480c592bade,no box,[CLS] no box . [SEP],box,0.39992883801460266,0.39992883801460266
+heldout,Box,206a6480c592bade,a fallen box,[CLS] a fallen box . [SEP],a,0.46714943647384644,0.46550899744033813
+heldout,Box,6e0b915a5c7dd9d9,box,[CLS] box . [SEP],box,0.6794977784156799,0.6794977784156799
+heldout,Box,6e0b915a5c7dd9d9,a box,[CLS] a box . [SEP],box,0.8244618773460388,0.8244618773460388
+heldout,Box,6e0b915a5c7dd9d9,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5226742625236511,0.36229208111763
+heldout,Box,6e0b915a5c7dd9d9,no box,[CLS] no box . [SEP],box,0.7181993126869202,0.7181993126869202
+heldout,Box,6e0b915a5c7dd9d9,a fallen box,[CLS] a fallen box . [SEP],box,0.8060905337333679,0.8060905337333679
+heldout,Box,b5bf4d28f1e1fa08,box,[CLS] box . [SEP],box,0.37593555450439453,0.37593555450439453
+heldout,Box,b5bf4d28f1e1fa08,a box,[CLS] a box . [SEP],a,0.409574955701828,0.3916385769844055
+heldout,Box,b5bf4d28f1e1fa08,a photo of a box,[CLS] a photo of a box . [SEP],a,0.29992473125457764,0.21255874633789062
+heldout,Box,b5bf4d28f1e1fa08,no box,[CLS] no box . [SEP],box,0.32124704122543335,0.32124704122543335
+heldout,Box,b5bf4d28f1e1fa08,a fallen box,[CLS] a fallen box . [SEP],box,0.39899173378944397,0.39899173378944397
+heldout,Box,609540391663c2d8,box,[CLS] box . [SEP],box,0.38560596108436584,0.38560596108436584
+heldout,Box,609540391663c2d8,a box,[CLS] a box . [SEP],a,0.6162432432174683,0.5940214991569519
+heldout,Box,609540391663c2d8,a photo of a box,[CLS] a photo of a box . [SEP],a,0.40157046914100647,0.24598956108093262
+heldout,Box,609540391663c2d8,no box,[CLS] no box . [SEP],box,0.5458002090454102,0.5458002090454102
+heldout,Box,609540391663c2d8,a fallen box,[CLS] a fallen box . [SEP],box,0.48053961992263794,0.48053961992263794
+heldout,Box,db1ec5d4c45ea4fb,box,[CLS] box . [SEP],box,0.3361131250858307,0.3361131250858307
+heldout,Box,db1ec5d4c45ea4fb,a box,[CLS] a box . [SEP],a,0.3999873995780945,0.3886760175228119
+heldout,Box,db1ec5d4c45ea4fb,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.38312187790870667,0.23057307302951813
+heldout,Box,db1ec5d4c45ea4fb,no box,[CLS] no box . [SEP],box,0.34356194734573364,0.34356194734573364
+heldout,Box,db1ec5d4c45ea4fb,a fallen box,[CLS] a fallen box . [SEP],box,0.3761647045612335,0.3761647045612335
+heldout,Box,6245155f016dee49,box,[CLS] box . [SEP],box,0.4353613257408142,0.4353613257408142
+heldout,Box,6245155f016dee49,a box,[CLS] a box . [SEP],box,0.4312248229980469,0.4312248229980469
+heldout,Box,6245155f016dee49,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5237552523612976,0.34521564841270447
+heldout,Box,6245155f016dee49,no box,[CLS] no box . [SEP],box,0.58521968126297,0.58521968126297
+heldout,Box,6245155f016dee49,a fallen box,[CLS] a fallen box . [SEP],box,0.5094364285469055,0.5094364285469055
+heldout,Box,bb4f762b264f5985,box,[CLS] box . [SEP],box,0.3794358968734741,0.3794358968734741
+heldout,Box,bb4f762b264f5985,a box,[CLS] a box . [SEP],a,0.6908720135688782,0.677047073841095
+heldout,Box,bb4f762b264f5985,a photo of a box,[CLS] a photo of a box . [SEP],a,0.3827757239341736,0.2954331338405609
+heldout,Box,bb4f762b264f5985,no box,[CLS] no box . [SEP],box,0.6491339206695557,0.6491339206695557
+heldout,Box,bb4f762b264f5985,a fallen box,[CLS] a fallen box . [SEP],box,0.5601022839546204,0.5601022839546204
+heldout,Box,f38bf8b334b07993,box,[CLS] box . [SEP],box,0.5265253186225891,0.5265253186225891
+heldout,Box,f38bf8b334b07993,a box,[CLS] a box . [SEP],box,0.4284127652645111,0.4284127652645111
+heldout,Box,f38bf8b334b07993,a photo of a box,[CLS] a photo of a box . [SEP],a,0.3774259090423584,0.2658804655075073
+heldout,Box,f38bf8b334b07993,no box,[CLS] no box . [SEP],box,0.4211947023868561,0.4211947023868561
+heldout,Box,f38bf8b334b07993,a fallen box,[CLS] a fallen box . [SEP],box,0.4387550950050354,0.4387550950050354
+heldout,Box,176562236c8f1ff9,box,[CLS] box . [SEP],box,0.542075514793396,0.542075514793396
+heldout,Box,176562236c8f1ff9,a box,[CLS] a box . [SEP],a,0.8165527582168579,0.7783125042915344
+heldout,Box,176562236c8f1ff9,a photo of a box,[CLS] a photo of a box . [SEP],a,0.49193641543388367,0.4134771525859833
+heldout,Box,176562236c8f1ff9,no box,[CLS] no box . [SEP],box,0.7043635845184326,0.7043635845184326
+heldout,Box,176562236c8f1ff9,a fallen box,[CLS] a fallen box . [SEP],box,0.6695287823677063,0.6695287823677063
+heldout,Box,b6a0514be1e661f2,box,[CLS] box . [SEP],box,0.6436653137207031,0.6436653137207031
+heldout,Box,b6a0514be1e661f2,a box,[CLS] a box . [SEP],box,0.7141298651695251,0.7141298651695251
+heldout,Box,b6a0514be1e661f2,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5769591331481934,0.3078780174255371
+heldout,Box,b6a0514be1e661f2,no box,[CLS] no box . [SEP],box,0.6739432215690613,0.6739432215690613
+heldout,Box,b6a0514be1e661f2,a fallen box,[CLS] a fallen box . [SEP],box,0.7426084280014038,0.7426084280014038
+heldout,Box,c96afd0e916964da,box,[CLS] box . [SEP],box,0.7270074486732483,0.7270074486732483
+heldout,Box,c96afd0e916964da,a box,[CLS] a box . [SEP],box,0.8630456924438477,0.8630456924438477
+heldout,Box,c96afd0e916964da,a photo of a box,[CLS] a photo of a box . [SEP],box,0.44405239820480347,0.44405239820480347
+heldout,Box,c96afd0e916964da,no box,[CLS] no box . [SEP],box,0.7727022171020508,0.7727022171020508
+heldout,Box,c96afd0e916964da,a fallen box,[CLS] a fallen box . [SEP],box,0.7150261998176575,0.7150261998176575
+heldout,Box,8badb396726a010d,box,[CLS] box . [SEP],box,0.7218412160873413,0.7218412160873413
+heldout,Box,8badb396726a010d,a box,[CLS] a box . [SEP],box,0.8237541317939758,0.8237541317939758
+heldout,Box,8badb396726a010d,a photo of a box,[CLS] a photo of a box . [SEP],a,0.5628975033760071,0.34246158599853516
+heldout,Box,8badb396726a010d,no box,[CLS] no box . [SEP],box,0.7310585379600525,0.7310585379600525
+heldout,Box,8badb396726a010d,a fallen box,[CLS] a fallen box . [SEP],box,0.6729767918586731,0.6729767918586731
+heldout,Box,9965001cc88c944a,box,[CLS] box . [SEP],box,0.26511871814727783,0.26511871814727783
+heldout,Box,9965001cc88c944a,a box,[CLS] a box . [SEP],a,0.5497614741325378,0.5385282635688782
+heldout,Box,9965001cc88c944a,a photo of a box,[CLS] a photo of a box . [SEP],a,0.3147873282432556,0.23899394273757935
+heldout,Box,9965001cc88c944a,no box,[CLS] no box . [SEP],box,0.4249488413333893,0.4249488413333893
+heldout,Box,9965001cc88c944a,a fallen box,[CLS] a fallen box . [SEP],box,0.6288633942604065,0.6288633942604065
+heldout,Box,7f6fa678ed48f4e0,box,[CLS] box . [SEP],box,0.4282931685447693,0.4282931685447693
+heldout,Box,7f6fa678ed48f4e0,a box,[CLS] a box . [SEP],box,0.42238548398017883,0.42238548398017883
+heldout,Box,7f6fa678ed48f4e0,a photo of a box,[CLS] a photo of a box . [SEP],a,0.49119657278060913,0.26303109526634216
+heldout,Box,7f6fa678ed48f4e0,no box,[CLS] no box . [SEP],box,0.4761533737182617,0.4761533737182617
+heldout,Box,7f6fa678ed48f4e0,a fallen box,[CLS] a fallen box . [SEP],box,0.44209447503089905,0.44209447503089905
+heldout,Box,42aa1058efb09dfd,box,[CLS] box . [SEP],box,0.48355695605278015,0.48355695605278015
+heldout,Box,42aa1058efb09dfd,a box,[CLS] a box . [SEP],a,0.58486407995224,0.5795193910598755
+heldout,Box,42aa1058efb09dfd,a photo of a box,[CLS] a photo of a box . [SEP],photo,0.33079540729522705,0.29879820346832275
+heldout,Box,42aa1058efb09dfd,no box,[CLS] no box . [SEP],box,0.6030555367469788,0.6030555367469788
+heldout,Box,42aa1058efb09dfd,a fallen box,[CLS] a fallen box . [SEP],box,0.6340903043746948,0.6340903043746948
+heldout,Box,c04e97a5e46eb242,box,[CLS] box . [SEP],box,0.29310086369514465,0.29310086369514465
+heldout,Box,c04e97a5e46eb242,a box,[CLS] a box . [SEP],a,0.4258439540863037,0.4221472442150116
+heldout,Box,c04e97a5e46eb242,a photo of a box,[CLS] a photo of a box . [SEP],a,0.439897745847702,0.2590751051902771
+heldout,Box,c04e97a5e46eb242,no box,[CLS] no box . [SEP],box,0.40927982330322266,0.40927982330322266
+heldout,Box,c04e97a5e46eb242,a fallen box,[CLS] a fallen box . [SEP],box,0.3990502655506134,0.3990502655506134
+heldout,Box,75feccb46d266f87,box,[CLS] box . [SEP],box,0.5901888608932495,0.5901888608932495
+heldout,Box,75feccb46d266f87,a box,[CLS] a box . [SEP],box,0.5742157101631165,0.5742157101631165
+heldout,Box,75feccb46d266f87,a photo of a box,[CLS] a photo of a box . [SEP],box,0.40286189317703247,0.40286189317703247
+heldout,Box,75feccb46d266f87,no box,[CLS] no box . [SEP],box,0.6157812476158142,0.6157812476158142
+heldout,Box,75feccb46d266f87,a fallen box,[CLS] a fallen box . [SEP],box,0.7420480251312256,0.7420480251312256
+heldout,Box,be737c2761d21f30,box,[CLS] box . [SEP],box,0.3948424458503723,0.3948424458503723
+heldout,Box,be737c2761d21f30,a box,[CLS] a box . [SEP],box,0.38191086053848267,0.38191086053848267
+heldout,Box,be737c2761d21f30,a photo of a box,[CLS] a photo of a box . [SEP],box,0.33415475487709045,0.33415475487709045
+heldout,Box,be737c2761d21f30,no box,[CLS] no box . [SEP],box,0.40751025080680847,0.40751025080680847
+heldout,Box,be737c2761d21f30,a fallen box,[CLS] a fallen box . [SEP],box,0.40904372930526733,0.40904372930526733

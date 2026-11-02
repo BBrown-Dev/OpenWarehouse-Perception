@@ -1,0 +1,12 @@
+class_name,prompt,images,structural_winner,fire_rate,content_fire_rate,top_token
+Box,a box,60,0.5666666666666667,0.9333333333333333,0.9166666666666666,a
+Box,a fallen box,60,0.38333333333333336,0.9833333333333333,0.9666666666666667,a
+Box,a photo of a box,60,0.9333333333333333,0.8666666666666667,0.25,a
+Box,box,60,0.0,0.5833333333333334,0.5833333333333334,box
+Box,no box,60,0.0,0.95,0.95,box
+Forklift truck,a forklift,60,0.15,0.9,0.8833333333333333,fork
+Forklift truck,a giraffe,60,0.9833333333333333,0.6,0.4,a
+Forklift truck,a photo of a forklift,60,0.65,0.9833333333333333,0.75,a
+Forklift truck,forklift,60,0.0,0.85,0.85,##lift
+Forklift truck,giraffe,60,0.0,0.03333333333333333,0.03333333333333333,gi
+Forklift truck,no forklift,60,0.0,0.9666666666666667,0.9666666666666667,fork
