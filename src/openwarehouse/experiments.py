@@ -28,6 +28,7 @@ EXCLUSIONS_PATH = OUTPUT_DIR / "leakage_exclusions.csv"
 SELECTION_PATH = OUTPUT_DIR / "selection.json"
 PREDICTIONS_PATH = OUTPUT_DIR / "detector_predictions.jsonl.gz"
 PREDICTIONS_META_PATH = OUTPUT_DIR / "detector_predictions.meta.json"
+SIGLIP_META_PATH = OUTPUT_DIR / "siglip_scores.meta.json"
 BASELINE_CONDITION = "article"
 
 
@@ -108,6 +109,16 @@ def export_ground_truth(config: dict[str, Any]) -> Path:
 def run_siglip(config: dict[str, Any], device: str) -> pd.DataFrame:
     """Score every verified image-label pair under every prompt condition, then cache it."""
     path = OUTPUT_DIR / "siglip_scores.csv"
+    # Settings the cached logits depend on. A cache made before this check existed is adopted
+    # with the current settings, which is what produced it at review time.
+    _check_cache_settings(
+        {
+            "siglip": config["models"]["siglip"],
+            "prompt_conditions": config["prompt_conditions"],
+            "prompt_classes": config["prompt_classes"],
+        },
+        SIGLIP_META_PATH,
+    )
     if path.exists():
         return pd.read_csv(path, dtype={"image_id": str})
 
@@ -143,14 +154,20 @@ def run_siglip(config: dict[str, Any], device: str) -> pd.DataFrame:
     return scores
 
 
-def _check_prediction_settings(config: dict[str, Any], path: Path = PREDICTIONS_META_PATH) -> None:
-    """Refuse to extend a prediction cache that was made with different model settings."""
-    settings = {"detector": config["models"]["detector"], "inference": config["inference"]}
+def _check_cache_settings(settings: dict[str, Any], path: Path) -> None:
+    """Refuse to reuse or extend a cache that was made with different settings."""
     if path.exists():
         if json.loads(path.read_text(encoding="utf-8")) != settings:
-            raise RuntimeError("Cached detector predictions used different settings.")
+            raise RuntimeError(f"Cache described by {path.name} used different settings.")
     else:
         path.write_text(json.dumps(settings, indent=2), encoding="utf-8")
+
+
+def _check_prediction_settings(config: dict[str, Any], path: Path = PREDICTIONS_META_PATH) -> None:
+    """Refuse to extend a prediction cache that was made with different model settings."""
+    _check_cache_settings(
+        {"detector": config["models"]["detector"], "inference": config["inference"]}, path
+    )
 
 
 def run_detector(config: dict[str, Any], device: str) -> pd.DataFrame:

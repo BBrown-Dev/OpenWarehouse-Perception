@@ -130,3 +130,24 @@ def test_prediction_cache_rejects_changed_settings(tmp_path):
     _check_prediction_settings(config, path)
     with pytest.raises(RuntimeError):
         _check_prediction_settings({**config, "inference": {"threshold": 0.2}}, path)
+
+
+def test_siglip_cache_rejects_changed_settings(tmp_path):
+    from openwarehouse.experiments import _check_cache_settings
+
+    path = tmp_path / "siglip.meta.json"
+    settings = {"siglip": "a", "prompt_conditions": {"bare": "{noun}"}}
+    _check_cache_settings(settings, path)
+    _check_cache_settings(settings, path)
+    with pytest.raises(RuntimeError):
+        _check_cache_settings({**settings, "siglip": "b"}, path)
+
+
+def test_every_configured_model_has_a_pinned_revision():
+    from openwarehouse.config import load_config, model_revision
+
+    config = load_config("open_images", "poc")
+    for model_id in config["models"].values():
+        assert len(model_revision(model_id)) == 40
+    with pytest.raises(KeyError):
+        model_revision("unpinned/model")

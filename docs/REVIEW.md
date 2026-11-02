@@ -32,7 +32,7 @@ The code had no version history before this review (the repository held only an 
 | Fresh-process repeat of the 18 reproduced examples | Maximum top-score difference 0.00005 | `validation_fresh_process.csv` |
 | Batch vs single-image detector scores (100 dev images) | Correlation 0.996, median difference 0.006, maximum 0.05 | `checks.csv` |
 | Detector fp32 vs fp16 autocast on GPU (100 images) | Median difference 0.001, maximum 0.012, no decision flips | `validation_quantization.csv` |
-| SigLIP fp32 vs dynamic int8 on CPU (151 images) | Dev forklift AUROC 0.959 vs 0.960 | `validation_quantization.csv` |
+| SigLIP fp32 vs dynamic int8 on CPU (151 images) | Dev forklift AUROC 0.959 vs 0.960. This understated the risk; see Section 7 | `validation_quantization.csv` |
 | Detector fp32 vs dynamic int8 on CPU (40 images) | Median score difference 0.028, 1 decision flip, median top-box IoU 0.89, no speed gain (5.6 vs 5.2 s per image) | `validation_quantization.csv` |
 | Bootstrap clustered by photographer instead of image | Interval bounds move by at most 0.017 | `audit_cluster_bootstrap.csv` |
 | Sensitivity to the 415 photographer-linked exclusions | Including them would change SigLIP AUROC by -0.04 to +0.04, raising it for 9 of 12 classes | `audit_exclusion_sensitivity.csv`, `audit_exclusion_shift.csv` |
@@ -53,4 +53,75 @@ Result: the SigLIP presence check significantly lowers false positives for Perso
 
 ## 6. How to reproduce
 
-Use the project environment (`.venv`). Run in order: `scripts/run_poc.py`, `scripts/run_failure_analysis.py`, `scripts/audit_outputs.py`, `scripts/run_validation.py` (pass `--skip-checks` to reuse the repeat, control-noun and quantization outputs), `scripts/build_report_assets.py`, `scripts/run_gate_test.py`, `scripts/build_notebooks.py`. Tests: `python -m pytest`.
+Use the project environment (`.venv`) and run from the project root, in this order:
+
+1. `scripts/import_open_images.py` downloads the images and labels.
+2. `scripts/record_image_hashes.py --verify` confirms the images match `docs/results/image_sha256.csv`. Stop if any differ. Fresh gate images show as missing until step 10 has downloaded them; run the check again after it.
+3. `scripts/run_poc.py`
+4. `scripts/run_failure_analysis.py dev`, `scripts/run_mechanism_probe.py dev`, `scripts/render_failure_examples.py`
+5. `scripts/run_failure_analysis.py heldout`, `scripts/run_mechanism_probe.py heldout`
+6. `scripts/build_report_assets.py` (copies outputs that steps 7 and 8 read)
+7. `scripts/audit_outputs.py`
+8. `scripts/run_validation.py` (`--skip-checks` reuses the repeat, control-noun and quantization outputs)
+9. `scripts/build_report_assets.py` again, to pick up the corrected tables
+10. `scripts/run_gate_test.py`, then `scripts/run_quantization_gate_check.py`
+11. `scripts/build_notebooks.py`
+
+Tests: `python -m pytest`. Do not rerun the gate test on new fresh images and report it as the same test; its cached outputs in `artifacts/poc/gate/` are the record of the one confirmatory run.
+
+## 7. Second review: MLOps audit (2026-11-02)
+
+A second pass over all code, outputs and assumptions, covering errors, unsupported claims, quantization, reproducibility, leakage and missing validation.
+
+### Verified correct
+
+| Item | How it was checked |
+| --- | --- |
+| AP50 computation | Read against the Open Images rules: greedy matching by score, duplicates count as false positives, group-of boxes judged by intersection over the detection's area, all-point interpolation. Covered by `tests/test_metrics.py` |
+| Ground truth export | Every held-out box for the five box classes in `ground_truth.json` (exported through FiftyOne) was compared with the raw Open Images `detections.csv`: 2,941 boxes in both, no image-class pair differs, no image missing |
+| Dev threshold selection | The F1 expression equals 2TP / (2TP + FP + FN) |
+| SigLIP text encoding | Pads to 64 tokens, as SigLIP was trained; the common default-padding mistake is absent |
+| Fresh-process reproducibility | 18 saved examples reproduce to within 0.00005, both before and after pinning model revisions |
+| Held-out gating | Selection freezes once, held-out scoring is refused before it, and a config hash is checked |
+
+### Changes made
+
+| Change | Reason | Files |
+| --- | --- | --- |
+| Pinned every model to its exact Hugging Face commit; loading an unpinned model now fails | `from_pretrained` without a revision follows the latest Hub commit, so a model update would silently change every result | `configs/revisions.yaml`, `config.py`, `vision_language.py`, `grounded_sam.py` |
+| Added a settings check to the SigLIP score cache, as the detector cache already had | `siglip_scores.csv` was reused without checking which model or prompts produced it | `experiments.py` |
+| Recorded SHA-256 for all 5,348 evaluated images (3,682 main, 1,666 fresh), with a verify mode | Image IDs alone do not pin the data; a re-download can change or fail | `scripts/record_image_hashes.py`, `docs/results/image_sha256.csv` |
+| Measured SigLIP precision drift at the frozen presence-check cuts | All SigLIP results ran under fp16 autocast and this was never checked; the presence check thresholds raw logits | `scripts/run_quantization_gate_check.py`, `validation_siglip_precision_gate.csv` |
+| Tests for the revision pins and the SigLIP cache check (25 tests pass) | New behavior | `tests/test_leakage.py` |
+| Made the decision-based acceptance rule for quantized or exported models binding | AUROC alone had passed a model that changes 1 in 10 decisions | `docs/DESIGN_DECISIONS.md` |
+| Corrected the reproduction order in the README and in Section 6, and put the image-hash check before any run | The README line was out of date, and the earlier Section 6 left out the import, the probes and the second asset build | `README.md`, `docs/REVIEW.md` |
+| `RESULTS.md`: added intervals to the 14-negative headline rates, a quantization limitation, the gate sampling deviation, and the photographer-shift observation for Ladder | Unqualified or missing claims | `docs/RESULTS.md` |
+| `DESIGN_DECISIONS.md`: added revision and image pinning, and three leakage rows | Documented vectors were incomplete | `docs/DESIGN_DECISIONS.md` |
+
+### Findings
+
+**Quantization (most important).** Dynamic int8 SigLIP keeps AUROC (forklift 0.959 vs 0.960, Shelf 0.825 vs 0.846) but moves logits by a median of 0.9 to 1.3 and up to 9.3. At the frozen presence-check cuts, that flips 9.3% of forklift, 8.6% of truck and 10.9% of shelf decisions on dev images. AUROC does not change when scores shift, so it is the wrong acceptance metric for a thresholded system. fp16 autocast, used for all results, is benign: at most 0.034 logits and 0.5% to 0.7% flips. The int8 detector check is too small to rely on (40 images, one prompt, top score only); it showed one decision flip and a median top-box IoU of 0.89, and gave only about a 7% speed-up because dynamic quantization covers only linear layers. SAM was never checked. This is now a binding acceptance rule in `DESIGN_DECISIONS.md`: thresholds are re-derived on dev data after quantization, and a model is accepted on decision agreement and recall at the operating point, not AUROC. Use static calibration on dev data only, as the `edge/quantize.py` stub already requires.
+
+**Pre-registration deviation.** `configs/gate.yaml` states a cap of 300 per class and label, but sampled images keep all their labels, so Person has 545 fresh positives. Each class's sample is therefore partly chosen through the other classes. This does not invalidate the test, because the selection never looked at model outputs, but it is now disclosed in `RESULTS.md`.
+
+**Statistical weaknesses (documented, not fixed).**
+- AP50 intervals use 300 bootstrap samples. At the gate test's Bonferroni level (alpha 0.0167), each tail rests on about 2.5 samples, so those bounds carry Monte Carlo error. Use at least 2,000 samples for any future confirmatory AP interval.
+- Every bootstrap call uses seed 42, so intervals across classes and conditions share resampling noise. Harmless for a single interval, but the intervals are correlated.
+- The gate cuts sit at the 5th percentile of dev positive logits. On fresh images recall fell by about 15 points for Person and Shelf even though Person had 520 dev positives, so the cause is a shift between dev and fresh data, not small samples. The Ladder exclusion result points the same way.
+- Precision values depend on the artificial share of positives, as Section 1 of `RESULTS.md` already warns.
+
+**Reproducibility gaps (documented, not fixed).**
+- The selection hash covers `poc.yaml` and `open_images.yaml` but not `base.yaml`, which holds the seed. Widening it now would invalidate the frozen selection.
+- Batched detector scores depend on batch composition (correlation 0.996, differences up to 0.05). Batch size is checked, but batch order follows manifest order and is not otherwise recorded.
+- No deterministic-algorithms flag is set for CUDA. The measured repeat drift is negligible.
+- Run outputs are CSVs; MLflow is configured but unused, and there is no data versioning beyond the new hash snapshot.
+
+**Leakage vectors (reviewed).** Photographer-based exclusion removed all 415 links found; there were no exact or near duplicates. Remaining vectors are now listed in `DESIGN_DECISIONS.md`: pretraining overlap (unmeasurable), held-out clustering by photographer (intervals moved by at most 0.017), review decisions made with held-out results in view, and the limited hash scope. Images with no recorded photographer cannot be matched on photographer.
+
+**Missing validation (recommended).**
+1. Score calibration on dev data (reliability curves) before any absolute threshold is used.
+2. A recall-at-operating-point acceptance test for any quantized or exported model, on dev data.
+3. Latency and memory on the target edge hardware; the only timings are CPU timings on a desktop.
+4. Robustness under blur, low light and occlusion; still a stub.
+5. Unit tests for `evaluate_masks` and `evaluate_rescoring`, which have none.
+6. A warehouse-representative test set with forklift box labels. This is the largest gap, and the reason no forklift localization or safety claim can be made.

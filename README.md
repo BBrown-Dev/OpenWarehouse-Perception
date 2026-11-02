@@ -3,7 +3,7 @@ Open-vocabulary warehouse perception and safety assessment platform for autonomo
 
 > **Status: proof of concept.** SigLIP + Grounded SAM zero-shot detection and segmentation is implemented and evaluated on Open Images V7. See [Results and Failure Analysis](docs/RESULTS.md) and [Design Decisions](docs/DESIGN_DECISIONS.md). LoRA, edge, robustness, classical preprocessing, and the safety assessor remain stubs, so notebooks 03 and 05 to 08 are unimplemented templates.
 >
-> Reproduce with `scripts/import_open_images.py`, `run_poc.py`, `run_failure_analysis.py dev`, `run_mechanism_probe.py dev`, `render_failure_examples.py`, the last two probes again with `heldout`, then `build_report_assets.py`.
+> Reproduce with the ordered steps in [`docs/REVIEW.md`](docs/REVIEW.md#6-how-to-reproduce). Use the project `.venv`, and run `scripts/record_image_hashes.py --verify` after importing the data, before any experiment.
 
 ## Pipeline
 

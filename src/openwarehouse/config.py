@@ -28,3 +28,12 @@ def load_config(*names: str) -> dict[str, Any]:
         with (CONFIG_DIR / f"{name}.yaml").open(encoding="utf-8") as handle:
             config = _merge(config, yaml.safe_load(handle) or {})
     return config
+
+
+def model_revision(model_id: str) -> str:
+    """Return the pinned Hugging Face commit for a model, so a Hub update cannot change results."""
+    with (CONFIG_DIR / "revisions.yaml").open(encoding="utf-8") as handle:
+        revisions = yaml.safe_load(handle) or {}
+    if model_id not in revisions:
+        raise KeyError(f"No pinned revision for {model_id} in configs/revisions.yaml.")
+    return revisions[model_id]

@@ -1,0 +1,6 @@
+# Hugging Face commit for each model. Pinned by the review, from the local cache snapshots that
+# produced the results (docs/results/run_metadata.json). Kept out of poc.yaml so the frozen
+# selection's config hash still matches. A model with no entry here fails to load.
+google/siglip-base-patch16-224: 7fd15f0689c79d79e38b1c2e2e2370a7bf2761ed
+IDEA-Research/grounding-dino-tiny: a2bb814dd30d776dcf7e30523b00659f4f141c71
+facebook/sam-vit-base: 70c1a07f894ebb5b307fd9eaaee97b9dfc16068f

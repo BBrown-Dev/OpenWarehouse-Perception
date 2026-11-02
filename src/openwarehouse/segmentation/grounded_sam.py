@@ -14,6 +14,7 @@ from transformers import (
     SamProcessor,
 )
 
+from openwarehouse.config import model_revision
 from openwarehouse.schemas import Instance
 
 
@@ -28,13 +29,14 @@ class GroundedSAM:
         self.use_autocast = device != "cpu"
         self.settings = config["inference"]
         models = config["models"]
-        self.detector_processor = AutoProcessor.from_pretrained(models["detector"])
+        revision = model_revision(models["detector"])
+        self.detector_processor = AutoProcessor.from_pretrained(models["detector"], revision=revision)
         self.detector_processor.image_processor.size = {
             "shortest_edge": self.settings["detector_shortest_edge"],
             "longest_edge": self.settings["detector_longest_edge"],
         }
         self.detector = (
-            AutoModelForZeroShotObjectDetection.from_pretrained(models["detector"])
+            AutoModelForZeroShotObjectDetection.from_pretrained(models["detector"], revision=revision)
             .to(device)
             .eval()
         )
@@ -106,8 +108,11 @@ class GroundedSAM:
 
     def _load_segmenter(self) -> None:
         if self._segmenter is None:
-            self._segmenter_processor = SamProcessor.from_pretrained(self.segmenter_id)
-            self._segmenter = SamModel.from_pretrained(self.segmenter_id).to(self.device).eval()
+            revision = model_revision(self.segmenter_id)
+            self._segmenter_processor = SamProcessor.from_pretrained(self.segmenter_id, revision=revision)
+            self._segmenter = (
+                SamModel.from_pretrained(self.segmenter_id, revision=revision).to(self.device).eval()
+            )
 
     @torch.inference_mode()
     def segment(self, image: Any, instances: list[Instance]) -> list[Instance]:

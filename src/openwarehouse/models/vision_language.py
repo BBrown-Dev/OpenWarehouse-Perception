@@ -7,6 +7,8 @@ from typing import Any
 import torch
 from transformers import AutoModel, AutoProcessor
 
+from openwarehouse.config import model_revision
+
 
 def _as_embedding(output: Any) -> torch.Tensor:
     """Return the embedding tensor, whichever output type this transformers version uses."""
@@ -22,8 +24,9 @@ class VisionLanguageEncoder:
 
     def __init__(self, model_id: str, device: str = "cuda") -> None:
         self.device = device
-        self.processor = AutoProcessor.from_pretrained(model_id)
-        self.model = AutoModel.from_pretrained(model_id).to(device).eval()
+        revision = model_revision(model_id)
+        self.processor = AutoProcessor.from_pretrained(model_id, revision=revision)
+        self.model = AutoModel.from_pretrained(model_id, revision=revision).to(device).eval()
 
     @torch.inference_mode()
     def encode_images(self, images: list[Any]) -> torch.Tensor:

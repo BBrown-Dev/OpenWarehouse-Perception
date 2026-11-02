@@ -19,7 +19,7 @@ Each entry gives the choice, the reason, and what it costs. Results are in [RESU
 | Segmenter | `facebook/sam-vit-base` | Takes boxes as prompts, and can be tested separately using ground-truth boxes | Larger SAM models: slower for a comparison that needs thousands of masks |
 | Composition | Detect, then segment, then optional SigLIP rescoring | Each stage can be measured alone, so errors can be attributed | End-to-end model: errors could not be separated by stage |
 
-Library versions are recorded in the environment (`torch` 2.14.1, `transformers` 5.20.2) and models run on an RTX 2070 SUPER whenever possible.
+Library versions are recorded in the environment (`torch` 2.14.1, `transformers` 5.20.2; full lock in `requirements.lock.txt`) and models run on an RTX 2070 SUPER whenever possible. Model weights are pinned to exact Hugging Face commits in `configs/revisions.yaml`, and the bytes of every evaluated image are recorded in `docs/results/image_sha256.csv` (check with `scripts/record_image_hashes.py --verify`). Both were added by the review; the pins match the snapshots that produced the results.
 
 **Input size.** The detector runs at shortest edge 480, longest 800, with batch size 4. This was needed for throughput on 8 GB across about 38,000 image-prompt pairs. It lowers scores relative to the published 800×1333 setting, so published numbers are context only.
 
@@ -86,7 +86,24 @@ Wording varies in a fixed template across all classes, so differences can be att
 | Batch composition affecting scores | Measured, retained | On 100 dev images, batch and single-image scores correlate 0.996, with median difference 0.006 and maximum 0.05. Batches follow image ID rather than labels, so this adds noise rather than leaking labels, but it can flip decisions near the threshold |
 | Pretraining overlap (SigLIP on WebLI; Grounding DINO on O365, GoldG, and Cap4M) | Not measurable | Evaluation images might appear in pretraining data, and Flickr-sourced data is part of GoldG. Results could be optimistic |
 | Same photographer within held-out | Retained | Inflates confidence only slightly, by making images less independent |
+| Review corrections made after held-out results were seen | Controlled | The box-label fix and the rescoring prompt correct evaluation errors rather than tune the models, and the frozen selection was re-derived and matched. They were still decided with held-out results in view |
+| Exploratory held-out analyses informing the presence check | Controlled | The check was then tested once on fresh images from photographers not seen anywhere earlier (`configs/gate.yaml`) |
+| Selection hash covers only `poc.yaml` and `open_images.yaml` | Retained | A change to `base.yaml` (seed, device) would not be caught. Not widened, because that would invalidate the frozen selection |
 | Failure analysis on held-out data | Controlled | Probes were written and examined on dev, then run on held-out without changes. The attribution write-up was finalized after seeing both |
+
+## Quantization and export acceptance
+
+Every operating decision in this system compares a score with an absolute threshold, so a compressed model is judged on decisions, not rankings. AUROC is unchanged when scores shift, and it hid a 9% to 11% decision change under int8 SigLIP (`docs/results/validation_siglip_precision_gate.csv`).
+
+A quantized, pruned or exported model (int8, fp16 on new hardware, ONNX, TensorRT) is accepted only if all of the following hold on dev data, never held-out data:
+
+1. Thresholds are re-derived for the compressed model with the same rule that set the originals (pooled dev F1 for the detector, the 95% dev recall floor for any presence check).
+2. At those thresholds, at least 99% of image-level decisions agree with the fp32 model, for every class.
+3. Recall at the operating point falls by less than 1 percentage point for every class.
+4. Median top-box IoU against the fp32 model is at least 0.95, and SAM mask IoU against fp32 masks is at least 0.95.
+5. The check covers at least 100 positive and 100 negative images per class, with every prompt the deployment uses.
+
+Static quantization calibrates on dev images only. A model that fails any criterion is not deployed as a replacement, whatever its speed-up. Held-out data is used once, after acceptance, to report the accepted model.
 
 ## Tools
 
