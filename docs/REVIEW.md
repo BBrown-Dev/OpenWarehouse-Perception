@@ -195,7 +195,7 @@ Retained on purpose: the research scripts behind `RESULTS.md` failure mode 1 (`r
 | The replacement image (worker on a walkway) returned **no** detection for the bare prompt "forklift"; the earlier documented failure there used "a photo of a forklift" | Labeling it a hallucination would have been false. Replaced with an image drawn by seed from the 14 verified forklift-free images |
 | That seeded image shows a backhoe loader | Relabeled honestly as a lookalike confident false positive, not a hallucination. The figure now shows three confident false positives (0.72, 0.56, 0.76), all labeled accurately |
 | The overall readiness verdict claimed every use case had a false positive rate above 75% or no measurable accuracy | False for people (22%) and, across all 12 classes, ladders (48%). Narrowed to the four categories where it holds, with the exceptions named |
-| `EVALUATION.md` status said the combined pipeline latency was unmeasured | Now measured through the demo: 0.58 to 1.06 s per image and prompt on the GPU (5 calls) |
+| `EVALUATION.md` status said the combined pipeline latency was unmeasured | Now measured through the demo: 0.58 to 1.06 s per image and prompt on the GPU (5 calls; corrected in Section 11 to 0.52 to 1.00 s, measured with the GPU otherwise idle) |
 
 ### Weaknesses disclosed rather than fixed
 
@@ -217,7 +217,7 @@ Retained on purpose: the research scripts behind `RESULTS.md` failure mode 1 (`r
 
 **Added.** `docs/DEPLOYMENT_READINESS.md`: PASS/FAIL criteria (**FAIL**, 9 of 11), go/no-go (**NO-GO**), a one-sentence safety rationale, accuracy, robustness by shift type, latency, model size (SAM measured: 375.1 MB fp32, 187.6 MB fp16; full pipeline 1,877 MB fp32, 939 MB fp16), tradeoff analysis, the evidence for the decision and the evidence that would reverse it, and a reproducibility guide. `scripts/verify_caches.py` (seeded 10% model rerun with fixed tolerances; `--file-order` option). One more robustness condition (motion blur 2) was cached before the sweep was stopped as out of scope.
 
-**Verification result.** Recomputing every committed table from the cached model outputs reproduced all of them exactly; SigLIP reproduced exactly; the pre-registered detector check **failed** (94.1% of 3,401 sampled scores within 0.001, against 99% required; 2 flipped decisions). The cause, found afterwards: Aisle and Box, the first two classes scored, were batched with 103 images that were later excluded for leakage. In their original batches they reproduce exactly (546 of 546 pairs). No metric is affected by leakage, because excluded images' predictions are dropped, but a clean regeneration would not reproduce those two classes' scores exactly.
+**Verification result.** Recomputing the tables derived from the cached model outputs reproduced all of them exactly (corrected in Section 11: this first read "every committed table"); SigLIP reproduced exactly; the pre-registered detector check **failed** (94.1% of 3,401 sampled scores within 0.001, against 99% required; 2 flipped decisions). The cause, found afterwards: Aisle and Box, the first two classes scored, were batched with 103 images that were later excluded for leakage. In their original batches they reproduce exactly (546 of 546 pairs). No metric is affected by leakage, because excluded images' predictions are dropped, but a clean regeneration would not reproduce those two classes' scores exactly.
 
 **Errors caught while writing the report.**
 
@@ -229,3 +229,27 @@ Retained on purpose: the research scripts behind `RESULTS.md` failure mode 1 (`r
 | The guide's clone step relied on a branch that has not been pushed | Stated in the step |
 
 **Open.** Exact clean reproduction for Aisle and Box requires regenerating their detector outputs and re-baselining (Section 7.1 of the report). The bootstrap summary step takes ~50 minutes single-threaded; parallelizing it would cut verification time without changing results.
+
+## 11. Fifth review: verification claims, fp16 criteria and the reproducibility guide (2026-11-02)
+
+### Corrections
+
+| # | Error or unsupported claim | Evidence | Correction |
+| --- | --- | --- | --- |
+| 1 | "Every committed table recomputed exactly" (report, `EVALUATION.md`, Section 10, and commit `fefe277`'s message) | File timestamps: 18 result files were never regenerated (gate test, validation checks, rescoring, masks, benchmark, profiler), and 5 were only copied from the probe cache | Every statement now names what was verified (tables derived from cached model outputs) and what was not. The commit message cannot be changed; this entry corrects it |
+| 2 | Criterion 9 (compression agreement) marked PASS for fp16, and criterion 8 (memory) PASS on that basis | The binding protocol requires per-class decision agreement at the operating point, recall loss, box and mask IoU and ≥ 100 images per class per label; only top-1 agreement on 200 images and partial presence-check flips exist | Both marked **not demonstrated**; assessment reads 9 of 11 FAIL, 2 not demonstrated. Decision unchanged |
+| 3 | Aisle/Box impact given as "about 1 in 1,700 decisions" | That averages over all classes; within Aisle and Box it is 2 of 504 sampled decisions | Now "about 1 in 250 of their decisions" |
+| 4 | Demo latency 0.58–1.06 s | Measured while the corruption sweep shared the GPU; the verification's demo step, with the GPU otherwise idle, gave 0.52–1.00 s (first call 3.06 s) | Clean figures used; 5 calls noted as too few for a p95 |
+| 5 | "Excluded … before any results were read" | Exclusion list written at 17:59 on 2026-11-01, after SigLIP scores (17:13) and after the detector run began | Reworded: the rule is metadata-only, so results could not influence it, but whether outputs were viewed first cannot be confirmed |
+| 6 | Offline pilot presented as "permissible" or "defensible" | Its usefulness was never measured | Described as a candidate use needing its own evaluation |
+
+### Reproducibility fixes
+
+| Issue | Fix |
+| --- | --- |
+| `import_open_images.py` re-drew the sample, checking which development images the bucket still holds, so a new machine could get a different image set | It now reuses the committed `docs/results/manifest.csv` (verified byte-identical to the manifest the results used); `--resample` draws a new sample and says the results will not match |
+| The guide recommended a verification run that needs `artifacts/` caches another engineer does not have | The guide now says so, gives the two options (obtain the caches, or run the full regeneration), and states the expected Aisle and Box differences under a full regeneration |
+
+### Still open
+
+Reproduce the model-running steps listed above; run the fp16 acceptance protocol if criteria 8 and 9 are to stand; regenerate Aisle and Box for exact clean reproduction; push the branch; add continuous integration.

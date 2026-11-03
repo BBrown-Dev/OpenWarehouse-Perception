@@ -11,8 +11,8 @@
 
 | | |
 | --- | --- |
-| **Deployment assessment** | **FAIL**: 9 of 11 criteria fail; 2 pass, and only in the fp16 configuration (memory, compression agreement) |
-| **Recommendation** | **NO-GO** for production deployment, including any use that triggers an action without a person checking it. Permissible instead: an offline pilot that ranks or pre-labels recorded footage for human reviewers, who make every decision. |
+| **Deployment assessment** | **FAIL**: 9 of 11 criteria fail; the other 2 (memory, compression agreement) are not demonstrated, because the fp16 configuration they depend on has not been through the acceptance test |
+| **Recommendation** | **NO-GO** for production deployment, including any use that triggers an action without a person checking it. A candidate alternative, not yet evaluated: an offline pilot that ranks or pre-labels recorded footage for human reviewers, who make every decision. Its usefulness (reviewer time saved, share of pre-labels accepted) would need its own evaluation first. |
 | **Safety rationale** | The system misses about one in three individual people and reports objects that are not there with high confidence, so any automated action based on it could fail to stop for a person or act on a hazard that does not exist. |
 
 ---
@@ -29,11 +29,11 @@ The targets were set for this report, after the results were known, so they are 
 | 4 | Condition prompts ("a damaged box") distinguish condition | Measured accuracy ≥ 90% | Unmeasurable (no condition labels); fires on 97% of ordinary box images | **FAIL** |
 | 5 | Robustness: people found drops ≤ 5 points at severity 3 for every measured corruption | ≤ 5 points | Low light −5.8 (67.8% → 62.0%); glare −0.7; motion blur already −7.4 at severity 2 (not measured at 3) | **FAIL** |
 | 6 | Calibration before any score is shown or thresholded as a probability | Per-class ECE ≤ 0.05 | Detector mean 0.20, SigLIP mean 0.47 | **FAIL** |
-| 7 | Latency per image and prompt, end to end, on the deployment GPU (assumed 10 frames/s) | ≤ 100 ms | 580 to 1,060 ms on the RTX 2070 SUPER (detector alone 238 to 299 ms) | **FAIL** |
-| 8 | Total model memory (assumed edge budget) | ≤ 1 GB | 1,877 MB fp32; **939 MB** with fp16 weights | **PASS** (fp16 only) |
-| 9 | Compressed model agrees with the evaluated model | ≥ 99% of decisions | fp16 weights 99.0–100%; int8 71–80% | **PASS** for fp16, **FAIL** for int8 |
+| 7 | Latency per image and prompt, end to end, on the deployment GPU (assumed 10 frames/s) | ≤ 100 ms | 520 to 1,000 ms on the RTX 2070 SUPER, 5 calls with the GPU otherwise idle (detector alone 238 to 299 ms) | **FAIL** |
+| 8 | Total model memory (assumed edge budget) | ≤ 1 GB | 1,877 MB fp32 (fails); 939 MB with fp16 weights, which is acceptable only if fp16 passes criterion 9 | **Not demonstrated** |
+| 9 | Compressed model agrees with the evaluated model, under the binding acceptance protocol | ≥ 99% of per-class decisions at the operating point, recall loss < 1 point, box and mask IoU ≥ 0.95, ≥ 100 positive and negative images per class | int8: 71–80% top-1 agreement (fails). fp16 weights: only partial evidence, 99.0–100% top-1 agreement on 200 images and 0.5–0.7% flipped presence decisions for 3 classes; box IoU, mask IoU and per-class recall not measured | **FAIL** for int8; **not demonstrated** for fp16 |
 | 10 | Evaluated on deployment-distribution data | Required | None available; Open Images photographs only | **FAIL** |
-| 11 | Results reproducible from the documented procedure | Pre-registered verification passes | Results recompute exactly from cached outputs and SigLIP reproduces, but the detector check failed for 2 of 12 classes, whose original batches included later-excluded images; a clean regeneration would shift their scores by up to 0.086 (Section 7) | **FAIL** |
+| 11 | Results reproducible from the documented procedure | Pre-registered verification passes | Tables derived from cached model outputs recompute exactly and SigLIP reproduces, but the gate test, the validation checks (control nouns, quantization, precision at the gate cuts), SigLIP crop rescoring, mask evaluation, the benchmark and the profiler were not rerun, and the detector check failed for 2 of 12 classes, whose original batches included later-excluded images; a clean regeneration would shift their scores by up to 0.086 (Section 7) | **FAIL** |
 
 ---
 
@@ -103,7 +103,7 @@ Batch size 1, latency includes preprocessing. The benchmark ran each variant as 
 | SigLIP base/16-224 | fp16 weights | 406.5 | 15.7 (profiler) | — | 100% |
 | SigLIP base/16-224 | int8 dynamic | 287.4 | — | 404 | 71.0% |
 | SAM ViT-B | fp32 / fp16 | 375.1 / 187.6 | not timed separately | — | not measured |
-| **Full pipeline** (detect → segment → score crops) | fp16 autocast | 1,877 (fp32 weights) | **580 to 1,060 per image and prompt** (5 demo calls) | — | — |
+| **Full pipeline** (detect → segment → score crops) | fp16 autocast | 1,877 (fp32 weights) | **520 to 1,000 per image and prompt** (5 demo calls, GPU otherwise idle; first call 3,060) | — | — |
 
 Batched, fp16 weights are 1.7× (detector, batch 4) to 3.2× (SigLIP, batch 32) faster than fp32 per image; at batch 1 they are no faster, because the GPU is mostly waiting on preprocessing and launch overhead (`profile_precision.csv`).
 
@@ -113,7 +113,7 @@ Batched, fp16 weights are 1.7× (detector, batch 4) to 3.2× (SigLIP, batch 32) 
 
 | Lever | What it buys | What it costs | Assessment |
 | --- | --- | --- | --- |
-| **Precision: fp16 weights** | Half the memory (1,877 → 939 MB); 1.7–3.2× faster when batched | ≤ 1% of predictions change; no speed-up at batch 1 | Worth it; passes the agreement rule |
+| **Precision: fp16 weights** | Half the memory (1,877 → 939 MB); 1.7–3.2× faster when batched | ≤ 1% of top-1 predictions change on 200 images; no speed-up at batch 1 | Promising; must pass the full acceptance protocol (criterion 9) before use |
 | **Precision: int8 dynamic** | 63–65% smaller than fp32 | 20–29% of predictions change, 9–11% of presence decisions flip; no speed-up (SigLIP 42% slower on CPU) | Rejected |
 | **Batching frames or cameras** | The only route to fp16 speed-ups on this GPU | Added latency per frame while a batch fills; scores shift up to 0.05 with batch composition | Needs its own acceptance test |
 | **Detector threshold** | Lower: more objects found. Higher: fewer false alarms | No single threshold works: per-class thresholds chosen on development data cut person false alarms only from 22% to 15%, and most other categories stay above 90% | Thresholding cannot fix the false positive problem |
@@ -132,7 +132,7 @@ Batched, fp16 weights are 1.7× (detector, batch 4) to 3.2× (SigLIP, batch 32) 
 2. **Absent objects are reported confidently.** 30.2% [27.8, 32.7] of queries for absent categories score ≥ 0.5, and 10.4% ≥ 0.7; under adversarial queries 20.5% score ≥ 0.5; "forklift" fires on all 14 forklift-free images, with scores up to 0.84 (`safety_confident_errors.csv`).
 3. **Condition and negation words are ignored.** "a damaged box" fires on 97% of ordinary box images; "no forklift" fires on 100% of images that contain a forklift (`modifier_heldout.csv`).
 4. **Scores are not probabilities.** Per-class ECE averages 0.20 for the detector and 0.47 for SigLIP (`metrics_ece.csv`).
-5. **Too slow for real time.** 580–1,060 ms per image and prompt end to end on the evaluation GPU.
+5. **Too slow for real time.** 520–1,000 ms per image and prompt end to end on the evaluation GPU (5 calls; too few for a p95).
 6. **No deployment-distribution evidence exists.** Every number comes from general photographs; the warehouse-like slice is worse on every measure.
 7. **Mitigations tried did not fix it.** Per-class thresholds, a SigLIP presence check (pre-registered, tested once on fresh images) and crop rescoring were all measured and none brought any category within the criteria.
 
@@ -161,7 +161,8 @@ Verification run on 2026-11-02 (`docs/results/verification_cache_*`), 76 minutes
 | Check | Result |
 | --- | --- |
 | Image bytes match the recorded hashes (5,348 images) | **Pass** |
-| Every committed results table recomputed from the cached model outputs with the current code | **Pass, exactly.** No committed table changed; the only data change is one new robustness row (motion blur, severity 2) |
+| Tables derived from the cached model outputs (summaries, AUROC and AP50 with intervals, operating points, audits, IoU, CHAIR, POPE, ECE, safety tables, warehouse slice, robustness from its cache, demo examples) recomputed with the current code | **Pass, exactly.** None changed; the only data change is one new robustness row (motion blur, severity 2) |
+| Tables produced by steps that run the models directly: the gate test, the validation checks (control nouns, quantization, precision at the gate cuts), SigLIP crop rescoring, mask evaluation, the benchmark and the profiler | **Not reproduced.** These steps were not rerun. The failure-probe tables were copied from their cache, not recomputed. The int8 decision flips and the gate result cited in this report rest on single runs |
 | Notebooks re-execute | **Pass.** Only cell IDs, progress text and image bytes changed |
 | 50 unit tests | **Pass** |
 | SigLIP rerun on a seeded 10% of original batches (3,378 image-prompt pairs), tolerance 0.01 | **Pass.** Largest difference 0.000005 |
@@ -169,7 +170,7 @@ Verification run on 2026-11-02 (`docs/results/verification_cache_*`), 76 minutes
 
 **Why the detector check failed.** Every mismatch is in two classes, Aisle and Box; the other 60 of 72 class-wording combinations reproduce exactly. Those two classes were scored before the leakage exclusions were applied, so their original batches also contained 103 images (on the exclusion list) that the current manifest omits. The excluded images' own predictions are dropped before any metric, so nothing leaks, but sharing a batch changed the padding and therefore the scores of their neighbours. Rebuilding Aisle and Box batches in the cache file's original order reproduces all 546 sampled pairs **exactly** (`verify_caches.py --file-order Aisle Box`). That follow-up was designed after the failure was seen.
 
-**What this means.** The committed results follow exactly from the cached model outputs, and the cached outputs match the current code and pinned models. But a clean regeneration from scratch applies the exclusions first and would batch Aisle and Box differently: their scores would move by up to 0.086 and about 1 in 1,700 decisions would flip, so their reported metrics would not reproduce exactly. All other classes would. Fix, if exact clean reproduction is required: regenerate the Aisle and Box detector outputs with the clean manifest (~7 min of GPU) and recompute the summaries (~50 min, mostly single-threaded bootstrap), then re-baseline the affected tables.
+**What this means.** The tables derived from the cached model outputs follow exactly from them, and the cached outputs match the current code and pinned models. But a clean regeneration from scratch applies the exclusions first and would batch Aisle and Box differently: their scores would move by up to 0.086 and about 1 in 250 of their decisions would flip (2 of 504 sampled), so their reported metrics would not reproduce exactly. All other classes would. Fix, if exact clean reproduction is required: regenerate the Aisle and Box detector outputs with the clean manifest (~7 min of GPU) and recompute the summaries (~50 min, mostly single-threaded bootstrap), then re-baseline the affected tables.
 
 ### 7.2 Prerequisites
 
@@ -195,7 +196,7 @@ Verification run on 2026-11-02 (`docs/results/verification_cache_*`), 76 minutes
    ```
    Check: `python -c "import torch; print(torch.__version__, torch.cuda.is_available())"` prints `2.14.1+cu126 True`.
 3. **Run the tests**: `python -m pytest -q`. Expected: 50 passed.
-4. **Download the data**: `python scripts/import_open_images.py` (network-bound; uses FiftyOne).
+4. **Download the data**: `python scripts/import_open_images.py` (network-bound; uses FiftyOne). It reuses the committed `docs/results/manifest.csv`, so it downloads exactly the evaluated images. Do not pass `--resample`: that draws a new sample, because the bucket no longer holds every development image.
 5. **Verify the images**: `python scripts/record_image_hashes.py --verify`. On a fresh machine it lists the 1,666 fresh gate images as missing and exits with an error until those images are downloaded (they are fetched by `run_gate_test.py` in a full regeneration). Any other mismatch, or a mismatch on an image that is present, means the data differs: stop.
 6. **Model weights** download automatically at first use, pinned to the exact commits in `configs/revisions.yaml`. Loading an unpinned model fails by design.
 7. **Choose a run:**
@@ -206,7 +207,7 @@ Verification run on 2026-11-02 (`docs/results/verification_cache_*`), 76 minutes
    | **Verification** (recommended) | Cached-model run: `run_poc.py`, `audit_outputs.py`, `build_report_assets.py`, `compute_metrics.py`, `compute_slices.py`, `compute_safety_metrics.py`, `run_robustness.py --cached-only`, `demo.py --examples`; then `verify_caches.py`, `verify_caches.py --file-order Aisle Box`, `build_notebooks.py`, `python -m pytest -q` | ~1.5 h (76 min measured; about 50 min of it is single-threaded bootstrap resampling) | Every reported number follows from the model outputs, and the model outputs still match the code |
    | **Full regeneration** | Empty `artifacts/`, then all steps in [REVIEW.md Section 6](REVIEW.md#6-how-to-reproduce) | ~7.5–9.5 h | Everything from scratch |
 
-   The verification run needs the cached model outputs in `artifacts/poc/` (not in git; about 13 MB plus the robustness cache). Without them, run the full regeneration.
+   **Which run another engineer can do.** The verification run needs the cached model outputs in `artifacts/poc/` (about 13 MB, plus `artifacts/poc/robustness/`), which are not in git. Obtain them from the original machine as an archive, or run the full regeneration. A full regeneration will reproduce every class except Aisle and Box, whose scores will move by up to 0.086 (Section 7.1); compare those two classes' tables with that tolerance in mind.
 8. **Compare with the committed results**: `git status docs/results` and `git diff --stat docs/results`. Any change to a committed table is a reproduction failure to investigate; new files are expected only where a step adds output. `docs/results/verification_cache_sample.json` reports the model-rerun check: SigLIP must pass; the detector is expected to fail only for Aisle and Box (Section 7.1), and `verification_cache_file_order.json` must then pass with `"max_abs_diff": 0.0`.
 9. **Do not** re-freeze `selection.json` (step 3 of a full regeneration re-derives it and must match), and do not treat a rerun of `run_gate_test.py` as a new confirmatory test: it re-selects the same fresh images by seed.
 

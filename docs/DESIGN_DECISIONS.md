@@ -90,7 +90,7 @@ Wording varies in a fixed template across all classes, so differences can be att
 | Vector | Status | Action |
 | --- | --- | --- |
 | Dev and held-out summaries computed together | Fixed | A gate blocks held-out summaries until `selection.json` is frozen, with a config hash recorded |
-| Same photographer across dev and held-out | Fixed | 415 held-out images excluded by Flickr profile URL before any results were read |
+| Same photographer across dev and held-out | Fixed | 415 held-out images excluded by Flickr profile URL. The rule uses metadata only (photographer URL, image hashes), so no result could have influenced which images were excluded. File timestamps show the exclusion list (2026-11-01 17:59) was written after the SigLIP scores (17:13) and after the detector run had started, so whether any output was viewed before exclusion cannot be confirmed; held-out metrics are computed only on the remaining images |
 | Tuning on validation (stub text and notebooks) | Fixed | Changed to dev |
 | Stale cached predictions and default-negative labels | Fixed | `restrict_to_manifest` limits predictions to verified, current images |
 | Shared IDs, exact duplicates, dHash near-duplicates | Checked | None found across dev and held-out, with tests in `tests/test_leakage.py` |
