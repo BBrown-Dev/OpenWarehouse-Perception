@@ -181,11 +181,11 @@ Verification run on 2026-11-02 (`docs/results/verification_cache_*`), 76 minutes
 
 ### 7.3 Steps
 
-1. **Get the code** at the evaluated commit. Check out the commit, not `main`, because `main` will keep changing; later commits that touch only documentation do not change any result.
+1. **Get the code.** The results were produced at commit `e860090`. Reproduce from commit `d93ba54`, which changes no result: after `e860090` it adds only documentation, the removal of unused code, and a fix without which the frozen selection refuses to load on a Windows checkout (Git converts the config files' line endings). Check out the commit, not `main`, because `main` will keep changing.
    ```
    git clone https://github.com/BBrown-Dev/OpenWarehouse-Perception.git
    cd OpenWarehouse-Perception
-   git checkout e860090
+   git checkout d93ba54
    ```
    Git reports a "detached HEAD" after this; that is expected. To make changes, create a branch with `git switch -c <name>`.
 2. **Create the environment** with the exact versions used:
