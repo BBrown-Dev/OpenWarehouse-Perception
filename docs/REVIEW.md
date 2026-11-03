@@ -49,7 +49,7 @@ Result: the SigLIP presence check significantly lowers false positives for Perso
 - Forklift localization still has no box labels, and forklift negatives are too few (14 held-out) for a confirmatory test.
 - Label noise in verified positives was observed but not measured.
 - Confidence intervals are not corrected for multiple comparisons outside the pre-registered test.
-- LoRA adaptation, edge optimization, robustness testing and the safety assessor remain stubs.
+- Training, deployment tooling and safety decision logic are out of scope (unimplemented placeholders were removed; Section 14).
 
 ## 6. How to reproduce
 
@@ -108,7 +108,7 @@ A second pass over all code, outputs and assumptions, covering errors, unsupport
 
 ### Findings
 
-**Quantization (most important).** Dynamic int8 SigLIP keeps AUROC (forklift 0.959 vs 0.960, Shelf 0.825 vs 0.846) but moves logits by a median of 0.9 to 1.3 and up to 9.3. At the frozen presence-check cuts, that flips 9.3% of forklift, 8.6% of truck and 10.9% of shelf decisions on dev images. AUROC does not change when scores shift, so it is the wrong acceptance metric for a thresholded system. fp16 autocast, used for all results, is benign: at most 0.034 logits and 0.5% to 0.7% flips. The int8 detector check is too small to rely on (40 images, one prompt, top score only); it showed one decision flip and a median top-box IoU of 0.89, and gave only about a 7% speed-up because dynamic quantization covers only linear layers. SAM was never checked. This is now a binding acceptance rule in `DESIGN_DECISIONS.md`: thresholds are re-derived on dev data after quantization, and a model is accepted on decision agreement and recall at the operating point, not AUROC. Use static calibration on dev data only, as the `edge/quantize.py` stub already requires.
+**Quantization (most important).** Dynamic int8 SigLIP keeps AUROC (forklift 0.959 vs 0.960, Shelf 0.825 vs 0.846) but moves logits by a median of 0.9 to 1.3 and up to 9.3. At the frozen presence-check cuts, that flips 9.3% of forklift, 8.6% of truck and 10.9% of shelf decisions on dev images. AUROC does not change when scores shift, so it is the wrong acceptance metric for a thresholded system. fp16 autocast, used for all results, is benign: at most 0.034 logits and 0.5% to 0.7% flips. The int8 detector check is too small to rely on (40 images, one prompt, top score only); it showed one decision flip and a median top-box IoU of 0.89, and gave only about a 7% speed-up because dynamic quantization covers only linear layers. SAM was never checked. This is now a binding acceptance rule in `DESIGN_DECISIONS.md`: thresholds are re-derived on dev data after quantization, and a model is accepted on decision agreement and recall at the operating point, not AUROC. Use static calibration on dev data only.
 
 **Pre-registration deviation.** `configs/gate.yaml` states a cap of 300 per class and label, but sampled images keep all their labels, so Person has 545 fresh positives. Each class's sample is therefore partly chosen through the other classes. This does not invalidate the test, because the selection never looked at model outputs, but it is now disclosed in `RESULTS.md`.
 
@@ -122,7 +122,7 @@ A second pass over all code, outputs and assumptions, covering errors, unsupport
 - The selection hash covers `poc.yaml` and `open_images.yaml` but not `base.yaml`, which holds the seed. Widening it now would invalidate the frozen selection.
 - Batched detector scores depend on batch composition (correlation 0.996, differences up to 0.05). Batch size is checked, but batch order follows manifest order and is not otherwise recorded.
 - No deterministic-algorithms flag is set for CUDA. The measured repeat drift is negligible.
-- Run outputs are CSVs; MLflow is configured but unused, and there is no data versioning beyond the new hash snapshot.
+- Run outputs are CSVs; there is no experiment tracking and no data versioning beyond the new hash snapshot.
 
 **Leakage vectors (reviewed).** Photographer-based exclusion removed all 415 links found; there were no exact or near duplicates. Remaining vectors are now listed in `DESIGN_DECISIONS.md`: pretraining overlap (unmeasurable), held-out clustering by photographer (intervals moved by at most 0.017), review decisions made with held-out results in view, and the limited hash scope. Images with no recorded photographer cannot be matched on photographer.
 
@@ -130,7 +130,7 @@ A second pass over all code, outputs and assumptions, covering errors, unsupport
 1. Score calibration on dev data (reliability curves) before any absolute threshold is used.
 2. A recall-at-operating-point acceptance test for any quantized or exported model, on dev data.
 3. Latency and memory on the target edge hardware; the only timings are CPU timings on a desktop.
-4. Robustness under blur, low light and occlusion; still a stub.
+4. Robustness under blur, low light and occlusion (later partly measured; Section 9).
 5. Unit tests for `evaluate_masks` and `evaluate_rescoring`, which have none.
 6. A warehouse-representative test set with forklift box labels. This is the largest gap, and the reason no forklift localization or safety claim can be made.
 
@@ -261,3 +261,20 @@ The guide's first step checked out the `review/zero-shot-poc` branch, which exis
 ## 13. README corrected (2026-11-02)
 
 The README described the planned platform as if it were built. Corrected: CLIP is not used; LoRA, classical preprocessing, edge tooling, the safety assessor and experiment tracking are stubs; robustness is implemented; notebook 00 is also a template, and notebook 08 imports a `safety_metrics` function that does not exist (it is a template and was left as is); the pipeline diagram now shows the implemented chain separately from the planned one; the layout lists `scripts/`, `docs/`, `tests/` and the main modules; and setup installs the locked versions with the CUDA build of torch instead of unpinned extras. The README now states the FAIL / NO-GO outcome up front and links the reproducibility guide.
+
+## 14. Unused code, notebooks and configs removed (2026-11-02)
+
+Everything that no active script, test or working notebook used was removed, after checking imports, config loads and script references:
+
+| Removed | Why unused |
+| --- | --- |
+| Packages `classical/`, `edge/`, `safety/`; modules `models/lora.py`, `data/datasets.py`, `data/vocabulary.py`, `tracking.py` | Placeholders that raised `NotImplementedError`; referenced only by the template notebooks |
+| Notebooks 00, 03, 05, 06, 07, 08 | Templates with only TODO cells; notebook 08 also imported a function that did not exist |
+| Configs `vocabulary`, `models`, `lora`, `safety`, `edge` | Loaded only by those templates |
+| Unused `base.yaml` sections (`paths`, `dataset`, `tracking`) | Read by nothing; the selection hash does not cover `base.yaml`, so the frozen selection is unaffected |
+| `RiskLevel`, `Hazard`, `SceneAssessment` in `schemas.py` | Used only by the removed safety package |
+| `scripts/run_masks.py` | Same mask evaluation as `run_validation.py` |
+| Optional dependency groups `planned` and `edge` | Served only removed code |
+| `data/processed/.gitkeep`, `tests/.gitkeep` | Nothing writes to `data/processed/`; `tests/` has files |
+
+Checks after removal: every remaining module and script imports; 50 tests pass; the four remaining notebooks rebuild and execute. Documents were updated so that none describes a removed item as part of the project; this log keeps the record of what was removed and why.

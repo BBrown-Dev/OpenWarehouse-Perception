@@ -15,27 +15,21 @@ image ──────────> SigLIP: whole-image presence ranking
 
 - **Demo**: `python scripts/demo.py --image photo.jpg --prompt "box" --prompt "damaged box"` writes boxes and scores (JSON), one mask per detection (PNG) and an overlay to `artifacts/demo/`. `--examples` builds the report's example figure.
 - **Evaluation**: zero-shot results on 1,705 held-out images across 12 warehouse categories, with choices frozen on development data; failure analysis; hallucination and confident-false-positive rates; calibration; robustness to simulated lighting, glare and motion blur; latency, model size and precision benchmarks; a pre-registered test on fresh images.
-- **Not implemented** (stubs that raise `NotImplementedError`): LoRA adaptation, classical OpenCV preprocessing, edge export and quantization tooling, the rule-based safety assessor, and experiment tracking. They remain the planned later stages:
-
-```
-planned:  classical preprocessing -> detection and segmentation -> LoRA re-scoring
-          -> rule-based safety assessment -> scene risk level
-```
+- **Out of scope**: training or adapting any model, camera and video input, safety decision logic, and a deployment build for edge hardware. What these would need before any deployment is set out in the [deployment readiness report](docs/DEPLOYMENT_READINESS.md).
 
 ## Layout
 
 | Path | Purpose |
 | --- | --- |
-| `configs/` | Stage settings, merged over `base.yaml`; `revisions.yaml` pins each model to an exact Hugging Face commit |
+| `configs/` | Settings merged over `base.yaml` (`open_images`, `poc`, `gate`, `robustness`); `revisions.yaml` pins each model to an exact Hugging Face commit |
 | `src/openwarehouse/segmentation/grounded_sam.py` | Grounding DINO detection and SAM segmentation |
-| `src/openwarehouse/models/vision_language.py` | SigLIP scoring (`lora.py` is a stub) |
+| `src/openwarehouse/models/vision_language.py` | SigLIP scoring |
 | `src/openwarehouse/pipeline.py` | Prompt in, scored and segmented instances out |
 | `src/openwarehouse/experiments.py` | Running and caching the models, freezing dev choices, held-out summaries |
-| `src/openwarehouse/data/` | Open Images selection and import, leakage checks (`datasets.py`, `vocabulary.py` are stubs) |
+| `src/openwarehouse/data/` | Open Images selection and import, leakage checks |
 | `src/openwarehouse/evaluation/` | AP50, IoU and AUROC with bootstrap intervals; CHAIR and POPE; calibration (ECE) |
 | `src/openwarehouse/failure_analysis.py`, `gate.py` | Failure probes, mask and rescoring evaluation; the pre-registered presence-check test |
 | `src/openwarehouse/robustness/` | Image corruptions and severity sweeps |
-| `src/openwarehouse/classical/`, `edge/`, `safety/`, `tracking.py` | Planned stages (stubs) |
 | `scripts/` | Every experiment, metric, report and verification step; run order in [REVIEW.md §6](docs/REVIEW.md#6-how-to-reproduce) |
 | `docs/` | Reports; `docs/results/` holds every result table, `docs/figures/` every figure |
 | `tests/` | Unit tests for metrics, leakage guards, gate rules, robustness and the demo |
@@ -44,15 +38,14 @@ planned:  classical preprocessing -> detection and segmentation -> LoRA re-scori
 
 ## Notebooks
 
-| Notebook | Content | State |
-| --- | --- | --- |
-| `01_data_preparation` | Evaluated images per class and role (dev or held-out), and leakage exclusions | Working |
-| `02_clip_baseline` | Zero-shot SigLIP baseline | Working |
-| `04_grounded_sam` | Open-vocabulary detection, segmentation and rescoring | Working |
-| `09_failure_analysis` | Failure modes and mechanism evidence | Working |
-| `00`, `03`, `05`–`08` | Setup, LoRA, safety, robustness, edge, final report | Templates (TODO cells) |
+| Notebook | Content |
+| --- | --- |
+| `01_data_preparation` | Evaluated images per class and role (dev or held-out), and leakage exclusions |
+| `02_clip_baseline` | Zero-shot SigLIP baseline |
+| `04_grounded_sam` | Open-vocabulary detection, segmentation and rescoring |
+| `09_failure_analysis` | Failure modes and mechanism evidence |
 
-The working notebooks read saved results from `docs/results/` and are rebuilt with `python scripts/build_notebooks.py`. The robustness results live in `docs/EVALUATION.md` rather than notebook 06, and the final go/no-go is in `docs/DEPLOYMENT_READINESS.md` rather than notebook 08.
+The notebooks read saved results from `docs/results/` and are rebuilt with `python scripts/build_notebooks.py`. Robustness, latency and the go/no-go decision are in `docs/EVALUATION.md` and `docs/DEPLOYMENT_READINESS.md`.
 
 ## Setup
 

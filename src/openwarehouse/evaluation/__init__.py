@@ -1,1 +1,1 @@
-"""Perception, calibration, and safety metrics."""
+"""Detection, hallucination, and calibration metrics."""

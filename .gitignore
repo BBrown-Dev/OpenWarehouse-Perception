@@ -226,4 +226,3 @@ data/**
 artifacts/**
 !artifacts/**/
 !artifacts/**/.gitkeep
-mlruns/

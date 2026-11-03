@@ -4,7 +4,7 @@ Each entry gives the choice, the reason, and what it costs. Results are in [RESU
 
 ## Problem and scope
 
-**Choice.** Zero-shot detection and segmentation for warehouse forklift perception, with prompt wording as the experimental variable. LoRA, edge deployment, robustness, and safety assessment stay as documented stubs.
+**Choice.** Zero-shot detection and segmentation for warehouse forklift perception, with prompt wording as the experimental variable. No model is trained, and nothing is built for deployment.
 
 **Why.** Warehouse autonomy is a realistic target domain, and open-vocabulary models promise to avoid labeling every object type. Whether they deliver on that can be tested without training anything. An honest, narrow proof of concept was preferred over shallow coverage of every stage.
 
@@ -19,7 +19,7 @@ These are binding on any use of this system, including demonstrations and later 
 3. **Failure escalates.** Low confidence, a model error, a timeout, or input outside the validated conditions must raise the risk level, not report a clear scene.
 4. **Person misses are the acceptance metric.** Any claim about person detection is stated as the instance-level miss rate at the operating point, with a 95% interval, and broken down by apparent size (box height as a share of the image, a stand-in for distance). AP50 and AUROC are secondary. Current values are in `docs/results/safety_person_miss.csv` and `safety_person_recall_by_height.csv`.
 5. **SigLIP outputs are rankings, not probabilities.** Its sigmoid output is badly calibrated in absolute terms: held-out per-class ECE is 0.24 to 0.82 (mean 0.47), and its mean output per class is at most 0.31 while 30% to 85% of the scored images contain the class (`metrics_ece.csv`). It must not be compared with a fixed probability, combined with other scores as if it were one, or shown to an operator as a confidence. Any probabilistic use requires calibration fitted on dev data, then checked per class.
-6. **Calibration is reported per class, never pooled.** A pooled ECE mixes classes with different positive shares and can look well calibrated when no single class is: the detector's pooled held-out ECE was 0.09 while its per-class mean was 0.20. Per-class ECE still depends on each class's sampled share of positives, so it compares models on the same data; calibration for deployment must be measured on data with deployment prevalence.
+6. **Calibration is reported per class, never pooled.** A pooled ECE mixes classes with different positive shares and can look well calibrated when no single class is. Per-class ECE still depends on each class's sampled share of positives, so it compares models on the same data; calibration for deployment must be measured on data with deployment prevalence.
 
 ## Architecture
 
@@ -57,7 +57,7 @@ Library versions are recorded in the environment (`torch` 2.14.1, `transformers`
 - **SigLIP** uses pairwise sigmoid loss: every image-text pair is an independent binary decision. This is why its scores don't depend on other prompts. Its bias term also explains why raw probabilities are often near zero, for example about 0.000 for "a person" on positive images. Raw probabilities are therefore not used as confidence.
 - **Grounding DINO** uses contrastive token-to-region alignment with focal loss, plus box losses. This creates the per-token scores analyzed in the failure analysis.
 
-If the LoRA stage is built, it should use the SigLIP pairwise loss with added hard negatives (negated and state-swapped captions), training on dev data only.
+If a model is later adapted, it should use the SigLIP pairwise loss with added hard negatives (negated and state-swapped captions), training on dev data only.
 
 ## Evaluation metrics
 
@@ -91,7 +91,7 @@ Wording varies in a fixed template across all classes, so differences can be att
 | --- | --- | --- |
 | Dev and held-out summaries computed together | Fixed | A gate blocks held-out summaries until `selection.json` is frozen, with a config hash recorded |
 | Same photographer across dev and held-out | Fixed | 415 held-out images excluded by Flickr profile URL. The rule uses metadata only (photographer URL, image hashes), so no result could have influenced which images were excluded. File timestamps show the exclusion list (2026-11-01 17:59) was written after the SigLIP scores (17:13) and after the detector run had started, so whether any output was viewed before exclusion cannot be confirmed; held-out metrics are computed only on the remaining images |
-| Tuning on validation (stub text and notebooks) | Fixed | Changed to dev |
+| Tuning on validation (earlier drafts) | Fixed | Changed to dev |
 | Stale cached predictions and default-negative labels | Fixed | `restrict_to_manifest` limits predictions to verified, current images |
 | Shared IDs, exact duplicates, dHash near-duplicates | Checked | None found across dev and held-out, with tests in `tests/test_leakage.py` |
 | Batch composition affecting scores | Measured, retained | On 100 dev images, batch and single-image scores correlate 0.996, with median difference 0.006 and maximum 0.05. Batches follow image ID rather than labels, so this adds noise rather than leaking labels, but it can flip decisions near the threshold |
@@ -118,7 +118,7 @@ Static quantization calibrates on dev images only. A model that fails any criter
 
 ## Tools
 
-FiftyOne for dataset handling, PyTorch and Hugging Face Transformers for models, pandas and scikit-learn for analysis, pytest for metric and leakage tests, and notebooks as thin drivers over `src/`. MLflow was scaffolded but not used, because the runs are deterministic scripts with outputs saved as CSV in `docs/results/`.
+FiftyOne for dataset handling, PyTorch and Hugging Face Transformers for models, pandas and scikit-learn for analysis, pytest for metric and leakage tests, and notebooks as thin drivers over saved results. Runs are deterministic scripts with outputs saved as CSV in `docs/results/`.
 
 ## Image attribution
 

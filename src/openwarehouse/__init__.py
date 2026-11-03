@@ -1,3 +1,3 @@
-"""Open-vocabulary warehouse perception and safety assessment."""
+"""Open-vocabulary warehouse inspection: text-prompted detection and segmentation."""
 
 __version__ = "0.1.0"

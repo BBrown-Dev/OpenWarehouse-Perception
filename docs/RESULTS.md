@@ -178,7 +178,7 @@ SigLIP behaves similarly. A working "no forklift" prompt would have AUROC below 
 
 **(d) Mitigation.**
 - Never put negation in a prompt. Query the positive term and apply "absent" as logic after detection.
-- Treat object state as a separate classification problem. Fallen packages, damaged cartons, and blocked aisles have **no labels in Open Images**, so accuracy for them is unmeasured and this PoC makes no claim about them. With more resources I would collect labeled warehouse images and train a state classifier on detected crops. The planned LoRA stage is the natural place for this, using dev data only.
+- Treat object state as a separate classification problem. Fallen packages, damaged cartons, and blocked aisles have **no labels in Open Images**, so accuracy for them is unmeasured and this PoC makes no claim about them. With more resources I would collect labeled warehouse images and train a state classifier on detected crops, using dev data only.
 - Add negated and state-swapped captions as hard negatives during any text-encoder adaptation.
 
 ### Failure mode 3: The detector cannot reject lookalikes or scene-level concepts
@@ -232,6 +232,6 @@ All figures are percentage points, from `gate_fresh_test.csv`.
 - **Multiple comparisons.** With 12 classes and 7 conditions, some differences will look significant by chance. Confidence intervals are not corrected.
 - **Precision and quantization.** All results use fp16 autocast on the GPU. Against fp32, this changes detector scores by at most 0.012 and SigLIP logits by at most 0.034, flipping 0.5% to 0.7% of presence-check decisions. Dynamic int8 quantization is not safe for this system as configured: SigLIP AUROC is unchanged, but logits move by a median of about 1 and up to 9.3, which flips 9% to 11% of presence-check decisions at the frozen cuts (`validation_siglip_precision_gate.csv`). Any absolute threshold must be re-derived after quantization, on dev data. The int8 detector check covers only 40 images and one prompt, and SAM was not checked at all.
 - **Reduced resolution.** Detector input of 480/800 was chosen to fit the GPU and may reduce scores against published settings.
-- **Not implemented.** LoRA adaptation, edge optimization, robustness testing, and the safety assessor remain documented stubs.
+- **Out of scope.** No model is trained or adapted, robustness is measured only for simulated lighting, glare and motion blur, and there is no safety decision logic or deployment build.
 
 This is a research proof of concept. It must not be used as a safety function, and the results here argue against relying on zero-shot prompting alone for hazard detection.

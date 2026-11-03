@@ -1,1 +1,1 @@
-"""Datasets, splits, and open-vocabulary prompts."""
+"""Open Images selection and import, and leakage checks."""

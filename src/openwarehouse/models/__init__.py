@@ -1,1 +1,1 @@
-"""Vision-language encoders and LoRA adaptation."""
+"""SigLIP vision-language scoring."""
