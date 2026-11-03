@@ -260,7 +260,7 @@ The guide's first step checked out the `review/zero-shot-poc` branch, which exis
 
 ## 13. README corrected (2026-11-02)
 
-The README described the planned platform as if it were built. Corrected: CLIP is not used; LoRA, classical preprocessing, edge tooling, the safety assessor and experiment tracking are stubs; robustness is implemented; notebook 00 is also a template, and notebook 08 imports a `safety_metrics` function that does not exist (it is a template and was left as is); the pipeline diagram now shows the implemented chain separately from the planned one; the layout lists `scripts/`, `docs/`, `tests/` and the main modules; and setup installs the locked versions with the CUDA build of torch instead of unpinned extras. The README now states the FAIL / NO-GO outcome up front and links the reproducibility guide.
+The README described the planned platform as if it were built. Corrected: CLIP is not used; model adaptation, classical preprocessing, edge tooling, the safety assessor and experiment tracking are stubs; robustness is implemented; notebook 00 is also a template, and notebook 08 imports a `safety_metrics` function that does not exist (it is a template and was left as is); the pipeline diagram now shows the implemented chain separately from the planned one; the layout lists `scripts/`, `docs/`, `tests/` and the main modules; and setup installs the locked versions with the CUDA build of torch instead of unpinned extras. The README now states the FAIL / NO-GO outcome up front and links the reproducibility guide.
 
 ## 14. Unused code, notebooks and configs removed (2026-11-02)
 
@@ -268,9 +268,9 @@ Everything that no active script, test or working notebook used was removed, aft
 
 | Removed | Why unused |
 | --- | --- |
-| Packages `classical/`, `edge/`, `safety/`; modules `models/lora.py`, `data/datasets.py`, `data/vocabulary.py`, `tracking.py` | Placeholders that raised `NotImplementedError`; referenced only by the template notebooks |
+| Packages `classical/`, `edge/`, `safety/`; placeholder modules for model adaptation, dataset wrappers, the prompt vocabulary and experiment tracking | Placeholders that raised `NotImplementedError`; referenced only by the template notebooks |
 | Notebooks 00, 03, 05, 06, 07, 08 | Templates with only TODO cells; notebook 08 also imported a function that did not exist |
-| Configs `vocabulary`, `models`, `lora`, `safety`, `edge` | Loaded only by those templates |
+| The five configs for those placeholder stages | Loaded only by those templates |
 | Unused `base.yaml` sections (`paths`, `dataset`, `tracking`) | Read by nothing; the selection hash does not cover `base.yaml`, so the frozen selection is unaffected |
 | `RiskLevel`, `Hazard`, `SceneAssessment` in `schemas.py` | Used only by the removed safety package |
 | `scripts/run_masks.py` | Same mask evaluation as `run_validation.py` |

@@ -30,7 +30,7 @@ NOTEBOOKS = {
         ("code", 'held[held["condition"] == "photo"].round(3).reset_index(drop=True)'),
     ],
     "04_grounded_sam": [
-        ("md", "# 04 - Grounded SAM\n\nRuns the pipeline live on one dev image, then loads the full evaluation. Rescoring here uses the base SigLIP model, since LoRA is not implemented."),
+        ("md", "# 04 - Grounded SAM\n\nRuns the pipeline live on one dev image, then loads the full evaluation. Rescoring here uses the pretrained SigLIP model."),
         ("code", SETUP),
         ("md", "## Natural-language prompt to masks"),
         ("code", 'import matplotlib.pyplot as plt\nimport numpy as np\nfrom openwarehouse.config import load_config\nfrom openwarehouse.experiments import image_path, load_image, load_manifest\nfrom openwarehouse.pipeline import PerceptionPipeline\nfrom openwarehouse.utils import resolve_device\n\nos_root = __import__("os")\nos_root.chdir("..")\nconfig = load_config("open_images", "poc")\nmanifest = load_manifest(config)\nimage_id = "00a1c9247cf3e24c"\nsplit = manifest[manifest["image_id"] == image_id]["split"].iloc[0]\nimage = load_image(image_path(config, split, image_id))\npipeline = PerceptionPipeline(config, device=resolve_device(config["device"]))\ninstances = pipeline(image, "person", min_score=0.32)\nprint([(i.label, round(i.score, 3), round(i.encoder_score, 4), int(i.mask.sum())) for i in instances])\nos_root.chdir("notebooks")'),
