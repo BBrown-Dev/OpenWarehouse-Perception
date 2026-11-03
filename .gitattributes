@@ -1,0 +1,2 @@
+# Keep config files byte-identical across platforms; the dev selection is frozen against them.
+configs/*.yaml text eol=lf

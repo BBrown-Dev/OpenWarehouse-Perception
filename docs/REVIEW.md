@@ -290,3 +290,7 @@ Every tracked file was checked for a reader or a citation, accounting for file n
 | `token_attribution_heldout.csv` looked unreferenced | In use: read by `audit_outputs.py` under a name built at run time |
 | Functions, classes and constants in `src/` and `scripts/` | All used |
 | Configs, notebooks, tests, scripts | All used |
+
+## 16. Config fingerprint broke on Windows line endings (2026-11-02)
+
+Found while building the portfolio: after `main` was checked out on this machine (`core.autocrlf=true`), Git rewrote the config files with CRLF line endings. The repository content was unchanged, but `config_hash()` hashed raw bytes, so `require_selection()` reported that the experiment config had changed and refused to run. Anyone cloning on Windows with default Git settings would have hit this at the first experiment step. Fixed two ways: the fingerprint now normalizes line endings (it still equals the frozen value, which was computed on LF files), and `.gitattributes` keeps `configs/*.yaml` checked out with LF. A test covers both directions. No result was produced while the files had CRLF endings: nothing that calls `require_selection()` ran between the checkout and the fix.

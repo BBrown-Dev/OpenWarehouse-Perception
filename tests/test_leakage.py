@@ -151,3 +151,16 @@ def test_every_configured_model_has_a_pinned_revision():
         assert len(model_revision(model_id)) == 40
     with pytest.raises(KeyError):
         model_revision("unpinned/model")
+
+
+def test_config_hash_ignores_line_endings(tmp_path):
+    from openwarehouse.experiments import config_hash
+
+    lf, crlf = tmp_path / "lf", tmp_path / "crlf"
+    lf.mkdir(); crlf.mkdir()
+    for name in ("poc", "open_images"):
+        (lf / f"{name}.yaml").write_bytes(b"a: 1\nb: 2\n")
+        (crlf / f"{name}.yaml").write_bytes(b"a: 1\r\nb: 2\r\n")
+    assert config_hash(config_dir=lf) == config_hash(config_dir=crlf)
+    (crlf / "poc.yaml").write_bytes(b"a: 1\r\nb: 3\r\n")
+    assert config_hash(config_dir=lf) != config_hash(config_dir=crlf)

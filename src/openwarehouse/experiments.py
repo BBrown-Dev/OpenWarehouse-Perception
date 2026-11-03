@@ -260,11 +260,15 @@ def restrict_to_manifest(rows: pd.DataFrame, manifest: pd.DataFrame) -> pd.DataF
     return merged
 
 
-def config_hash(names: tuple[str, ...] = ("poc", "open_images")) -> str:
-    """Hash the experiment definition, recording what was fixed when a selection was frozen."""
+def config_hash(names: tuple[str, ...] = ("poc", "open_images"), config_dir: Path = CONFIG_DIR) -> str:
+    """Hash the experiment definition, recording what was fixed when a selection was frozen.
+
+    Line endings are normalized first: Git on Windows can check files out with CRLF endings,
+    which changes the bytes but not the experiment. The frozen hash was computed on LF files.
+    """
     digest = hashlib.sha256()
     for name in names:
-        digest.update((CONFIG_DIR / f"{name}.yaml").read_bytes())
+        digest.update((config_dir / f"{name}.yaml").read_bytes().replace(b"\r\n", b"\n"))
     return digest.hexdigest()
 
 
