@@ -257,3 +257,7 @@ Reproduce the model-running steps listed above; run the fp16 acceptance protocol
 ## 12. Reproducibility guide points at the evaluated commit (2026-11-02)
 
 The guide's first step checked out the `review/zero-shot-poc` branch, which exists only locally; the work is to be published on `main` instead. The step now checks out commit `e860090`, the commit the results and corrections were finalized in, so `main` can move on without changing what another engineer reproduces. Commits after `e860090` change documentation only.
+
+## 13. README corrected (2026-11-02)
+
+The README described the planned platform as if it were built. Corrected: CLIP is not used; LoRA, classical preprocessing, edge tooling, the safety assessor and experiment tracking are stubs; robustness is implemented; notebook 00 is also a template, and notebook 08 imports a `safety_metrics` function that does not exist (it is a template and was left as is); the pipeline diagram now shows the implemented chain separately from the planned one; the layout lists `scripts/`, `docs/`, `tests/` and the main modules; and setup installs the locked versions with the CUDA build of torch instead of unpinned extras. The README now states the FAIL / NO-GO outcome up front and links the reproducibility guide.

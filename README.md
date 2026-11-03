@@ -1,59 +1,72 @@
 # OpenWarehouse-Perception
-Open-vocabulary warehouse perception and safety assessment platform for autonomous forklift operations. Combines CLIP/SigLIP, Grounded SAM, LoRA adaptation, classical OpenCV pipelines, robustness testing, edge deployment optimization, and AI safety evaluation.
 
-> **Status: proof of concept.** SigLIP + Grounded SAM zero-shot detection and segmentation is implemented and evaluated on Open Images V7. For decision-makers, start with the [deployment readiness report](docs/DEPLOYMENT_READINESS.md) (PASS/FAIL and go/no-go), then the [production readiness assessment](docs/EVALUATION.md). Try it with `python scripts/demo.py --image photo.jpg --prompt "box"`. Details are in [Results and Failure Analysis](docs/RESULTS.md) and [Design Decisions](docs/DESIGN_DECISIONS.md). LoRA, edge, robustness, classical preprocessing, and the safety assessor remain stubs, so notebooks 03 and 05 to 08 are unimplemented templates.
->
-> Reproduce with the ordered steps in [`docs/REVIEW.md`](docs/REVIEW.md#6-how-to-reproduce). Use the project `.venv`, and run `scripts/record_image_hashes.py --verify` after importing the data, before any experiment.
+Open-vocabulary warehouse inspection: find and segment warehouse objects described in plain language ("box", "shelf", "forklift", "person") without training a model for each new item. Built from open-source Grounding DINO, SAM and SigLIP via Hugging Face, and evaluated zero-shot on Open Images V7.
 
-## Pipeline
+> **Status: proof of concept, not production-ready.** The deployment assessment is **FAIL** with a **NO-GO** recommendation: the system misses about a third of individual people and reports absent objects with high confidence. Start with the [deployment readiness report](docs/DEPLOYMENT_READINESS.md) (criteria, go/no-go, evidence, reproducibility guide), then the [production readiness assessment](docs/EVALUATION.md) (per-use-case verdicts, risk register, examples). Methods and detailed results are in [Results and Failure Analysis](docs/RESULTS.md), design choices and binding safety requirements in [Design Decisions](docs/DESIGN_DECISIONS.md), and the review history in [Review Log](docs/REVIEW.md).
+
+## What is implemented
 
 ```
-image -> classical preprocessing -> Grounded SAM (text prompts -> boxes + masks)
-      -> CLIP/SigLIP + LoRA (re-score each instance) -> rule-based safety assessment
-      -> SceneAssessment (risk level + hazards)
+text prompt ──┐
+              ├─> Grounding DINO tiny ──(score ≥ 0.32)──> SAM ViT-B ──> SigLIP base/16 ──> boxes, masks, scores
+image ────────┘     text-prompted boxes                   mask per box    scores each crop
+image ──────────> SigLIP: whole-image presence ranking
 ```
 
-Robustness testing wraps the whole pipeline. Edge optimization exports and benchmarks its models.
+- **Demo**: `python scripts/demo.py --image photo.jpg --prompt "box" --prompt "damaged box"` writes boxes and scores (JSON), one mask per detection (PNG) and an overlay to `artifacts/demo/`. `--examples` builds the report's example figure.
+- **Evaluation**: zero-shot results on 1,705 held-out images across 12 warehouse categories, with choices frozen on development data; failure analysis; hallucination and confident-false-positive rates; calibration; robustness to simulated lighting, glare and motion blur; latency, model size and precision benchmarks; a pre-registered test on fresh images.
+- **Not implemented** (stubs that raise `NotImplementedError`): LoRA adaptation, classical OpenCV preprocessing, edge export and quantization tooling, the rule-based safety assessor, and experiment tracking. They remain the planned later stages:
+
+```
+planned:  classical preprocessing -> detection and segmentation -> LoRA re-scoring
+          -> rule-based safety assessment -> scene risk level
+```
 
 ## Layout
 
 | Path | Purpose |
 | --- | --- |
-| `configs/` | One YAML per stage, merged over `base.yaml` |
-| `notebooks/` | Thin, ordered drivers. Logic belongs in `src/` |
-| `src/openwarehouse/data/` | Datasets, splits, open-vocabulary prompts |
-| `src/openwarehouse/classical/` | OpenCV preprocessing and scene cues |
-| `src/openwarehouse/models/` | CLIP/SigLIP encoder and LoRA adaptation |
-| `src/openwarehouse/segmentation/` | Grounded SAM |
-| `src/openwarehouse/safety/` | Hazard rules and scene risk assessment |
-| `src/openwarehouse/robustness/` | Corruptions and severity sweeps |
-| `src/openwarehouse/edge/` | Export, quantization, benchmarks |
-| `src/openwarehouse/evaluation/` | Perception, calibration, and safety metrics |
-| `src/openwarehouse/pipeline.py` | End-to-end inference |
-| `data/`, `artifacts/` | Local data and generated outputs (not committed) |
+| `configs/` | Stage settings, merged over `base.yaml`; `revisions.yaml` pins each model to an exact Hugging Face commit |
+| `src/openwarehouse/segmentation/grounded_sam.py` | Grounding DINO detection and SAM segmentation |
+| `src/openwarehouse/models/vision_language.py` | SigLIP scoring (`lora.py` is a stub) |
+| `src/openwarehouse/pipeline.py` | Prompt in, scored and segmented instances out |
+| `src/openwarehouse/experiments.py` | Running and caching the models, freezing dev choices, held-out summaries |
+| `src/openwarehouse/data/` | Open Images selection and import, leakage checks (`datasets.py`, `vocabulary.py` are stubs) |
+| `src/openwarehouse/evaluation/` | AP50, IoU and AUROC with bootstrap intervals; CHAIR and POPE; calibration (ECE) |
+| `src/openwarehouse/failure_analysis.py`, `gate.py` | Failure probes, mask and rescoring evaluation; the pre-registered presence-check test |
+| `src/openwarehouse/robustness/` | Image corruptions and severity sweeps |
+| `src/openwarehouse/classical/`, `edge/`, `safety/`, `tracking.py` | Planned stages (stubs) |
+| `scripts/` | Every experiment, metric, report and verification step; run order in [REVIEW.md §6](docs/REVIEW.md#6-how-to-reproduce) |
+| `docs/` | Reports; `docs/results/` holds every result table, `docs/figures/` every figure |
+| `tests/` | Unit tests for metrics, leakage guards, gate rules, robustness and the demo |
+| `notebooks/` | Thin drivers that display saved results |
+| `data/`, `artifacts/` | Downloaded images and cached model outputs (not committed) |
 
 ## Notebooks
 
-| Notebook | Stage |
-| --- | --- |
-| `00_setup_and_config` | Environment, seeds, config, experiment tracking |
-| `01_data_preparation` | Ingest, EDA, leakage-safe splits, classical preprocessing |
-| `02_clip_baseline` | Zero-shot CLIP/SigLIP baseline |
-| `03_lora_adaptation` | LoRA training and comparison with the baseline |
-| `04_grounded_sam` | Open-vocabulary detection and segmentation |
-| `05_safety_assessment` | Hazard rules and safety metrics |
-| `06_robustness_testing` | Corruption sweeps and degradation analysis |
-| `07_edge_optimization` | Export, quantization, latency benchmarks |
-| `08_evaluation_report` | Consolidated results and go/no-go review |
-| `09_failure_analysis` | Failure modes and mechanism evidence, loaded from saved results |
+| Notebook | Content | State |
+| --- | --- | --- |
+| `01_data_preparation` | Evaluated images per class and role (dev or held-out), and leakage exclusions | Working |
+| `02_clip_baseline` | Zero-shot SigLIP baseline | Working |
+| `04_grounded_sam` | Open-vocabulary detection, segmentation and rescoring | Working |
+| `09_failure_analysis` | Failure modes and mechanism evidence | Working |
+| `00`, `03`, `05`–`08` | Setup, LoRA, safety, robustness, edge, final report | Templates (TODO cells) |
 
-Run them in order. Each stage reads earlier outputs from `artifacts/`.
+The working notebooks read saved results from `docs/results/` and are rebuilt with `python scripts/build_notebooks.py`. The robustness results live in `docs/EVALUATION.md` rather than notebook 06, and the final go/no-go is in `docs/DEPLOYMENT_READINESS.md` rather than notebook 08.
 
 ## Setup
 
+Python 3.10 and an NVIDIA GPU with at least 8 GB memory and a driver supporting CUDA 12.6 (tested on an RTX 2070 SUPER). Install the exact versions the results were produced with:
+
 ```
-pip install -e ".[notebook,edge,dev]"
+python -m venv .venv
+.venv\Scripts\activate            # Linux: source .venv/bin/activate
+pip install -r requirements.lock.txt --extra-index-url https://download.pytorch.org/whl/cu126
+pip install -e . --no-deps
+python -m pytest -q               # 50 tests
 ```
+
+Then download the evaluated images with `python scripts/import_open_images.py` (it reuses the committed manifest) and check them with `python scripts/record_image_hashes.py --verify`. The full step-by-step guide, including which runs another engineer can do and how long each takes, is in [DEPLOYMENT_READINESS.md §7](docs/DEPLOYMENT_READINESS.md#7-reproducibility-guide-for-another-engineer).
 
 ## Safety scope
 
