@@ -1,0 +1,44 @@
+[
+  {
+    "image_id": "2a26ab4f43340093",
+    "prompt": "box",
+    "case": "Detection: box",
+    "detections": 18,
+    "top_score": 0.5141
+  },
+  {
+    "image_id": "b1aa133d097c4778",
+    "prompt": "shelf",
+    "case": "Detection: shelf",
+    "detections": 5,
+    "top_score": 0.4467
+  },
+  {
+    "image_id": "a506368d50d61b08",
+    "prompt": "person",
+    "case": "Detection: person",
+    "detections": 1,
+    "top_score": 0.5902
+  },
+  {
+    "image_id": "046c751beec3d33a",
+    "prompt": "forklift",
+    "case": "Confident false positive (lookalike): fire truck, no forklift",
+    "detections": 1,
+    "top_score": 0.7151
+  },
+  {
+    "image_id": "aa8ac854ed41e047",
+    "prompt": "forklift",
+    "case": "Confident false positive (lookalike): backhoe loader, verified no forklift; fires on 14 of 14 such images",
+    "detections": 1,
+    "top_score": 0.5622
+  },
+  {
+    "image_id": "2ca4fbe9127c2ad2",
+    "prompt": "a damaged box",
+    "case": "State ignored: fires on 97% of 60 box images; condition unlabeled",
+    "detections": 1,
+    "top_score": 0.7551
+  }
+]

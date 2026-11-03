@@ -53,21 +53,29 @@ Result: the SigLIP presence check significantly lowers false positives for Perso
 
 ## 6. How to reproduce
 
-Use the project environment (`.venv`) and run from the project root, in this order:
+Use the project environment (`.venv`) and run from the project root, in this order. Times are estimates from the logged runs on an RTX 2070 SUPER and an 8-thread desktop CPU, with images already downloaded.
 
-1. `scripts/import_open_images.py` downloads the images and labels.
-2. `scripts/record_image_hashes.py --verify` confirms the images match `docs/results/image_sha256.csv`. Stop if any differ. Fresh gate images show as missing until step 10 has downloaded them; run the check again after it.
-3. `scripts/run_poc.py`
-4. `scripts/run_failure_analysis.py dev`, `scripts/run_mechanism_probe.py dev`, `scripts/render_failure_examples.py`
-5. `scripts/run_failure_analysis.py heldout`, `scripts/run_mechanism_probe.py heldout`
-6. `scripts/build_report_assets.py` (copies outputs that steps 7 and 8 read)
-7. `scripts/audit_outputs.py`
-8. `scripts/run_validation.py` (`--skip-checks` reuses the repeat, control-noun and quantization outputs)
-9. `scripts/build_report_assets.py` again, to pick up the corrected tables
-10. `scripts/run_gate_test.py`, then `scripts/run_quantization_gate_check.py`
-11. `scripts/build_notebooks.py`
+| Step | Command | Time |
+| --- | --- | --- |
+| 1 | `scripts/import_open_images.py` (downloads images, labels and held-out masks) | network-bound; skip if `data/` is present |
+| 2 | `scripts/record_image_hashes.py --verify`; stop if any image differs. Fresh gate images show as missing until step 10 | 1 min |
+| 3 | `scripts/run_poc.py` | ~2 h (detector over all images and six wordings) |
+| 4 | `scripts/run_failure_analysis.py dev`, `scripts/run_mechanism_probe.py dev`, `scripts/render_failure_examples.py` | ~30 min for steps 4 and 5 together (rescoring and masks no longer run here) |
+| 5 | `scripts/run_failure_analysis.py heldout`, `scripts/run_mechanism_probe.py heldout` | |
+| 6 | `scripts/build_report_assets.py` (copies outputs that steps 7 and 8 read) | ~15 min |
+| 7 | `scripts/audit_outputs.py` | a few min |
+| 8 | `scripts/run_validation.py` | ~1.5–2 h |
+| 9 | `scripts/build_report_assets.py` again, to pick up corrected tables | ~15 min |
+| 10 | `scripts/run_gate_test.py`, then `scripts/run_quantization_gate_check.py` | ~30 min |
+| 11 | `scripts/run_benchmark.py`, then `scripts/profile_precision.py`, **with nothing else running on the machine** | ~1 h |
+| 12 | `scripts/compute_metrics.py`, `scripts/compute_slices.py`, `scripts/compute_safety_metrics.py` | ~5 min |
+| 13 | `scripts/run_robustness.py` (`--cached-only` reports cached conditions without the GPU) | ~45 min |
+| 14 | `scripts/demo.py --examples`, then `scripts/build_notebooks.py` | a few min |
+| 15 | `scripts/record_image_hashes.py --verify` again, now including the fresh images | 1 min |
 
-Tests: `python -m pytest`. Do not rerun the gate test on new fresh images and report it as the same test; its cached outputs in `artifacts/poc/gate/` are the record of the one confirmatory run.
+**Total: about 7.5 to 9.5 hours of compute** with images present, almost all of it GPU-bound and sequential. A clean reproduction must start from an empty `artifacts/` directory, because every stage reuses its cache when one exists. Two cautions: step 3 re-freezes `selection.json`, which must match the committed one; and step 10 re-selects the same fresh images by seed, which reproduces the gate test but is not a second confirmatory test.
+
+Tests: `python -m pytest`.
 
 ## 7. Second review: MLOps audit (2026-11-02)
 
@@ -125,3 +133,82 @@ A second pass over all code, outputs and assumptions, covering errors, unsupport
 4. Robustness under blur, low light and occlusion; still a stub.
 5. Unit tests for `evaluate_masks` and `evaluate_rescoring`, which have none.
 6. A warehouse-representative test set with forklift box labels. This is the largest gap, and the reason no forklift localization or safety claim can be made.
+
+## 8. Third review: new metrics, benchmark, robustness and the evaluation document (2026-11-02)
+
+A review of everything added in this round: `docs/EVALUATION.md`, the IoU, CHAIR, POPE and ECE code, the safety metrics, the benchmark and profiler, the corruption sweep, and the safety requirements.
+
+### Errors found and fixed
+
+| Issue | Effect | Fix |
+| --- | --- | --- |
+| Person localization credited each person with their best-overlapping detection, without one-to-one matching | One box over two people counted as finding both: 42 of 939 held-out matches were duplicates. Held-out individual miss rate was understated (32.5%, now **35.4%**), fresh likewise (22.2%, now 25.9%), and recall for large people overstated (97%, now 92%) | `localization_iou` now matches greedily one-to-one; test added; metrics and safety tables regenerated |
+| The corruption sweep had started with the old matching code and saved only summary numbers | Its instance recall would have been inflated and could not be corrected afterwards | Sweep stopped at 12 of 41 conditions and restarted with the fix; it now caches raw detections per condition (`artifacts/poc/robustness/`), so metrics can be recomputed without the GPU. Test added |
+| `EVALUATION.md` said the corruption sweep had completed | False status claim | Corrected |
+| `EVALUATION.md` said per-class rates transfer to a real feed | Per-class ECE depends on the sampled share of positives just as precision does | Reworded: recall, miss and false positive rates transfer; precision and calibration (pooled or per class) do not. Same qualification added to the safety requirement on ECE |
+| Shifts in Section 2 were described as ordered "from smallest to largest effect" | They use different metrics and cannot be ranked | Ordering claim removed |
+| The rule-of-three sample size (about 300 people) assumed independent people | People in one frame, shift or site are correlated | Caveat added: plan for several times that, spread across sites |
+| New scripts imported each other only when run with `PYTHONPATH=scripts` | A reproduction run from another working directory would fail | Scripts now add their own directory to the import path |
+
+### Disclosed rather than fixed
+
+| Issue | Why it matters | Where disclosed |
+| --- | --- | --- |
+| The benchmark ran each variant as one block in a fixed order, and some GPU rows overlapped CPU-heavy analysis scripts | Benchmark latencies are indicative only; this is part of why fp16 looked slower | `EVALUATION.md` Section 6; the interleaved profiler, run alone, supersedes them |
+| Profiler kernel-time totals for Grounding DINO exceed wall time | That column is unreliable for the detector | Not used; noted in Section 6 |
+| One held-out image holds 103 people against the detector's 50-detection cap | That image alone is 7.4% of held-out person instances | Sensitivity rows in `safety_person_miss.csv`; without it the miss rate is 32.1% |
+| Top-1 accuracy is defined on images with exactly one verified-positive class; other classes may be present but unverified | Absolute top-1 is not meaningful; only variant comparison is | `EVALUATION.md` Section 6 |
+| CHAIR and POPE are adapted from captioning and VQA | Not comparable to published caption-model numbers | `evaluation/hallucination.py` docstring, `EVALUATION.md` Section 5 |
+| "Confident" levels 0.5 and 0.7 are conventional fixed values, set in code before the rates were computed, not tuned | A different level gives a different rate; the full table has all three | `safety_confident_errors.csv` |
+| "A fallen person/box" queries assume no fallen object in ordinary images | State absence is unverified | Risk register row 7 |
+| Corruptions are synthetic, with severities chosen by the reviewer rather than calibrated to real cameras; motion blur is horizontal only; occlusion boxes are placed at random, not over people | Measures sensitivity, not field behavior; severities are not comparable across corruption types | `robustness/corruptions.py` docstring, `EVALUATION.md` Section 2 |
+| The fresh gate images were reused for descriptive safety metrics after the one confirmatory test | Nothing was tuned on them, but they are no longer untouched; any future confirmatory test needs new images | This log |
+| Held-out data has now been used for many analyses with no correction for multiple comparisons | Some differences will look significant by chance | `RESULTS.md` Limitations |
+| No clean end-to-end rerun has been done; the main model caches predate the review's code changes | The spot check (18 examples within 0.00005) is not a full regeneration | `EVALUATION.md` Section 0; Section 6 above gives the procedure and time |
+
+### Added in this round (documented here for completeness)
+
+`docs/EVALUATION.md`; `evaluation/hallucination.py` (CHAIR, POPE), `evaluation/calibration.py` (ECE, Brier); `localization_iou`; `robustness/corruptions.py` and `robustness/runner.py` (previously stubs); scripts `compute_metrics.py`, `compute_slices.py`, `compute_safety_metrics.py`, `run_benchmark.py`, `profile_precision.py`, `run_robustness.py`; the Safety requirements and quantization acceptance sections of `DESIGN_DECISIONS.md`; 22 new tests (47 in total).
+
+## 9. Fourth review: warehouse inspection scope, demo, and removal of superseded logic (2026-11-02)
+
+The deliverable was aligned to the project scenario (an open-vocabulary inspection proof of concept: text prompt in, boxes and masks out, at least 20 images across at least 3 categories, a measured hallucination or confident false positive, and a production readiness table), kept in warehouse scope with the existing Open Images V7 data. This review covers every change since Section 8 and checks that no code path still uses logic the earlier reviews ruled out.
+
+### Superseded logic removed from active code
+
+| Logic | Why it must not be used | Change |
+| --- | --- | --- |
+| Mask evaluation paired each ground-truth instance with its best-overlapping detection | Same flaw as the box matching fixed in Section 8: one detection could be credited to several objects | `evaluate_masks` now matches one-to-one per image and class through a shared `match_one_to_one`; masks regenerated (`scripts/run_masks.py`). Box detected-mask IoU 0.678 → 0.670, unmatched boxes 23.6% → 25.7%; Person and Truck unchanged |
+| SigLIP yes/no decisions at a fixed probability of 0.5 in CHAIR and POPE | Violates Safety requirement 5 | SigLIP removed from CHAIR and POPE; it appears only in per-class ECE and threshold-free AUROC. Requirement 5 now cites per-class ECE instead of the removed POPE numbers |
+| `run_failure_analysis.py` still wrote rescoring and mask tables | These were the stale copies that nearly overwrote corrected results; nothing read them any more | Removed from the script; old files moved to `artifacts/poc/failure/superseded/` |
+| A non-warehouse prompt ("a giraffe") in the confident-error table | Prompts must match project scope | Removed; only warehouse prompts remain in the safety metrics and demo |
+| `metrics_iou.csv` column `mean_best_iou` | Name described the old matching | Renamed `mean_matched_iou` |
+| COCO: a benchmark citation, metric naming, and an unused `pycocotools` dependency | The project uses Open Images V7 only | All removed |
+
+Retained on purpose: the research scripts behind `RESULTS.md` failure mode 1 (`run_mechanism_probe.py`, `render_failure_examples.py`, the control nouns in `run_validation.py`) still use non-warehouse nouns, because they test what the detector does with an object that cannot be present. Their results stay in `RESULTS.md` as research evidence; the decision documents (`EVALUATION.md`, the demo) use warehouse prompts only.
+
+### Errors found and fixed in this round
+
+| Issue | Fix |
+| --- | --- |
+| The demo's first "hallucination" example ("hard hat") was a novelty helmet: Open Images verifies it is not a hard hat, but it looks like one | Not a hallucination. Replaced |
+| The replacement image (worker on a walkway) returned **no** detection for the bare prompt "forklift"; the earlier documented failure there used "a photo of a forklift" | Labeling it a hallucination would have been false. Replaced with an image drawn by seed from the 14 verified forklift-free images |
+| That seeded image shows a backhoe loader | Relabeled honestly as a lookalike confident false positive, not a hallucination. The figure now shows three confident false positives (0.72, 0.56, 0.76), all labeled accurately |
+| The overall readiness verdict claimed every use case had a false positive rate above 75% or no measurable accuracy | False for people (22%) and, across all 12 classes, ladders (48%). Narrowed to the four categories where it holds, with the exceptions named |
+| `EVALUATION.md` status said the combined pipeline latency was unmeasured | Now measured through the demo: 0.58 to 1.06 s per image and prompt on the GPU (5 calls) |
+
+### Weaknesses disclosed rather than fixed
+
+| Issue | Where |
+| --- | --- |
+| No non-maximum suppression after Grounding DINO (neither the Hugging Face processor nor this project applies one), so overlapping duplicate boxes are possible; AP50 counts them as false positives, and the demo shows them raw | This log; a production pipeline would need it, validated under the acceptance rules |
+| The 0.32 threshold was chosen for single-noun prompts; it is unvalidated for longer prompts such as "a damaged box" | `EVALUATION.md` Demo section, `scripts/demo.py` docstring |
+| The corruption sweep stopped after 11 of 41 conditions (clean, low light 1–5, glare 1–5, motion blur 1) to save time | `EVALUATION.md` Section 2; resumable from `artifacts/poc/robustness/` |
+| Demo latency comes from 5 calls on one machine, including plotting-free pipeline time only | `EVALUATION.md` |
+| The forklift row of the readiness table rests on 39 images | Stated in the table |
+| Demo example images are held-out images; four were drawn by seed, the fire truck was chosen because `RESULTS.md` already discusses it | Figure caption |
+| A clean end-to-end rerun has still not been done | `EVALUATION.md` Section 0 |
+
+### Added
+
+`scripts/demo.py` (prompt in; JSON boxes and scores, PNG masks and overlay out; `--examples` builds `docs/figures/demo_examples.png`), `scripts/run_masks.py`, `match_one_to_one`, the `--cached-only` mode of the corruption sweep, the readiness assessment, scenario checklist, architecture diagram and demo section in `EVALUATION.md`, and 3 new tests (50 in total).

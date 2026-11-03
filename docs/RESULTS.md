@@ -1,5 +1,7 @@
 # Results and Failure Analysis
 
+For the decision-maker summary, risk register and deployment questions, see [EVALUATION.md](EVALUATION.md). This document holds the detailed methods and results.
+
 All held-out numbers come from choices frozen on dev data (`docs/results/selection.json`): SigLIP condition `photo`, detector condition `bare`, detector threshold 0.32. Confidence intervals are 95% bootstrap intervals over images. Raw tables are in `docs/results/`.
 
 **Summary.** The pipeline works end to end, but it is not usable as a safety function. SigLIP ranks some scene-level concepts well (forklift AUROC 0.97). The detector localizes people, ladders, trucks, and boxes moderately (AP50 0.44 to 0.65) and shelves poorly (0.16). Its largest problem is that it almost never stays silent: at the frozen threshold it fired on 100% of held-out images verified to contain no forklift (14 images; 95% interval 78% to 100%), and "a giraffe" fired on 86% of them (60% to 96%) (giraffe absence assumed, not verified; ten other unrelated nouns fired on 78% of dev images on average, Section 7). A pre-registered test on fresh images found that a SigLIP presence check cuts false detections but loses too much recall to adopt (Section 8).
@@ -51,8 +53,6 @@ Two results are unresolved. Cardboard is significantly **below** chance (0.71 on
 
 Person boxes include the child classes Man, Woman, Boy and Girl. An earlier version of this table counted only boxes labeled Person itself, which understated Person AP50 (0.570) and dropped 25 held-out images with only child-class boxes; the other four classes have no child classes and are unchanged (`audit_ap_hierarchy.csv`). Forklift, the project's central object, has no box labels in the evaluated data, so it has no AP50.
 
-**Published benchmark.** Grounding DINO Swin-T reports 48.4 COCO AP zero-shot ([official repository](https://github.com/idea-research/groundingdino)). That is context, not a like-for-like comparison: it uses AP averaged over IoU 0.5 to 0.95 rather than AP50, COCO's closed 80-class setup, and 800×1333 input against this project's 480/800. Our data also adds hard negatives. I did not find a published SigLIP result on comparable data.
-
 ### Operating point at the frozen threshold (held-out, image level)
 
 | Class | Precision | Recall | False positive rate |
@@ -93,10 +93,10 @@ SAM mask IoU is measured against held-out ground-truth masks. Prompting with the
 | Class | Instances | SAM with ground-truth box | SAM with detected box | Instances with no box at IoU ≥ 0.5 |
 | --- | --- | --- | --- | --- |
 | Truck | 117 | 0.894 | 0.744 | 15.4% |
-| Box | 140 | 0.839 | 0.678 | 23.6% |
+| Box | 140 | 0.839 | 0.670 | 25.7% |
 | Person | 40 | 0.765 | 0.720 | 5.0% |
 
-The gap to the upper bound comes mostly from detection, not SAM. The detected column is mildly optimistic because each ground-truth instance is paired with its best-overlapping detection. Person has 40 instances from 37 images (12 before child-class masks were included), still too few to rely on.
+The gap to the upper bound comes mostly from detection, not SAM. Detections are matched to ground-truth instances one-to-one within each image, so one box over two objects counts once (an earlier version paired each instance with its best-overlapping detection, which was optimistic: Box 0.678 and 23.6%). Person has 40 instances from 37 images (12 before child-class masks were included), still too few to rely on.
 
 **SigLIP rescoring of masked crops was not adopted.** Crops are scored with SigLIP's own frozen `photo` wording. On dev, geometric-mean fusion was mixed and small: slightly higher than the detector for Box (0.529 vs 0.500) and Ladder (0.803 vs 0.794), lower for Person (0.530 vs 0.618), Shelf (0.278 vs 0.298) and Truck (0.473 vs 0.519). On held-out it was higher for Box (0.524 vs 0.428) and Truck (0.507 vs 0.463), and lower for Person, Shelf, and Ladder. Dev gives no consistent case for it, and no uncertainty was computed for these figures. This comparison keeps only each image's top 10 detections, which lowers detector AP where scenes are crowded (Person 0.582 vs 0.651 in Section 3).
 

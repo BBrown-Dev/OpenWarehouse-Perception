@@ -89,6 +89,40 @@ def _match(
     return 0
 
 
+def match_one_to_one(
+    detections: list[list[float]], targets: list[list[float]]
+) -> dict[int, tuple[int, float]]:
+    """Match detections to target boxes one-to-one, greedily by IoU.
+
+    Returns {target index: (detection index, IoU)} for every target that overlaps a detection.
+    One detection covering two objects is credited to only one of them.
+    """
+    if not targets or not detections:
+        return {}
+    ious = box_iou(np.array(targets, dtype=float), np.array(detections, dtype=float))
+    matches: dict[int, tuple[int, float]] = {}
+    used: set[int] = set()
+    for flat in np.argsort(-ious, axis=None, kind="stable"):
+        target, detection = (int(v) for v in np.unravel_index(flat, ious.shape))
+        if ious[target, detection] <= 0:
+            break
+        if target in matches or detection in used:
+            continue
+        matches[target] = (detection, float(ious[target, detection]))
+        used.add(detection)
+    return matches
+
+
+def localization_iou(
+    detections: list[list[float]], targets: list[list[float]]
+) -> np.ndarray:
+    """Return, for each target box, the IoU of its one-to-one matched detection (0 if none)."""
+    matched = np.zeros(len(targets))
+    for target, (_, iou) in match_one_to_one(detections, targets).items():
+        matched[target] = iou
+    return matched
+
+
 def mask_iou(prediction: np.ndarray, target: np.ndarray) -> float:
     """Return IoU between two boolean masks of the same shape."""
     union = np.logical_or(prediction, target).sum()

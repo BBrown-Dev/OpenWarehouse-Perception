@@ -31,7 +31,7 @@ dependencies = [
 [project.optional-dependencies]
 notebook = ["jupyterlab", "ipykernel", "ipywidgets", "nbclient", "nbformat"]
 # Stages that are still stubs.
-planned = ["peft", "opencv-python-headless", "pycocotools", "mlflow"]
+planned = ["peft", "opencv-python-headless", "mlflow"]
 edge = ["onnx", "onnxruntime", "optimum"]
 dev = ["pytest", "ruff", "nbstripout"]
 

@@ -1,0 +1,8 @@
+{
+  "detector_condition": "bare",
+  "detector_threshold": 0.32,
+  "siglip_condition": "photo",
+  "bootstrap_samples": 2000,
+  "ece_bins": 15,
+  "pope_questions_per_image": 3
+}

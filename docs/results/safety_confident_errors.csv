@@ -1,0 +1,46 @@
+condition,query_set,absence_or_presence,n,confidence_at_least,wrong_confident,rate,low,high,max_score
+"ordinary query, absent class",all 12 classes pooled,verified absent,1385,0.32,833,0.6014440433212996,0.5754122271112733,0.6269146617146374,0.8989
+"ordinary query, absent class",all 12 classes pooled,verified absent,1385,0.5,418,0.30180505415162456,0.2782045982726758,0.3265019427756339,0.8989
+"ordinary query, absent class",all 12 classes pooled,verified absent,1385,0.7,144,0.10397111913357401,0.08897655792876275,0.12115654868325121,0.8989
+"ordinary query, absent class",Person,verified absent,532,0.32,117,0.2199248120300752,0.18680471517292113,0.25706078537798793,0.7813
+"ordinary query, absent class",Person,verified absent,532,0.5,25,0.046992481203007516,0.03202982980886848,0.06845061067951463,0.7813
+"ordinary query, absent class",Person,verified absent,532,0.7,7,0.013157894736842105,0.006387905980420263,0.02690850101746866,0.7813
+"ordinary query, absent class",Forklift truck,verified absent,14,0.32,14,1.0,0.7846829880728186,1.0,0.836
+"ordinary query, absent class",Forklift truck,verified absent,14,0.5,8,0.5714285714285714,0.3259026690286936,0.7861949006959948,0.836
+"ordinary query, absent class",Forklift truck,verified absent,14,0.7,5,0.35714285714285715,0.16344490737202735,0.6123599531785959,0.836
+"ordinary query, absent class",Truck,verified absent,136,0.32,123,0.9044117647058824,0.8433188415060294,0.9432854307563016,0.8719
+"ordinary query, absent class",Truck,verified absent,136,0.5,75,0.5514705882352942,0.46761275959599813,0.6325005114192078,0.8719
+"ordinary query, absent class",Truck,verified absent,136,0.7,12,0.08823529411764706,0.051194082025518985,0.1478997498528348,0.8719
+"ordinary query, absent class",Box,verified absent,125,0.32,99,0.792,0.7126703312982824,0.853916857932525,0.897
+"ordinary query, absent class",Box,verified absent,125,0.5,53,0.424,0.34090195211218616,0.5116301493208913,0.897
+"ordinary query, absent class",Box,verified absent,125,0.7,16,0.128,0.08034633966605037,0.1978371041905922,0.897
+"POPE random query, absent class","12 classes, 3 per image",verified absent,493,0.32,241,0.48884381338742394,0.4449749196678334,0.5328852273085872,0.889
+"POPE random query, absent class","12 classes, 3 per image",verified absent,493,0.5,113,0.22920892494929007,0.19428349994192967,0.26832188575846255,0.889
+"POPE random query, absent class","12 classes, 3 per image",verified absent,493,0.7,36,0.07302231237322515,0.05320918881330438,0.09943825455697702,0.889
+"POPE adversarial query, absent class","12 classes, 3 per image",verified absent,493,0.32,224,0.4543610547667343,0.4109300382052357,0.4984978357892124,0.889
+"POPE adversarial query, absent class","12 classes, 3 per image",verified absent,493,0.5,101,0.20486815415821502,0.17158700880511607,0.2427132430256485,0.889
+"POPE adversarial query, absent class","12 classes, 3 per image",verified absent,493,0.7,25,0.05070993914807302,0.03458089378263521,0.07378684354048749,0.889
+absent-object prompt with article,"""a forklift"" on no-forklift images",verified absent,14,0.32,13,0.9285714285714286,0.6853073044604219,0.9872781138877085,0.858718574
+absent-object prompt with article,"""a forklift"" on no-forklift images",verified absent,14,0.5,9,0.6428571428571429,0.3876400468214042,0.8365550926279727,0.858718574
+absent-object prompt with article,"""a forklift"" on no-forklift images",verified absent,14,0.7,5,0.35714285714285715,0.16344490737202735,0.6123599531785959,0.858718574
+absent-object prompt with article,"""a lift truck"" on no-forklift images",verified absent (forklift synonym),14,0.32,14,1.0,0.7846829880728186,1.0,0.883235991
+absent-object prompt with article,"""a lift truck"" on no-forklift images",verified absent (forklift synonym),14,0.5,8,0.5714285714285714,0.3259026690286936,0.7861949006959948,0.883235991
+absent-object prompt with article,"""a lift truck"" on no-forklift images",verified absent (forklift synonym),14,0.7,5,0.35714285714285715,0.16344490737202735,0.6123599531785959,0.883235991
+"negated or state query, object present","""no person""",object verified present; a detection means the negation or state was ignored,60,0.32,54,0.9,0.7985030550748896,0.9533578005427642,0.7512834072113037
+"negated or state query, object present","""no person""",object verified present; a detection means the negation or state was ignored,60,0.5,19,0.31666666666666665,0.21305705841174333,0.4423400494301654,0.7512834072113037
+"negated or state query, object present","""no person""",object verified present; a detection means the negation or state was ignored,60,0.7,2,0.03333333333333333,0.009189126490150246,0.11363987528925378,0.7512834072113037
+"negated or state query, object present","""not a person""",object verified present; a detection means the negation or state was ignored,60,0.32,56,0.9333333333333333,0.8407442010623228,0.973771725856802,0.8079156875610352
+"negated or state query, object present","""not a person""",object verified present; a detection means the negation or state was ignored,60,0.5,25,0.4166666666666667,0.30064086487871833,0.5427214568676039,0.8079156875610352
+"negated or state query, object present","""not a person""",object verified present; a detection means the negation or state was ignored,60,0.7,7,0.11666666666666667,0.05767647403450049,0.2217902059985814,0.8079156875610352
+"negated or state query, object present","""no forklift""",object verified present; a detection means the negation or state was ignored,25,0.32,25,1.0,0.8668035060468213,1.0,0.8556100726127625
+"negated or state query, object present","""no forklift""",object verified present; a detection means the negation or state was ignored,25,0.5,22,0.88,0.7004380781662651,0.9583325864293191,0.8556100726127625
+"negated or state query, object present","""no forklift""",object verified present; a detection means the negation or state was ignored,25,0.7,14,0.56,0.37067017019564436,0.7333462505299744,0.8556100726127625
+"negated or state query, object present","""no box""",object verified present; a detection means the negation or state was ignored,60,0.32,58,0.9666666666666667,0.8863601247107462,0.9908108735098498,0.8374870419502258
+"negated or state query, object present","""no box""",object verified present; a detection means the negation or state was ignored,60,0.5,36,0.6,0.47365824394206846,0.714306969962345,0.8374870419502258
+"negated or state query, object present","""no box""",object verified present; a detection means the negation or state was ignored,60,0.7,15,0.25,0.1577638557841185,0.372323109454848,0.8374870419502258
+"negated or state query, object present","""a fallen person""",object verified present; a detection means the negation or state was ignored,60,0.32,57,0.95,0.8629926537490016,0.9828508088208587,0.7914988994598389
+"negated or state query, object present","""a fallen person""",object verified present; a detection means the negation or state was ignored,60,0.5,25,0.4166666666666667,0.30064086487871833,0.5427214568676039,0.7914988994598389
+"negated or state query, object present","""a fallen person""",object verified present; a detection means the negation or state was ignored,60,0.7,9,0.15,0.08097349242295689,0.26114825891159615,0.7914988994598389
+"negated or state query, object present","""a fallen box""",object verified present; a detection means the negation or state was ignored,60,0.32,59,0.9833333333333333,0.9114466177322051,0.9970519161391262,0.854884684085846
+"negated or state query, object present","""a fallen box""",object verified present; a detection means the negation or state was ignored,60,0.5,35,0.5833333333333334,0.45727854313239624,0.6993591351212818,0.854884684085846
+"negated or state query, object present","""a fallen box""",object verified present; a detection means the negation or state was ignored,60,0.7,15,0.25,0.1577638557841185,0.372323109454848,0.854884684085846

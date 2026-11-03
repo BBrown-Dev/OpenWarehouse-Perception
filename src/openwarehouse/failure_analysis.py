@@ -235,34 +235,41 @@ def evaluate_masks(
     prompts: dict[str, str],
     records: list[dict[str, Any]],
 ) -> pd.DataFrame:
-    """Compare masks from detector boxes with masks from ground-truth boxes, an upper bound."""
+    """Compare masks from detector boxes with masks from ground-truth boxes, an upper bound.
+
+    Detections are matched to ground-truth instances one-to-one within each image and class
+    (greedy by box IoU), so one detection covering two objects is credited to only one of them.
+    An instance with no matched detection scores 0.
+    """
+    from openwarehouse.evaluation.metrics import match_one_to_one
+
     rows = []
     threshold = require_selection()["detector_threshold"]
-    for record in tqdm(records, desc="masks"):
-        image = load_image(image_path(config, record["split"], record["image_id"]))
-        oracle = Instance(record["label"], 1.0, tuple(float(v) for v in record["box"]))
-        model.segment(image, [oracle])
-        detections = [
-            d for d in model.detect(image, prompts[record["label"]]) if d.score >= threshold
-        ]
-        detected_iou, box_overlap = 0.0, 0.0
-        if detections:
-            overlaps = box_iou(
-                np.array([d.box_xyxy for d in detections]), np.array([record["box"]], dtype=float)
-            )[:, 0]
-            best = detections[int(overlaps.argmax())]
-            box_overlap = float(overlaps.max())
-            model.segment(image, [best])
-            detected_iou = mask_iou(best.mask, record["mask"])
-        rows.append(
-            {
-                "image_id": record["image_id"],
-                "class_name": record["label"],
-                "oracle_box_mask_iou": mask_iou(oracle.mask, record["mask"]),
-                "detected_mask_iou": detected_iou,
-                "detected_box_iou": box_overlap,
-            }
-        )
+    groups: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    for record in records:
+        groups.setdefault((record["split"], record["image_id"], record["label"]), []).append(record)
+    for (split, image_id, label), group in tqdm(groups.items(), desc="masks"):
+        image = load_image(image_path(config, split, image_id))
+        detections = [d for d in model.detect(image, prompts[label]) if d.score >= threshold]
+        matches = match_one_to_one([list(d.box_xyxy) for d in detections], [r["box"] for r in group])
+        for t, record in enumerate(group):
+            oracle = Instance(label, 1.0, tuple(float(v) for v in record["box"]))
+            model.segment(image, [oracle])
+            detected_iou, box_overlap = 0.0, 0.0
+            if t in matches:
+                index, box_overlap = matches[t]
+                matched = detections[index]
+                model.segment(image, [matched])
+                detected_iou = mask_iou(matched.mask, record["mask"])
+            rows.append(
+                {
+                    "image_id": image_id,
+                    "class_name": label,
+                    "oracle_box_mask_iou": mask_iou(oracle.mask, record["mask"]),
+                    "detected_mask_iou": detected_iou,
+                    "detected_box_iou": box_overlap,
+                }
+            )
     return pd.DataFrame(rows)
 
 

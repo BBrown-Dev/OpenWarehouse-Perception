@@ -10,6 +10,17 @@ Each entry gives the choice, the reason, and what it costs. Results are in [RESU
 
 **Cost.** There is no adapted model and no safety score. The project shows where zero-shot prompting fails, not a deployable fix.
 
+## Safety requirements
+
+These are binding on any use of this system, including demonstrations and later stages.
+
+1. **Perception is advisory.** Model output may raise caution, for example slow the truck, warn the operator, or flag a frame for review. It may never clear a zone, release a stop, or replace safety-rated person detection, such as the protective devices required for driverless trucks under ISO 3691-4.
+2. **Absence of a detection is not evidence of a clear area.** No score, missing detection, or "no" answer may be treated as confirmation that a person or obstacle is absent.
+3. **Failure escalates.** Low confidence, a model error, a timeout, or input outside the validated conditions must raise the risk level, not report a clear scene.
+4. **Person misses are the acceptance metric.** Any claim about person detection is stated as the instance-level miss rate at the operating point, with a 95% interval, and broken down by apparent size (box height as a share of the image, a stand-in for distance). AP50 and AUROC are secondary. Current values are in `docs/results/safety_person_miss.csv` and `safety_person_recall_by_height.csv`.
+5. **SigLIP outputs are rankings, not probabilities.** Its sigmoid output is badly calibrated in absolute terms: held-out per-class ECE is 0.24 to 0.82 (mean 0.47), and its mean output per class is at most 0.31 while 30% to 85% of the scored images contain the class (`metrics_ece.csv`). It must not be compared with a fixed probability, combined with other scores as if it were one, or shown to an operator as a confidence. Any probabilistic use requires calibration fitted on dev data, then checked per class.
+6. **Calibration is reported per class, never pooled.** A pooled ECE mixes classes with different positive shares and can look well calibrated when no single class is: the detector's pooled held-out ECE was 0.09 while its per-class mean was 0.20. Per-class ECE still depends on each class's sampled share of positives, so it compares models on the same data; calibration for deployment must be measured on data with deployment prevalence.
+
 ## Architecture
 
 | Component | Choice | Why | Alternative rejected |
@@ -53,7 +64,7 @@ If the LoRA stage is built, it should use the SigLIP pairwise loss with added ha
 | Metric | Used for | Why | Rejected |
 | --- | --- | --- | --- |
 | AUROC | Image-level presence | Does not depend on the artificial positive rate of this dataset, or on a threshold | Accuracy and raw precision: both depend on that artificial rate |
-| AP50, Open Images style | Boxable classes | Standard, with correct handling of group-of boxes | COCO AP: needs complete labels. Verified-negative labeling here does not support it, and localization tightness matters less than presence for this question |
+| AP50, Open Images style | Boxable classes | Standard, with correct handling of group-of boxes | AP averaged over IoU 0.5 to 0.95: needs complete labels. Verified-negative labeling here does not support it, and localization tightness matters less than presence for this question |
 | Mask IoU with a ground-truth-box upper bound | SAM | Separates SAM error from detector error | Mask IoU alone: errors could not be attributed |
 | False detection rate on verified negatives | Hallucination | Answers the safety question directly | |
 | Bootstrap CI, paired across conditions | All comparisons | Small classes need uncertainty, and pairing removes image-difficulty variance | Point estimates only |
