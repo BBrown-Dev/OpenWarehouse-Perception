@@ -100,7 +100,7 @@ Wording varies in a fixed template across all classes, so differences can be att
 | Review corrections made after held-out results were seen | Controlled | The box-label fix and the rescoring prompt correct evaluation errors rather than tune the models, and the frozen selection was re-derived and matched. They were still decided with held-out results in view |
 | Exploratory held-out analyses informing the presence check | Controlled | The check was then tested once on fresh images from photographers not seen anywhere earlier (`configs/gate.yaml`) |
 | Selection hash covers only `poc.yaml` and `open_images.yaml` | Retained | A change to `base.yaml` (seed, device) would not be caught. Not widened, because that would invalidate the frozen selection |
-| Failure analysis on held-out data | Controlled | Probes were written and examined on dev, then run on held-out without changes. The attribution write-up was finalized after seeing both |
+| Failure analysis on held-out data | Controlled | Probes were written and examined on dev, then run on held-out without changes; the dev outputs are kept as the record (`modifier_dev.csv`, `token_attribution_dev.csv`, `token_summary_dev.csv`, `siglip_negation_dev.csv`). The attribution write-up was finalized after seeing both |
 
 ## Quantization and export acceptance
 

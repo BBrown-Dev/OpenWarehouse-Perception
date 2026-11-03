@@ -278,3 +278,15 @@ Everything that no active script, test or working notebook used was removed, aft
 | `data/processed/.gitkeep`, `tests/.gitkeep` | Nothing writes to `data/processed/`; `tests/` has files |
 
 Checks after removal: every remaining module and script imports; 50 tests pass; the four remaining notebooks rebuild and execute. Documents were updated so that none describes a removed item as part of the project; this log keeps the record of what was removed and why.
+
+## 15. Final unused-file check before publishing (2026-11-02)
+
+Every tracked file was checked for a reader or a citation, accounting for file names built at run time:
+
+| Finding | Action |
+| --- | --- |
+| Three figures (`hallucination_2.png`, `negation_1.png`, `negation_2.png`) were drawn but shown nowhere | Removed. `render_failure_examples.py` still computes all six panels, because their records feed the 18-example fresh-process check, but now saves only the three figures the report shows |
+| `siglip_negation_dev.csv` is read by no script | Kept: it is the development-phase record behind the documented claim that probes were examined on dev before held-out, and is now cited there |
+| `token_attribution_heldout.csv` looked unreferenced | In use: read by `audit_outputs.py` under a name built at run time |
+| Functions, classes and constants in `src/` and `scripts/` | All used |
+| Configs, notebooks, tests, scripts | All used |

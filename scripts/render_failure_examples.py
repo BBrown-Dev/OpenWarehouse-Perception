@@ -51,7 +51,8 @@ def panel(model, encoder, config, split, image_id, prompts, path, threshold):
                "box": list(found[0].box_xyxy) if found else None}
         )
     fig.tight_layout()
-    fig.savefig(path, dpi=130)
+    if path is not None:  # every panel is reproduced, but only the ones the report shows are saved
+        fig.savefig(path, dpi=130)
     plt.close(fig)
     return records
 
@@ -76,7 +77,7 @@ def main() -> None:
         records += panel(
             model, encoder, config, manifest.loc[image_id, "split"], image_id,
             ["giraffe", "a giraffe", "a photo of a forklift"],
-            FIGURES / f"hallucination_{rank}.png", threshold,
+            FIGURES / f"hallucination_{rank}.png" if rank < 2 else None, threshold,
         )
 
     probe = pd.read_csv(FAILURE_DIR / "modifier_dev.csv")
@@ -85,7 +86,7 @@ def main() -> None:
         records += panel(
             model, encoder, config, row.split, row.image_id,
             ["a person", "no person", "a fallen person"],
-            FIGURES / f"negation_{rank}.png", threshold,
+            FIGURES / f"negation_{rank}.png" if rank < 1 else None, threshold,
         )
     (FAILURE_DIR / "reproductions.json").write_text(json.dumps(records, indent=1))
     print(json.dumps(records, indent=0))
