@@ -181,12 +181,13 @@ Verification run on 2026-11-02 (`docs/results/verification_cache_*`), 76 minutes
 
 ### 7.3 Steps
 
-1. **Get the code** at the evaluated commit (the `review/zero-shot-poc` branch must first be pushed to the shared repository; at the time of writing it exists only locally):
+1. **Get the code** at the evaluated commit. Check out the commit, not `main`, because `main` will keep changing; later commits that touch only documentation do not change any result.
    ```
    git clone https://github.com/BBrown-Dev/OpenWarehouse-Perception.git
    cd OpenWarehouse-Perception
-   git checkout review/zero-shot-poc
+   git checkout e860090
    ```
+   Git reports a "detached HEAD" after this; that is expected. To make changes, create a branch with `git switch -c <name>`.
 2. **Create the environment** with the exact versions used:
    ```
    python -m venv .venv

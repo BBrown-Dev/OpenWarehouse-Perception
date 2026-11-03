@@ -253,3 +253,7 @@ Retained on purpose: the research scripts behind `RESULTS.md` failure mode 1 (`r
 ### Still open
 
 Reproduce the model-running steps listed above; run the fp16 acceptance protocol if criteria 8 and 9 are to stand; regenerate Aisle and Box for exact clean reproduction; push the branch; add continuous integration.
+
+## 12. Reproducibility guide points at the evaluated commit (2026-11-02)
+
+The guide's first step checked out the `review/zero-shot-poc` branch, which exists only locally; the work is to be published on `main` instead. The step now checks out commit `e860090`, the commit the results and corrections were finalized in, so `main` can move on without changing what another engineer reproduces. Commits after `e860090` change documentation only.
