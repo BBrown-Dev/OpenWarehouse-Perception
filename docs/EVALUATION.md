@@ -1,6 +1,6 @@
 # Warehouse Inspection: Production Readiness and Operational Risk
 
-This document is for people deciding whether, and how, to use this open-vocabulary warehouse inspection system, which finds and segments warehouse objects described in plain language without retraining for each new item. It states what the system does well, how and how often it fails, and what has not been measured, so that operational risks can be weighed against benefits. Detailed methods are in [RESULTS.md](RESULTS.md); the review history is in [REVIEW.md](REVIEW.md); binding safety requirements are in [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md#safety-requirements).
+This document is for people deciding whether, and how, to use this open-vocabulary warehouse inspection system, which finds and segments warehouse objects described in plain language without retraining for each new item. It states what the system does well, how and how often it fails, and what has not been measured, so that operational risks can be weighed against benefits. The PASS/FAIL decision, go/no-go recommendation and reproducibility guide are in [DEPLOYMENT_READINESS.md](DEPLOYMENT_READINESS.md). Detailed methods are in [RESULTS.md](RESULTS.md); the review history is in [REVIEW.md](REVIEW.md); binding safety requirements are in [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md#safety-requirements).
 
 **Bottom line.** The system is a zero-shot research prototype (Grounding DINO for boxes, SAM for masks, SigLIP for scoring), evaluated on Open Images photographs, not warehouse cameras. It finds new object types from a prompt alone, which is its benefit, but it fires on most images that do not contain the object, ignores condition words such as "damaged" or "fallen", misses about a third of individual people, and is wrong with high confidence often enough that no output can confirm anything on its own. It is not production-ready and must not be used as a safety function. Its defensible near-term use is offline: ranking or pre-labeling warehouse footage for human review.
 
@@ -65,7 +65,7 @@ Top row: ordinary detections of boxes, shelves and a person. Bottom row: two con
 | Question | Answer |
 | --- | --- |
 | Has every evaluation stage run? | Yes. Data import, both models on all evaluation images under six prompt wordings, the failure probes, the corrected re-scoring, the pre-registered gate test on fresh images, the benchmark, the profiler and these metrics have completed. The corruption sweep was stopped after 11 of 41 conditions (Section 2). |
-| Has it run end to end in one clean pass? | **No.** The stages ran across two days, and the review changed evaluation code after the main model outputs were cached (`detector_predictions.jsonl.gz` and `siglip_scores.csv` date from 2026-11-01, before the review's code changes). Evidence that the caches still match the current code: 18 saved examples reproduce within 0.00005 in a fresh process with the current, pinned models, and the frozen selection re-derives identically. That is a spot check, not a full regeneration. |
+| Has it run end to end in one clean pass? | **No.** A verification run (2026-11-02) recomputed every committed table exactly from the cached model outputs, and rerunning both models on a seeded 10% of batches reproduced SigLIP exactly and the detector exactly for 10 of 12 classes. Aisle and Box were scored with batches that included 103 images excluded later for leakage, so a clean regeneration would shift their scores by up to 0.086 (about 1 in 1,700 decisions flips); rebuilt in their original batches they reproduce exactly. Details: [DEPLOYMENT_READINESS.md](DEPLOYMENT_READINESS.md#71-status). |
 | Does the operational system exist end to end? | **No.** Camera input, tracking over time, the safety assessor, LoRA adaptation, edge export and the classical pipeline are stubs (`NotImplementedError`). The detect → segment → rescore chain runs through `scripts/demo.py` at 0.58 to 1.06 s per image and prompt on the GPU (5 calls, batch size 1); its behavior on video and on target hardware is unmeasured. |
 | Is it tested? | 47 unit tests pass. They cover the metric code (AP50, IoU, AUROC, bootstrap, CHAIR, POPE, ECE), the leakage and freeze-once guards, caching checks, model pinning, the gate rules, the corruptions and the sweep cache. They do **not** cover model inference, the mask and rescoring evaluation, the scripts, or a full pipeline run, and there is no continuous integration. |
 
@@ -103,16 +103,16 @@ Shifts that were measured. The effects use different metrics, so they are not ra
 
 ### Image corruptions
 
-Person detection on 300 held-out images (150 with people, 150 without) at the frozen settings, under synthetic corruptions (`robustness_person.csv`, `robustness/corruptions.py`). **Partial:** the sweep was stopped after 11 of 41 conditions to save time; the remaining conditions (motion blur 2 to 5, defocus, noise, JPEG, haze, occlusion) are not measured. The cached detections let the sweep resume where it stopped.
+Person detection on 300 held-out images (150 with people, 150 without) at the frozen settings, under synthetic corruptions (`robustness_person.csv`, `robustness/corruptions.py`). **Partial:** robustness is outside the project scenario, so the sweep was stopped after 12 of 41 conditions; the remaining conditions (motion blur 3 to 5, defocus, noise, JPEG, haze, occlusion) are not measured. The cached detections let the sweep resume where it stopped.
 
 | Condition | People found (IoU ≥ 0.5) | Images with people flagged | False alarms on images without people | AP50 |
 | --- | --- | --- | --- | --- |
 | Clean | 67.8% | 95.3% | 22.7% | 0.65 |
 | Low light, severity 1 / 3 / 5 | 67.8% / 62.0% / **40.0%** | 92.7% / 90.0% / **74.7%** | 17.3% / 19.3% / 16.7% | 0.65 / 0.62 / **0.45** |
 | Glare, severity 1 / 3 / 5 | 68.3% / 67.1% / 61.1% | 94.7% / 94.7% / 93.3% | 23.3% / 21.3% / 20.7% | 0.65 / 0.65 / 0.60 |
-| Motion blur, severity 1 | 66.4% | 94.7% | 19.3% | 0.64 |
+| Motion blur, severity 1 / 2 | 66.4% / 60.4% | 94.7% / 91.3% | 19.3% / 16.7% | 0.64 / 0.59 |
 
-Low light is the damaging shift: at the darkest setting the detector finds 40% of people instead of 68% and misses people entirely in a quarter of images that contain them. Glare and mild motion blur cost little. The corruptions are simulated with severities chosen by the reviewer, not calibrated to real cameras, so they show sensitivity, not field performance.
+Low light is the damaging shift: at the darkest setting the detector finds 40% of people instead of 68% and misses people entirely in a quarter of images that contain them. Glare costs little; motion blur costs 7 points of people found by severity 2. The corruptions are simulated with severities chosen by the reviewer, not calibrated to real cameras, so they show sensitivity, not field performance.
 
 **Not measured at all:** real low light and glare from warehouse lighting (only simulated above), motion from a moving truck, camera height and angle, video and frame-to-frame consistency, weather at dock doors, and target edge hardware.
 

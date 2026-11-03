@@ -1,7 +1,7 @@
 # OpenWarehouse-Perception
 Open-vocabulary warehouse perception and safety assessment platform for autonomous forklift operations. Combines CLIP/SigLIP, Grounded SAM, LoRA adaptation, classical OpenCV pipelines, robustness testing, edge deployment optimization, and AI safety evaluation.
 
-> **Status: proof of concept.** SigLIP + Grounded SAM zero-shot detection and segmentation is implemented and evaluated on Open Images V7. For decision-makers, start with the [production readiness assessment](docs/EVALUATION.md). Try it with `python scripts/demo.py --image photo.jpg --prompt "box"`. Details are in [Results and Failure Analysis](docs/RESULTS.md) and [Design Decisions](docs/DESIGN_DECISIONS.md). LoRA, edge, robustness, classical preprocessing, and the safety assessor remain stubs, so notebooks 03 and 05 to 08 are unimplemented templates.
+> **Status: proof of concept.** SigLIP + Grounded SAM zero-shot detection and segmentation is implemented and evaluated on Open Images V7. For decision-makers, start with the [deployment readiness report](docs/DEPLOYMENT_READINESS.md) (PASS/FAIL and go/no-go), then the [production readiness assessment](docs/EVALUATION.md). Try it with `python scripts/demo.py --image photo.jpg --prompt "box"`. Details are in [Results and Failure Analysis](docs/RESULTS.md) and [Design Decisions](docs/DESIGN_DECISIONS.md). LoRA, edge, robustness, classical preprocessing, and the safety assessor remain stubs, so notebooks 03 and 05 to 08 are unimplemented templates.
 >
 > Reproduce with the ordered steps in [`docs/REVIEW.md`](docs/REVIEW.md#6-how-to-reproduce). Use the project `.venv`, and run `scripts/record_image_hashes.py --verify` after importing the data, before any experiment.
 

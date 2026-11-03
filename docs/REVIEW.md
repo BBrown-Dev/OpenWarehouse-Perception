@@ -212,3 +212,20 @@ Retained on purpose: the research scripts behind `RESULTS.md` failure mode 1 (`r
 ### Added
 
 `scripts/demo.py` (prompt in; JSON boxes and scores, PNG masks and overlay out; `--examples` builds `docs/figures/demo_examples.png`), `scripts/run_masks.py`, `match_one_to_one`, the `--cached-only` mode of the corruption sweep, the readiness assessment, scenario checklist, architecture diagram and demo section in `EVALUATION.md`, and 3 new tests (50 in total).
+
+## 10. Deployment readiness report and verification run (2026-11-02)
+
+**Added.** `docs/DEPLOYMENT_READINESS.md`: PASS/FAIL criteria (**FAIL**, 9 of 11), go/no-go (**NO-GO**), a one-sentence safety rationale, accuracy, robustness by shift type, latency, model size (SAM measured: 375.1 MB fp32, 187.6 MB fp16; full pipeline 1,877 MB fp32, 939 MB fp16), tradeoff analysis, the evidence for the decision and the evidence that would reverse it, and a reproducibility guide. `scripts/verify_caches.py` (seeded 10% model rerun with fixed tolerances; `--file-order` option). One more robustness condition (motion blur 2) was cached before the sweep was stopped as out of scope.
+
+**Verification result.** Recomputing every committed table from the cached model outputs reproduced all of them exactly; SigLIP reproduced exactly; the pre-registered detector check **failed** (94.1% of 3,401 sampled scores within 0.001, against 99% required; 2 flipped decisions). The cause, found afterwards: Aisle and Box, the first two classes scored, were batched with 103 images that were later excluded for leakage. In their original batches they reproduce exactly (546 of 546 pairs). No metric is affected by leakage, because excluded images' predictions are dropped, but a clean regeneration would not reproduce those two classes' scores exactly.
+
+**Errors caught while writing the report.**
+
+| Issue | Fix |
+| --- | --- |
+| Decision header counted 9 failing criteria when the table showed 8 (before the verification result) | Corrected; after the verification the count is 9 of 11, with reproducibility failing |
+| The guide's install command omitted PyTorch's package index, so the pinned `torch==2.14.1+cu126` could not install | `--extra-index-url https://download.pytorch.org/whl/cu126` added |
+| The guide said the hash check passes on a fresh machine; it exits with an error until the fresh gate images exist | Described accurately |
+| The guide's clone step relied on a branch that has not been pushed | Stated in the step |
+
+**Open.** Exact clean reproduction for Aisle and Box requires regenerating their detector outputs and re-baselining (Section 7.1 of the report). The bootstrap summary step takes ~50 minutes single-threaded; parallelizing it would cut verification time without changing results.

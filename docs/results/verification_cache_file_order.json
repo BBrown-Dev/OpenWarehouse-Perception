@@ -1,0 +1,11 @@
+{
+  "classes": [
+    "Aisle",
+    "Box"
+  ],
+  "pairs": 546,
+  "share_within_tolerance": 1.0,
+  "max_abs_diff": 0.0,
+  "decision_flips": 0,
+  "passed": true
+}

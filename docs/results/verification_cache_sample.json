@@ -1,0 +1,24 @@
+{
+  "detector": {
+    "pairs": 3401,
+    "batches": 852,
+    "tolerance": 0.001,
+    "share_within_tolerance": 0.9414877977065569,
+    "max_abs_diff": 0.0857,
+    "median_abs_diff": 0.0,
+    "decision_flips": 2,
+    "batches_with_any_failure": 65,
+    "passed": false
+  },
+  "siglip": {
+    "pairs": 3378,
+    "batches": 10,
+    "tolerance": 0.01,
+    "share_within_tolerance": 1.0,
+    "max_abs_diff": 4.775146484448101e-06,
+    "median_abs_diff": 4.796447754529254e-07,
+    "decision_flips": 0,
+    "batches_with_any_failure": 0,
+    "passed": true
+  }
+}
